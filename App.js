@@ -6,145 +6,142 @@
  * @flow strict-local
  */
 
-import React, { useState, useEffect } from 'react';
-import { FlatList, Image, SafeAreaView, StyleSheet, Text, View, ImageBackground } from "react-native";
+import React from 'react';
+import { FlatList, Image, SafeAreaView, StyleSheet, Text, View, ImageBackground, ScrollView, TouchableOpacity } from "react-native";
 import Theme from './config/Theme';
 
 import HomePageData from "./homePageData"
 
-export default function App() {
+export default class App extends React.Component {
 
-  const [pages, setPages] = useState(["All", "Singapore", "Oceania", "Asia", "Europe", "America"])
-  const [currentPage, setCurrentPage] = useState();
-  const [homePageData, setHomePageData] = useState({});
-
-  const handlePageChange = (page) => {
-    console.log(page)
-    setCurrentPage(page);
+  constructor({ props }) {
+    super(props);
+    this.state = {
+      pages: ["All", "Singapore", "Oceania", "Asia", "Europe", "America"],
+      currentPage: "",
+      homePageData: {}
+    }
   }
 
-  useEffect(() => {
+  componentDidMount() {
+    HomePageData.All = [];
     Object.keys(HomePageData).forEach(region => {
-      HomePageData["All"] = [...HomePageData[region]]
+      console.log(region)
+      HomePageData.All.push(...HomePageData[region])
     })
 
-    setHomePageData(HomePageData)
-    setCurrentPage(pages[1]);
-  }, [])
+    this.setState(
+      {
+        homePageData: HomePageData,
+        currentPage: this.state.pages[1]
+      }
+    )
+  }
 
-  const renderItem = (guide) => {
-    // console.log(`./images/${guide.image_url}`)
+  handlePageChange(page) {
+    this.setState({currentPage: page})
+  }
+
+  renderItem({ item: guide, index }) {
     return (
       <View style={styles.card}>
-        <View>
-          <ImageBackground source={guide.image_url} style={card.image} resizeMode='cover'>
+        <TouchableOpacity>
+          <ImageBackground imageStyle={{ borderRadius: 10 }} source={guide.image_url} style={card.image} resizeMode='cover'>
 
 
             <View style={{ flex: 1, justifyContent: "space-between", padding: 10 }}>
 
               <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
-                <Text style={styles.defaultText}>Top left</Text>
+                <Text style={card.countryText}>{guide.country}</Text>
                 <Text style={styles.defaultText}>Top right</Text>
-
               </View>
 
-              {/* TODO: Fix text wrappings for title and author! */}
               <View>
-                <Text style={{...styles.defaultText, flexWrap: "wrap"}}>{guide.title}</Text>
-                <Text style={styles.defaultText}>{guide.author}</Text>
+                <Text style={card.titleText}>{guide.title}</Text>
+                <Text style={card.authorText}>{guide.author}</Text>
               </View>
             </View>
 
           </ImageBackground>
 
-        </View>
+        </TouchableOpacity>
       </View>
     )
   }
 
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Image source={require("./images/header.png")} style={styles.headerImage} resizeMode='cover' />
+  render() {
+    return (
+      <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle }}>
+        <Image source={require("./images/header.png")} style={styles.headerImage} resizeMode='cover' />
 
-      <View style={{ flex: 1, ...styles.backgroundStyle }}>
+        <View style={{ flex: 1}}>
 
-        <View style={styles.navigation}>
-          {pages.map((page, index) =>
+          <View style={styles.navigation}>
+            {this.state.pages.map((page, index) =>
 
-            <View style={styles.innerNavigation} key={index} onTouchEnd={() => handlePageChange(page)}>
+              <View style={styles.innerNavigation} key={index} onTouchEnd={() => this.handlePageChange(page)}>
 
-              <Text style={currentPage == page ? styles.highlightedText : styles.defaultText}>
-                {page}
-              </Text>
+                <Text style={this.state.currentPage == page ? styles.highlightedText : styles.defaultText}>
+                  {page}
+                </Text>
 
-              <View style={currentPage == page ? styles.navigationCircle : styles.displayHidden}></View>
-            </View>
-
-          )}
-        </View>
-
-        {/* Header part
-        <View>
-          <Text style={styles.title}>Explore new places</Text>
-          <Text style={styles.subtitle}>Travel and explore the world!</Text>
-        </View>
-
-        {/* Main cards */}
-
-        <View style={styles.cardWrapper}>
-          {/* <FlatList data={homePageData[currentPage]} renderItem={renderItem} keyExtractor={item => item.id} /> */}
-          {homePageData[currentPage] &&
-            homePageData[currentPage].map(places => renderItem(places))
-          }
-        </View>
-
-        {/* <View style={{ flexDirection: "row" ,flexWrap: "wrap"}}>
-
-            <View style={{  height: 200,  width: 150, backgroundColor: "red" }}>
-              <View>
-                <Text>Hi</Text>
-                <Text>Hi</Text>
+                <View style={this.state.currentPage == page ? styles.navigationCircle : styles.displayHidden}></View>
               </View>
-            </View>
 
-            <View style={{  height: 200,  width: 150, backgroundColor: "purple" }}>
+            )}
+          </View>
 
-            </View>
+          {/* Header part */}
+          {
+            this.state.currentPage == "All" && 
+            <View style={{marginBottom: 40}}>
+            <Text style={styles.title}>Explore new places</Text>
+            <Text style={styles.subtitle}>Travel and explore the world!</Text>
+          </View>
+          }
+  
 
-            <View style={{  height: 200,  width: 150, backgroundColor: "blue" }}>
+          <FlatList data={this.state.homePageData[this.state.currentPage]} numColumns={2} renderItem={this.renderItem} keyExtractor={(item, index) => index.toString()} />
+        </View>
 
-            </View>
+        <View>
+          <Text style={styles.defaultText}>Navigation Bar</Text>
+        </View>
 
-          </View> */}
-
-      </View>
-
-    </SafeAreaView>
-  );
+      </SafeAreaView >
+    );
+  }
 };
 
 const card = StyleSheet.create({
   image: {
-    width: "100%",
     height: 200,
+  },
+
+  authorText: {
+    color: "rgba(255,255,255,0.5)"
+  },
+
+  titleText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16
+  },
+
+  countryText:{
+    fontSize: 18,
+    color: "white",
   }
 })
 
 const styles = StyleSheet.create({
 
   card: {
-    width: "45%",
-    height: "auto",
-    marginBottom: 20,
-    borderRadius: 400,
+    width: "49%",
+    margin: 2
+    // height: "auto",
   },
 
-  cardWrapper: {
-    flex: 1,
-    flexWrap: "wrap",
-    flexDirection: "row",
-    justifyContent: "space-around",
-  },
   headerImage: {
     width: "100%",
   },
