@@ -1,7 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
+import { FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
 import Theme from "./config/Theme"
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
 
 // Components
 import Home from './components/Home';
@@ -28,9 +32,9 @@ import Data from "./assets/data/Guides"
 */
 
 
-export default class App extends React.Component {
+class AppComponent extends React.Component {
 
-  constructor({props}){
+  constructor(props) {
     super(props);
 
     this.state = {
@@ -41,13 +45,13 @@ export default class App extends React.Component {
     this.handleNavbarPageChange = this.handleNavbarPageChange.bind(this)
   }
 
-  handleNavbarPageChange(page){
-    this.setState({currentActivePage: page})
+  handleNavbarPageChange(page) {
+    this.setState({ currentActivePage: page })
   }
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle}}>
+      <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle }}>
 
         {/* <ScrollView keyboardShouldPersistTaps='handled'> */}
 
@@ -57,21 +61,37 @@ export default class App extends React.Component {
         {this.state.currentActivePage == "person" && <Profile />}
         {/* {this.state.currentActivePage == "map" && <MapPage place={Data[2]} />} */}
         {/* {this.state.currentActivePage == "person" && <Profile />} */}
-        
+
         {/* <View style={{marginBottom: 20}}>
         <View style={{flexDirection: "row", justifyContent: "space-around"}}>
-          {this.state.appPages.map((page, index) => (
-            <Icon key={index} name={page} style={page == this.state.currentActivePage ? styles.highlightedText : styles.normalNavbarIcon} onPress={() => this.setState({currentActivePage: page})} />
-          ))}
+        {this.state.appPages.map((page, index) => (
+        <Icon key={index} name={page} style={page == this.state.currentActivePage ? styles.highlightedText : styles.normalNavbarIcon} onPress={() => this.setState({currentActivePage: page})} />
+        ))}
         </View>
         </View> */}
 
-        
+
         {/* </ScrollView> */}
 
         <NavigationBar appPages={this.state.appPages} currentActivePage={this.state.currentActivePage} handleNavbarPageChange={this.handleNavbarPageChange} />
 
       </SafeAreaView >
+    )
+  }
+}
+
+export default class App extends React.Component {
+
+
+
+  render() {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{headerShown: false}}>
+          <Stack.Screen name="App" component={AppComponent} options={{title: "Wander, Wonder", headerStyle: {backgroundColor: Theme.backgroundColor}, headerTintColor: "white"}} />
+          <Stack.Screen name="Map" component={MapPage} options={{title: "Map", headerStyle: {backgroundColor: Theme.backgroundColor}, headerTintColor: "white"}} />
+        </Stack.Navigator>
+      </NavigationContainer>
     );
   }
 };

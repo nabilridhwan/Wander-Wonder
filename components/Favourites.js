@@ -85,12 +85,8 @@ export default class Favourites extends React.Component {
 
         <FlatList data={this.state.likedPosts} numColumns={2} renderItem={
           ({ item, index }) =>
-            <Card image_url={item.image_url}
-              index={index}
-              title={item.title}
-              countryEmoji={item.countryEmoji}
-              author={item.author}
-              liked={item.liked}
+            <Card place={item}
+            index={index}
               handleLike={this.handleLike} />
         } keyExtractor={(item, index) => index.toString()} ListEmptyComponent={this.renderNoGuide} />
 
