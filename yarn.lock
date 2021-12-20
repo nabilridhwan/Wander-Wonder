@@ -5736,6 +5736,13 @@
     "react-freeze" "^1.0.0"
     "warn-once" "^0.1.0"
 
+"react-native-sheets-bottom@^1.2.0":
+  "integrity" "sha512-/DohiCEzX17V9jamWhB3pZpLmYO1WrP6OP0aJu4IdzUWb/N06DTkBIxqmeMyfanpuWLi3l41v5mh5tTCFw1bmg=="
+  "resolved" "https://registry.npmjs.org/react-native-sheets-bottom/-/react-native-sheets-bottom-1.2.0.tgz"
+  "version" "1.2.0"
+  dependencies:
+    "lodash" "^4.17.15"
+
 "react-native-vector-icons@^9.0.0":
   "integrity" "sha512-qKX5d5/TafHmI4B7UOSZCL3BAGh7ZfF30iLwRgxBkKfZl2lKSuHp8Ottj9OyWh9b5fFtlg+LtyvZrns3g2kh+w=="
   "resolved" "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-9.0.0.tgz"
