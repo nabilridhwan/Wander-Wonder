@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import MapView, { LocalTile, Marker } from 'react-native-maps';
+import MapView, {Marker } from 'react-native-maps';
 import { Text, View, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
 import Theme from "../config/Theme";
 import Icon from "react-native-vector-icons/Ionicons"
@@ -7,7 +7,6 @@ import Icon from "react-native-vector-icons/Ionicons"
 
 export default ({navigation, route}) => {
   const props = route.params;
-  console.log(props)
   const [viewHeight, setViewHeight] = useState(100)
   const [region, setRegion] = useState({
     longitude: props.place.longitude,
@@ -15,11 +14,6 @@ export default ({navigation, route}) => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   })
-
-  useEffect(() => {
-    console.log(region)
-  }, [])
-
 
 
   return (
@@ -37,7 +31,6 @@ export default ({navigation, route}) => {
           coordinate={{latitude: region.latitude, longitude: region.longitude}} title={props.place.title} />
 
         {props.place.nearbyPlaces.map((p, index) => {
-          console.log(p)
           return (
             <Marker
               key={index + 1}
@@ -73,21 +66,6 @@ export default ({navigation, route}) => {
           </Text>
         </View>
       </View>
-
-
-
-      {/* <SwipeUpDown
-        itemMini={<ItemMini />} // Pass props component when collapsed
-        itemFull={<ItemMini />} // Pass props component when show full
-        // onShowMini={() => console.log('mini')}
-        // onShowFull={() => console.log('full')}
-        // onMoveDown={() => console.log('down')}
-        // onMoveUp={() => console.log('up')}
-        disablePressToShow={false} // Press item mini to show full
-        swipeHeight={170}
-        style={{ backgroundColor: Theme.backgroundColor, padding: 25, zIndex: 2}} // style for swipe
-      /> */}
-
     </SafeAreaView>
   )
 }

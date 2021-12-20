@@ -6,20 +6,28 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImageBackground, Platform, Image, StyleSheet, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../config/Theme';
+import ItineraryContent from './ItineraryContent';
+import OverviewContent from './OverviewContent';
 export default ({ navigation, route }) => {
   const [place, setPlace] = useState(route.params.place);
+  const [activePage, setActivePage] = useState("Overview")
 
-  
+  const changeActivePage = (page) => {
+    console.log(page)
+    setActivePage(page)
+  };
+
+
   return (
     <SafeAreaView style={styles.container}>
 
       <ImageBackground source={place.image_url} style={styles.image}>
         <View style={styles.smallContainer}>
-          <Icon name="arrow-back-circle" size={45} color="silver" onPress={() => navigation.goBack()} style={{ marginLeft: 7, marginTop: 7 }} />
+          <Icon name="chevron-back-circle-outline" size={45} color="silver" onPress={() => navigation.goBack()} style={{ marginLeft: 7, marginTop: 7 }} />
           <Icon name="heart" size={45} color={Theme.heartColor} style={{ marginRight: 7, marginTop: 7 }} />
         </View>
 
@@ -31,23 +39,23 @@ export default ({ navigation, route }) => {
           <Text style={styles.author}>By {place.author}</Text>
 
           <View style={styles.subContainerSection}>
-            <View style={styles.activeButton}>
+
+            <View style={activePage == "Overview" ? {...styles.activeButton, ...styles.button} : styles.button} onTouchEnd={() => changeActivePage("Overview")}>
               <Text style={styles.subContainerText}>Overview</Text>
             </View>
 
-            <View style={styles.button}>
+            <View style={activePage == "Itinerary" ? {...styles.activeButton, ...styles.button} : styles.button} onTouchEnd={() => changeActivePage("Itinerary")}>
               <Text style={styles.subContainerText}>Itinerary</Text>
             </View>
 
           </View>
-          {/* <Text style={styles.singlequote}>“</Text> */}
-          <Text style={styles.description}>{place.description}</Text>
-          {/* <Text style={styles.singlequote}>”</Text> */}
+          {activePage == "Overview" && <OverviewContent place={place} />}
+          {activePage == "Itinerary" && <ItineraryContent place={place} />}
         </ScrollView>
       </View>
 
-      <TouchableOpacity style={{position: "absolute", bottom: 10, right: 20, backgroundColor: Theme.primaryColor, borderRadius: 999, padding: 15, elevation: 2}}>
-        <Icon name="navigate" color={Theme.textColor} size={38} onPress={() => navigation.navigate("Map", {place: place})} />
+      <TouchableOpacity style={{ position: "absolute", bottom: 10, right: 20, backgroundColor: Theme.primaryColor, borderRadius: 999, padding: 20, elevation: 2 }}>
+        <Icon name="navigate" color={Theme.textColor} size={24} onPress={() => navigation.navigate("Map", { place: place })} />
       </TouchableOpacity>
 
     </SafeAreaView>
@@ -77,17 +85,15 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 999,
-    paddingHorizontal: 30,
-    paddingVertical: 10
+    borderRadius: 32,
+    padding: 18,
   },
 
   activeButton: {
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 999,
-    paddingHorizontal: 30,
-    paddingVertical: 10,
+    borderRadius: 32,
+    padding: 18,
     backgroundColor: Theme.primaryColor
   },
 
@@ -100,7 +106,7 @@ const styles = StyleSheet.create({
 
   singlequote: {
     color: '#FE5252',
-    fontSize: 60,
+    fontSize: 50,
     padding: 0,
     margin: 0
   },
