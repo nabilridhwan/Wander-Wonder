@@ -8,7 +8,7 @@
 
 import React, { useState } from 'react';
 import { ImageBackground, Platform, Image, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-import SwipeUpDown from 'react-native-swipe-up-down';
+// import SwipeUpDown from 'react-native-swipe-up-down';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../config/Theme';
 export default ({ navigation, route }) => {
@@ -24,7 +24,7 @@ export default ({ navigation, route }) => {
         </View>
 
       </ImageBackground>
-      <SwipeUpDown
+      {/* <SwipeUpDown
         // hasRef={ref => (this.swipeUpDownRef = ref)}
         itemMini={
           <View style={{ alignItems: 'center' }}>
@@ -51,7 +51,7 @@ export default ({ navigation, route }) => {
         disablePressToShow={true}
         style={{ backgroundColor: 'black', borderTopRightRadius: 30, borderTopLeftRadius: 30, borderTopEndRadius: 30 }}
         animation={animation}
-      />
+      /> */}
     </View>
   );
 }
