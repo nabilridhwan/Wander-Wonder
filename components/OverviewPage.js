@@ -12,7 +12,6 @@ import { ImageBackground, Platform, Image, StyleSheet, Text, View, TouchableHigh
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../config/Theme';
 export default ({ navigation, route }) => {
-  const [animation, setAnimation] = useState("easeInEaseOut");
   const [place, setPlace] = useState(route.params.place);
 
   return (
