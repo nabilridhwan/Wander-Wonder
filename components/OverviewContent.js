@@ -18,14 +18,14 @@ export default ({ place }) => {
                 <Text style={styles.description}>{place.description}</Text>
                 <Text style={styles.singlequote}>”</Text>
 
-                <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+                <View style={{ marginTop: 4, flexDirection: "row", justifyContent: "space-evenly" }}>
 
                     <View style={{ alignItems: "center" }}>
                         <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 3 }}>
                             <Icon name="time-outline" color="#FC71FF" size={24} />
                             <Text style={{ color: Theme.textColor, marginLeft: 5, fontWeight: "bold", fontSize: 18 }}>5 Hours</Text>
                         </View>
-                        <Text style={{ color: "#DEDEDE", marginTop: 4, fontWeight: "bold", textTransform: "uppercase" }}>Duration</Text>
+                        <Text style={{ color: "#DEDEDE", marginTop: 4, paddingLeft: 4, fontWeight: "bold", textTransform: "uppercase" }}>Duration</Text>
                     </View>
 
                     <View style={{ alignItems: "center" }}>
@@ -33,11 +33,12 @@ export default ({ place }) => {
                             <Icon name="sunny-outline" color="#FFA800" size={24} />
                             <Text style={{ color: Theme.textColor, fontWeight: "bold", marginLeft: 5, fontSize: 17 }}>30°C</Text>
                         </View>
-                        <Text style={{ color: "#DEDEDE", marginTop: 4, fontWeight: "bold", textTransform: "uppercase" }}>Weather</Text>
+                        <Text style={{ color: "#DEDEDE", marginTop: 4, paddingLeft: 4, fontWeight: "bold", textTransform: "uppercase" }}>Weather</Text>
                     </View>
-
                 </View>
-
+                <View style={{marginTop:9, alignItems: "center" }}>
+                    <Text style={{ color: Theme.textColor, fontSize: 20, textTransform: "uppercase", fontWeight: "900"}}>What I Have Brought</Text>
+                </View>
             </ScrollView >
         </SafeAreaView >
     );
