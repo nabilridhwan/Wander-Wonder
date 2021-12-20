@@ -1,5 +1,5 @@
 const post = [{
-        title: "Universal Studios Singapore's hidden gems",
+        title: "Universal Studios Singapore",
         description: "Singapore's only movie-theme park features 24 rides and attractions, including a pair of dueling coasters that brush past one another in several near misses in their aerial combat. Thrill-seekers",
         author: "TheSingaporeTraveller",
         image_url: require(`../images/singapore/1.png`),
