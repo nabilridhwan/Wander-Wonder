@@ -91,6 +91,7 @@ export default class App extends React.Component {
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="App" component={AppComponent} options={{title: "Wander, Wonder", headerStyle: {backgroundColor: Theme.backgroundColor}, headerTintColor: "white"}} />
           <Stack.Screen name="Overview" component={Overview} options={{title: "Map", headerStyle: {backgroundColor: Theme.backgroundColor}, headerTintColor: "white"}} />
+          <Stack.Screen name="Map" component={MapPage} />
         </Stack.Navigator>
       </NavigationContainer>
     );

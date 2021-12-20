@@ -7,8 +7,7 @@
  */
 
 import React, { useState } from 'react';
-import { ImageBackground, Platform, Image, StyleSheet, Text, View, TouchableHighlight } from 'react-native';
-// import SwipeUpDown from 'react-native-swipe-up-down';
+import { ImageBackground, Platform, Image, StyleSheet, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../config/Theme';
 export default ({ navigation, route }) => {
@@ -16,7 +15,8 @@ export default ({ navigation, route }) => {
   const [place, setPlace] = useState(route.params.place);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+
       <ImageBackground source={place.image_url} style={styles.image}>
         <View style={styles.smallContainer}>
           <Icon name="arrow-back-circle" size={45} color="silver" onPress={() => navigation.goBack()} style={{ marginLeft: 7, marginTop: 7 }} />
@@ -24,35 +24,33 @@ export default ({ navigation, route }) => {
         </View>
 
       </ImageBackground>
-      {/* <SwipeUpDown
-        // hasRef={ref => (this.swipeUpDownRef = ref)}
-        itemMini={
-          <View style={{ alignItems: 'center' }}>
-            <Text>This is the mini view, swipe up!</Text>
-          </View>
-        }
-        itemFull={
-          <View style={styles.panelContainer}>
-            <Text style={styles.instructions}>{place.title}</Text>
-            <Text style={styles.author}>By {place.author}</Text>
-            <View style={styles.subcontainer}>
-              <View style={styles.button}>
-                <Text style={styles.overview}>Overview</Text>
-              </View>
-              <Text style={styles.itinerary}>Itinerary</Text>
+
+      <View style={{ flex: 3 }}>
+        <ScrollView style={styles.panelContainer}>
+          <Text style={styles.instructions}>{place.title}</Text>
+          <Text style={styles.author}>By {place.author}</Text>
+
+          <View style={styles.subContainerSection}>
+            <View style={styles.activeButton}>
+              <Text style={styles.subContainerText}>Overview</Text>
             </View>
-            <Text style={styles.singlequote}>“</Text>
-            <Text style={styles.description}>{place.description}</Text>
-            <Text style={styles.singlequote}>”</Text>
+
+            <View style={styles.button}>
+              <Text style={styles.subContainerText}>Itinerary</Text>
+            </View>
+
           </View>
-        }
-        onShowMini={() => console.log('mini')}
-        onShowFull={() => console.log('full')}
-        disablePressToShow={true}
-        style={{ backgroundColor: 'black', borderTopRightRadius: 30, borderTopLeftRadius: 30, borderTopEndRadius: 30 }}
-        animation={animation}
-      /> */}
-    </View>
+          {/* <Text style={styles.singlequote}>“</Text> */}
+          <Text style={styles.description}>{place.description}</Text>
+          {/* <Text style={styles.singlequote}>”</Text> */}
+        </ScrollView>
+      </View>
+
+      <TouchableOpacity style={{position: "absolute", bottom: 10, right: 20, backgroundColor: Theme.primaryColor, borderRadius: 999, padding: 15, elevation: 2}}>
+        <Icon name="navigate" color={Theme.textColor} size={38} onPress={() => navigation.navigate("Map", {place: place})} />
+      </TouchableOpacity>
+
+    </SafeAreaView>
   );
 }
 
@@ -60,10 +58,9 @@ const styles = StyleSheet.create({
   instructions: {
     textAlign: 'center',
     color: 'white',
-    marginTop: 30,
+    fontSize: 32,
     marginBottom: 20,
-    fontWeight: '900',
-    fontSize: 26
+    fontWeight: "900",
   },
   author: {
     textAlign: 'center',
@@ -71,34 +68,36 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     fontSize: 14,
   },
-  subcontainer: {
+  subContainerSection: {
     flexDirection: "row",
-    justifyContent: "space-evenly"
+    justifyContent: "space-evenly",
+    paddingVertical: 20,
   },
-  overview: {
-    color: 'white',
-    marginBottom: 20,
-    fontWeight: '900',
-    fontSize: 20,
-    textAlign: 'center',
-  },
+
   button: {
-    backgroundColor: '#8987FF',
-    borderWidth: 1,
-    borderRadius: 32,
-    margin: 5,
-    padding: 15,
-    paddingBottom: 4
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 999,
+    paddingHorizontal: 30,
+    paddingVertical: 10
   },
-  itinerary: {
+
+  activeButton: {
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 999,
+    paddingHorizontal: 30,
+    paddingVertical: 10,
+    backgroundColor: Theme.primaryColor
+  },
+
+  subContainerText: {
     color: 'white',
-    marginBottom: 20,
-    marginLeft: 15,
     fontWeight: '900',
     fontSize: 20,
     textAlign: 'center',
-    paddingTop: 20
   },
+
   singlequote: {
     color: '#FE5252',
     fontSize: 60,
@@ -109,15 +108,14 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     lineHeight: 25,
-    margin: 8,
-    justifyContent: 'space-evenly'
   },
   panelContainer: {
-    flex: 1,
-    justifyContent: 'center'
+    backgroundColor: Theme.backgroundColor,
+    padding: 20
   },
   container: {
     flex: 1,
+    borderRadius: 100
   },
   image: {
     flex: 1,
