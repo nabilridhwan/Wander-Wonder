@@ -13,6 +13,7 @@ import Theme from '../config/Theme';
 export default ({ navigation, route }) => {
   const [place, setPlace] = useState(route.params.place);
 
+  
   return (
     <SafeAreaView style={styles.container}>
 
