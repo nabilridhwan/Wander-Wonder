@@ -16,6 +16,7 @@ import Search from './components/Search';
 import MapPage from './components/MapPage';
 
 import Data from "./assets/data/Guides"
+import Overview from './components/OverviewPage';
 
 // import Profile from './components/Profile';
 
@@ -89,7 +90,7 @@ export default class App extends React.Component {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="App" component={AppComponent} options={{title: "Wander, Wonder", headerStyle: {backgroundColor: Theme.backgroundColor}, headerTintColor: "white"}} />
-          <Stack.Screen name="Map" component={MapPage} options={{title: "Map", headerStyle: {backgroundColor: Theme.backgroundColor}, headerTintColor: "white"}} />
+          <Stack.Screen name="Overview" component={Overview} options={{title: "Map", headerStyle: {backgroundColor: Theme.backgroundColor}, headerTintColor: "white"}} />
         </Stack.Navigator>
       </NavigationContainer>
     );

@@ -1,6 +1,6 @@
 const post = [{
         title: "Universal Studios Singapore's hidden gems",
-        description: "Singapore's only movie-theme park features 24 rides and attractions, including a pair of dueling coasters that brush past one another in several near misses in their aerial combat. Thrill-seekers",
+        description: "Singapore's only movie-theme park features 24 rides and attractions, including a pair of dueling coasters that brush past one another in several near misses in their aerial combat. Thrill-seekers can choose between a coaster where they are seated or the other where riders are suspended. Exciting loops, sudden turns, breathtaking drops and thrilling near-collisions will make you scream your heart out. Dinosaurs, lemurs, ogres and Egyptian mummies add to the thrills and adventures.With 18 attractions created or redesigned for Singapore, Universal Studios Singapore™ promises an experience that you will not forget. Laughter and screams are heard around every corner, and lasting memories are made every day. Themed dining and shops are available.",
         author: "TheSingaporeTraveller",
         image_url: require(`../images/singapore/1.png`),
         countryEmoji: "🇸🇬",
