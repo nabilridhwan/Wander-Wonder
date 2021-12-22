@@ -23,7 +23,7 @@ export default ({ place }) => {
                     <View style={{ alignItems: "center" }}>
                         <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 3 }}>
                             <Icon name="time-outline" color="#FC71FF" size={24} />
-                            <Text style={{ color: Theme.textColor, marginLeft: 5, fontWeight: "bold", fontSize: 18 }}>5 Hours</Text>
+                            <Text style={{ color: Theme.textColor, marginLeft: 5, fontWeight: "bold", fontSize: 18 }}>{place.duration}</Text>
                         </View>
                         <Text style={{ color: "#DEDEDE", marginTop: 4, fontWeight: "bold", textTransform: "uppercase" }}>Duration</Text>
                     </View>
@@ -31,7 +31,7 @@ export default ({ place }) => {
                     <View style={{ alignItems: "center" }}>
                         <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 3 }}>
                             <Icon name="sunny-outline" color="#FFA800" size={24} />
-                            <Text style={{ color: Theme.textColor, fontWeight: "bold", marginLeft: 5, fontSize: 17 }}>30°C</Text>
+                            <Text style={{ color: Theme.textColor, fontWeight: "bold", marginLeft: 5, fontSize: 17 }}>{place.weather}°C</Text>
                         </View>
                         <Text style={{ color: "#DEDEDE", marginTop: 4, fontWeight: "bold", textTransform: "uppercase" }}>Weather</Text>
                     </View>
