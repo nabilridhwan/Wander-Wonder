@@ -7,7 +7,6 @@ import Icon from "react-native-vector-icons/Ionicons"
 
 export default ({navigation, route}) => {
   const props = route.params;
-  const [viewHeight, setViewHeight] = useState(100)
   const [region, setRegion] = useState({
     longitude: props.place.longitude,
     latitude: props.place.latitude,
@@ -29,22 +28,7 @@ export default ({navigation, route}) => {
         <Marker
           key={0}
           coordinate={{latitude: region.latitude, longitude: region.longitude}} title={props.place.title} />
-
-        {props.place.nearbyPlaces.map((p, index) => {
-          return (
-            <Marker
-              key={index + 1}
-              pinColor="indigo"
-              coordinate={{ latitude: p.longitude, longitude: p.latitude }} title={p.name} />
-          )
-        })}
       </MapView>
-
-      {/* <View style={{ position: "absolute", bottom: 15, flex: 1, alignItems: "center", width: "100%" }}>
-        <View style={{ ...styles.backgroundStyle, padding: 30, borderRadius: 20, width: "90%" }}>
-
-        </View>
-      </View> */}
 
       <View style={{ alignItems: "center" }}>
         <View style={{ position: "absolute", ...styles.backgroundStyle, bottom: 20, padding: 20, width: "90%", borderRadius: 20 }}  >
@@ -55,11 +39,6 @@ export default ({navigation, route}) => {
           <Text style={{ ...styles.subtitle, marginBottom: 30 }}>
             By {props.place.author}
           </Text>
-
-          {/* {this.state.viewHeight == "auto" && <Text style={{ ...styles.defaultText }}>
-            {this.props.place.description}
-          </Text>} */}
-
 
           <Text style={{ ...styles.defaultText }}>
             {props.place.description}
