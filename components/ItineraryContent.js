@@ -28,47 +28,47 @@ export default ({ place }) => {
                     <View style={styles.lines} />
                 </View>
 
-                <View style={{ ...styles.pictureBackground }}>
+                <View style={{backgroundColor: "#F8B0AB", ...styles.pictureBackground }}>
                     <Text style={styles.pictureTextStyle} >Sentosa Express</Text>
-                    <Image style={styles.imageStyle} source={require("../assets/images/singapore/sentosaexpress.jpg")} />
+                    <Image style={styles.imageStyle} source={require("../assets/images/itinerary/sentosa.png")} />
                 </View>
             </View>
 
             <View style={{ flexDirection: "row", height: 250 }}>
                 <View style={{ flex: 1 }}>
-                    <Text style={{ ...styles.time }}>10:30 AM</Text>
+                    <Text style={{ ...styles.time }}>10:45 AM</Text>
                 </View>
                 {/* The icon and line */}
-                <View style={{ flex: 1, alignItems: "center" }}>
-                    <View style={{ ...styles.icon }}>
-                        <Icon name="train" color="black" size={40} />
+                <View style={{ flex: 1, alignItems: "center"}}>
+                <View style={{ ...styles.icon }}>
+                        <Icon name="pin" color="black" size={40} />
                     </View>
                     <View style={styles.lines} />
                 </View>
 
-                <View style={{ ...styles.pictureBackground }}>
-                <Text style={styles.pictureTextStyle} >Sentosa Express</Text>
-                    <Image style={styles.imageStyle} source={require("../assets/images/singapore/sentosaexpress.jpg")} />
+                <View style={{ backgroundColor: "#F8CBAB",...styles.pictureBackground }}>
+                <Text style={styles.pictureTextStyle} >Universal Studios</Text>
+                    <Image style={styles.imageStyle} source={require("../assets/images/itinerary/universal_studio.png")} />
                 </View>
             </View>
 
             <View style={{ flexDirection: "row", height: 250 }}>
-                <View style={{ flex: 1 }}>
-                    <Text style={{ ...styles.time }}>10:30 AM</Text>
+                <View style={{ flex: 1}}>
+                    <Text style={{ ...styles.time }}>11:00 AM</Text>
                 </View>
 
 
                 {/* The icon and line */}
                 <View style={{ flex: 1, alignItems: "center" }}>
-                    <View style={{ ...styles.icon }}>
-                        <Icon name="train" color="black" size={40} />
+                <View style={{ ...styles.icon,justifyContent:"center" }}>
+                    <Text style={{fontWeight:"bold",fontSize:26,color:Theme.backgroundColor}}>1</Text>
                     </View>
                     <View style={styles.lines} />
                 </View>
 
-                <View style={{ ...styles.pictureBackground }}>
-                <Text style={styles.pictureTextStyle} >Sentosa Express</Text>
-                    <Image style={styles.imageStyle} source={require("../assets/images/singapore/sentosaexpress.jpg")} />
+                <View style={{backgroundColor: "#F8E2AB",...styles.pictureBackground }}>
+                <Text style={styles.pictureTextStyle} >Hollywood</Text>
+                    <Image style={styles.imageStyle} source={require("../assets/images/itinerary/hollywood.png")} />
                 </View>
             </View>
 
@@ -92,9 +92,8 @@ const styles = StyleSheet.create({
     },
 
     pictureBackground: {
-        width: "100%",
-        height: "90%",
-        backgroundColor: "#F8B0AB",
+        marginHorizontal:5,
+        height: "80%",
         padding: 10,
         borderRadius: 10,
         flex: 2.5
@@ -126,7 +125,8 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
         fontWeight: '900',
         color: Theme.textColor,
-        fontSize: 17
+        fontSize: 17,
+        marginTop:16
     }
 });
 

@@ -68,7 +68,41 @@ export default () => {
 
       {searchQuery === "" ?
         <View>
-          <Text style={{color: Theme.textColor}}>Hello!</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 23 }}>
+            <Text style={{ color: Theme.textColor, fontWeight: 'bold', fontSize: 15 }}>Recent</Text>
+            <Text style={{ color: Theme.primaryColor, fontWeight: 'bold', fontSize: 15 }}>Clear All</Text>
+          </View>
+          <View style={styles.search}>
+            <View style={{ flexDirection: 'row' }}>
+              <Icon name="time" color="#FFA5A5" size={26} />
+              <View style={styles.searchTitle}>
+                <Text style={{ color: Theme.textColor }}>Universal Studios Singapore</Text>
+              </View>
+            </View>
+            <View style={styles.trash}>
+              <Icon name="trash" color="rgba(255,255,255,0.7)" size={20} />
+            </View>
+          </View>
+          <View style={{ marginTop: 20, ...styles.search }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Icon name="time" color="#FFA5A5" size={26} />
+              <View style={styles.searchTitle}>
+                <Text style={{ color: Theme.textColor }}>Marina Bay Sands Singapore</Text>
+              </View>
+            </View>
+            <View style={styles.trash}>
+              <Icon name="trash" color="rgba(255,255,255,0.7)" size={20} />
+            </View>
+          </View>
+          <View style={{ margin:23}}>
+            <Text style={{ color: Theme.textColor, fontWeight: 'bold', fontSize: 15 }}>Hot</Text>
+            <View style={{flexDirection: 'row',justifyContent: 'flex-start',marginTop:20}}>
+                <Icon name="flame" color="#FF014D" size={26} />
+                <View style={{marginTop:6,...styles.searchTitle}}>
+                  <Text style={{ color: Theme.textColor }}>Singapore</Text>
+                </View>
+            </View>
+          </View>
         </View>
 
         :
@@ -94,4 +128,22 @@ const styles = StyleSheet.create({
   defaultText: {
     color: "white",
   },
+  search: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderBottomColor: "rgba(255,255,255,0.7)",
+    height: 45,
+    borderBottomWidth: 1
+  },
+  searchTitle: {
+    justifyContent: 'center',
+    marginLeft: 14,
+    marginBottom: 9
+  },
+  trash: {
+    justifyContent: 'center',
+    marginLeft: 9,
+    marginTop: 8,
+    marginBottom: 13
+  }
 });
