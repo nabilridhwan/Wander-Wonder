@@ -13,63 +13,66 @@ import Theme from '../config/Theme';
 export default ({ place }) => {
     return (
 
-            <ScrollView style={styles.container}>
+        <View style={styles.container}>
 
-            <View style={{flexDirection: "row", height: 250}}>
-                <View style={{flex:1}}>
-                    <Text style={{...styles.time}}>10:30 AM</Text>
+            <View style={{ flexDirection: "row", height: 250 }}>
+                <View style={{ flex: 1 }}>
+                    <Text style={{ ...styles.time }}>10:30 AM</Text>
                 </View>
 
                 {/* The icon and line */}
-                <View style={{flex:1, alignItems: "center"}}>
-                    <View style={{...styles.icon}}>
+                <View style={{ flex: 1, alignItems: "center" }}>
+                    <View style={{ ...styles.icon }}>
                         <Icon name="train" color="black" size={40} />
                     </View>
                     <View style={styles.lines} />
                 </View>
 
-                <View style={{...styles.pictureBackground, flex:2}}>
-                        {/* <Icon name="pin" color="black" size={40} /> */}
+                <View style={{ ...styles.pictureBackground }}>
+                    <Text style={styles.pictureTextStyle} >Sentosa Express</Text>
+                    <Image style={styles.imageStyle} source={require("../assets/images/singapore/sentosaexpress.jpg")} />
                 </View>
             </View>
 
-            <View style={{flexDirection: "row", height: 250}}>
-                <View style={{flex:1}}>
-                    <Text style={{...styles.time}}>10:30 AM</Text>
+            <View style={{ flexDirection: "row", height: 250 }}>
+                <View style={{ flex: 1 }}>
+                    <Text style={{ ...styles.time }}>10:30 AM</Text>
                 </View>
                 {/* The icon and line */}
-                <View style={{flex:1, alignItems: "center"}}>
-                    <View style={{...styles.icon}}>
+                <View style={{ flex: 1, alignItems: "center" }}>
+                    <View style={{ ...styles.icon }}>
                         <Icon name="train" color="black" size={40} />
                     </View>
                     <View style={styles.lines} />
                 </View>
 
-                <View style={{...styles.pictureBackground, flex:2}}>
-                        {/* <Icon name="pin" color="black" size={40} /> */}
+                <View style={{ ...styles.pictureBackground }}>
+                <Text style={styles.pictureTextStyle} >Sentosa Express</Text>
+                    <Image style={styles.imageStyle} source={require("../assets/images/singapore/sentosaexpress.jpg")} />
                 </View>
             </View>
 
-            <View style={{flexDirection: "row", height: 25}}>
-                <View style={{flex:1}}>
-                    <Text style={{...styles.time}}>10:30 AM</Text>
+            <View style={{ flexDirection: "row", height: 250 }}>
+                <View style={{ flex: 1 }}>
+                    <Text style={{ ...styles.time }}>10:30 AM</Text>
                 </View>
 
                 {/* The icon and line */}
-                <View style={{flex:1, alignItems: "center"}}>
-                    <View style={{...styles.icon}}>
+                <View style={{ flex: 1, alignItems: "center" }}>
+                    <View style={{ ...styles.icon }}>
                         <Icon name="train" color="black" size={40} />
                     </View>
                     <View style={styles.lines} />
                 </View>
 
-                <View style={{...styles.pictureBackground, flex:2}}>
-                        {/* <Icon name="pin" color="black" size={40} /> */}
+                <View style={{ ...styles.pictureBackground }}>
+                <Text style={styles.pictureTextStyle} >Sentosa Express</Text>
+                    <Image style={styles.imageStyle} source={require("../assets/images/singapore/sentosaexpress.jpg")} />
                 </View>
             </View>
-                    
 
-            </ScrollView>
+
+        </View>
     );
 }
 
@@ -80,7 +83,7 @@ const styles = StyleSheet.create({
     icon: {
         alignItems: 'center',
         backgroundColor: '#70FFF6',
-        borderRadius: 20,
+        borderRadius: 999,
         marginHorizontal: 29,
         padding: 9,
         width: 64,
@@ -89,20 +92,34 @@ const styles = StyleSheet.create({
 
     pictureBackground: {
         width: "100%",
-        height: "100%" ,
+        height: "90%",
         backgroundColor: "#F8B0AB",
         padding: 10,
-        marginVertical: 5,
-        borderRadius: 20
+        borderRadius: 10,
+        flex: 2.5
     },
-    
+
+    pictureTextStyle: {
+        textAlign: "center",
+        fontSize: 20,
+        color: "black",
+        fontWeight: "700"
+    },
+
+    imageStyle: {
+        marginTop: 10,
+        borderRadius: 10,
+        width: "100%",
+        height: "80%"
+    },
+
     lines: {
         zIndex: -1,
         position: 'absolute',
         backgroundColor: '#70FFF6',
-        width: 18,
+        width: 10,
         height: "100%",
-        top: 0,
+        top: 1,
     },
     time: {
         fontStyle: 'italic',
