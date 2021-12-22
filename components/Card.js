@@ -12,7 +12,7 @@ export default (props) => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("Guide Page", {place: props.place})}>
+    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("Guide Page", {place: {...props.place, index}, handleLike: handleLike})}>
       <View>
 
         <ImageBackground imageStyle={{ borderRadius: 10 }} source={image_url} style={card.image} resizeMode='cover'>

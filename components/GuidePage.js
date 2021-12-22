@@ -12,6 +12,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../config/Theme';
 import ItineraryContent from './ItineraryContent';
 import OverviewContent from './OverviewContent';
+
+function useForceUpdate(){
+  const [value, setValue] = useState(0); // integer state
+  return () => setValue(value => value + 1); // update the state to force render
+}
+
 export default ({ navigation, route }) => {
   const [place, setPlace] = useState(route.params.place);
   const [activePage, setActivePage] = useState("Overview")
@@ -22,6 +28,12 @@ export default ({ navigation, route }) => {
   };
 
 
+const forceUpdate = useForceUpdate();
+
+  useEffect(() => {
+    console.log("HELLO")
+  }, [])
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -30,7 +42,18 @@ export default ({ navigation, route }) => {
           <TouchableHighlight style={{backgroundColor: Theme.backgroundColor, borderRadius: 999, alignItems: "center", justifyContent: "center", margin: 10}}>
             <Icon name="arrow-back" size={25} color="silver" onPress={() => navigation.goBack()} style={{ padding: 5}} />
           </TouchableHighlight>
-          <Icon name="heart" size={45} color={Theme.heartColor} style={{ marginRight: 7, marginTop: 7 }} />
+
+          
+          {/* TODO: Fix liked button not updating */}
+          {place.liked ?
+          <Icon name="heart" size={45} color={Theme.heartColor} style={{ marginRight: 7, marginTop: 7 }} onPress={() => {
+            route.params.handleLike(route.params.place.index)
+            
+          }} />
+          :
+          <Icon name="heart-outline" size={45} color={Theme.heartColorOutline} style={{ marginRight: 7, marginTop: 7 }} onPress={() => {
+            route.params.handleLike(route.params.place.index)
+          }} />}
         </View>
 
       </ImageBackground>
