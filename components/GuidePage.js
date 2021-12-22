@@ -119,7 +119,8 @@ const styles = StyleSheet.create({
   },
   panelContainer: {
     backgroundColor: Theme.backgroundColor,
-    padding: 20
+    padding: 10,
+    paddingTop: 20
   },
   container: {
     flex: 1,
