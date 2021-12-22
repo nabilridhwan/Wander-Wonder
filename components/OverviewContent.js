@@ -11,26 +11,44 @@ import DropdownAlert from 'react-native-dropdownalert';
 import { ImageBackground, Linking, Platform, Alert, Image, StyleSheet, Button, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../config/Theme';
-const button = () => {
-    Alert.alert(
-        "Press 'OK' to redirect to buying ticket website",
-        [
-            {
-                text: "Ask me later",
-                onPress: () => console.log("Ask me later pressed")
-                
-            },
-            {
-                text: "Cancel",
-                onPress: () => console.log("Cancel Pressed"),
-                style: "cancel"
-            },
-            { text: "OK", onPress: () => Linking.openURL("https://www.rwsentosa.com/en/attractions/universal-studios-singapore/promotions-and-events/universal-christmas/promotions?gclid=Cj0KCQiAk4aOBhCTARIsAFWFP9Fhh_KJ51hBlpEzso07Aq1lmfd6eFKXGZGdPESs8MrcWO-T2jdA9KoaAou5EALw_wcB&gclsrc=aw.ds").catch(err => console.error("An error occurred", err)) }
-        ],
-        {cancelable: true}
-    );
-}
+
 export default ({ place }) => {
+
+    const button = () => {
+        Alert.alert(
+            "Buy Tickets",
+            "The application will redirect you to an external website to buy tickets",
+            [
+                {
+                    text: "Cancel",
+                    onPress: () => console.log("Cancel Pressed"),
+                    style: "cancel"
+                },
+                {
+                    text: "Buy", onPress: () => {
+
+                        Linking.openURL(place.website)
+                            .catch(err => {
+                                Alert.alert(
+                                    "An error occurred",
+                                    `An error occurred while trying to open the web page. Here is the error: ${err}`,
+                                    [
+                                        {
+                                            text: "OK",
+                                            onPress: () => console.log("An error occured - Cancel Pressed"),
+                                            style: "cancel"
+                                        },
+                                    ]
+                                );
+                            })
+
+                    }
+                }
+            ],
+            { cancelable: true }
+        );
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.singlequote}>“</Text>
@@ -38,8 +56,8 @@ export default ({ place }) => {
                 <Text style={styles.description}>{place.description}</Text>
                 <Text style={styles.singlequote}>”</Text>
 
+                {/* Duration and Weather */}
                 <View style={{ marginTop: 4, flexDirection: "row", justifyContent: "space-evenly", marginBottom: 4 }}>
-
                     <View style={{ alignItems: "center" }}>
                         <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 3 }}>
                             <Icon name="time" color="#FC71FF" size={26} />
@@ -56,55 +74,47 @@ export default ({ place }) => {
                         <Text style={{ color: "#DEDEDE", marginTop: 4, paddingLeft: 4, fontWeight: "bold", textTransform: "uppercase", fontSize: 18 }}>Weather</Text>
                     </View>
                 </View>
+
+                {/* Items I have brought */}
                 <View style={{ alignItems: "center", margin: 35 }}>
                     <View>
                         <Text style={{ color: Theme.textColor, fontSize: 20, textTransform: "uppercase", fontWeight: "900", textDecorationLine: "underline" }}>What I Have Brought</Text>
                     </View>
                     <ScrollView horizontal={true}>
-                        <View style={{ flexDirection: "row", margin: 15 }}>
-                            <View style={{ alignItems: "center" }}>
-                                <View>
-                                    <View style={{ backgroundColor: "#B2E3FE", borderRadius: 100, padding: 12, margin: 4 }}>
-                                        <Icon name="camera" color="black" size={31}></Icon>
-                                    </View>
+                        <View style={{ flexDirection: "row", marginVertical: 15 }}>
+                            <View style={styles.broughtButtonContainer}>
+                                <View style={{ backgroundColor: "#B2E3FE", ...styles.broughtButton }}>
+                                    <Icon name="camera" color="black" size={31}></Icon>
                                 </View>
-                                <Text style={{ color: Theme.textColor }}>Camera</Text>
+                                <Text style={styles.broughtText}>Camera</Text>
                             </View>
 
-                            <View style={{ alignItems: "center" }}>
-                                <View>
-                                    <View style={{ backgroundColor: "#A3CDFF", borderRadius: 100, padding: 12, margin: 4 }}>
-                                        <Icon name="umbrella" color="black" size={33}></Icon>
-                                    </View>
+                            <View style={styles.broughtButtonContainer}>
+                                <View style={{ backgroundColor: "#A3CDFF", ...styles.broughtButton }}>
+                                    <Icon name="umbrella" color="black" size={33}></Icon>
                                 </View>
-                                <Text style={{ color: Theme.textColor }}>Umbrella</Text>
+                                <Text style={styles.broughtText}>Umbrella</Text>
                             </View>
 
-                            <View style={{ alignItems: "center" }}>
-                                <View>
-                                    <View style={{ backgroundColor: "#FEB2B2", borderRadius: 100, padding: 12, margin: 4 }}>
-                                        <Image source={require(`../assets/images/ticket.png`)} style={{ width: 38, height: 36 }} />
-                                    </View>
+                            <View style={styles.broughtButtonContainer}>
+                                <View style={{ backgroundColor: "#FEB2B2", ...styles.broughtButton }}>
+                                    <Image source={require(`../assets/images/ticket.png`)} style={{ width: 38, height: 36 }} />
                                 </View>
-                                <Text style={{ color: Theme.textColor }}>Ticket</Text>
+                                <Text style={styles.broughtText}>Ticket</Text>
                             </View>
 
-                            <View style={{ alignItems: "center" }}>
-                                <View>
-                                    <View style={{ backgroundColor: "#FEB2B2", borderRadius: 100, padding: 12, margin: 4 }}>
-                                        <Image source={require(`../assets/images/fan.png`)} style={{ width: 30, height: 36 }} />
-                                    </View>
+                            <View style={styles.broughtButtonContainer}>
+                                <View style={{ backgroundColor: "#FEB2B2", ...styles.broughtButton }}>
+                                    <Image source={require(`../assets/images/fan.png`)} style={{ width: 30, height: 36 }} />
                                 </View>
-                                <Text style={{ color: Theme.textColor }}>Fan</Text>
+                                <Text style={styles.broughtText}>Fan</Text>
                             </View>
 
-                            <View style={{ alignItems: "center" }}>
-                                <View>
-                                    <View style={{ backgroundColor: "#FFD698", borderRadius: 100, padding: 12, margin: 4 }}>
-                                        <Icon name="shirt" color="black" size={32}></Icon>
-                                    </View>
+                            <View style={styles.broughtButtonContainer}>
+                                <View style={{ backgroundColor: "#FFD698", ...styles.broughtButton }}>
+                                    <Icon name="shirt" color="black" size={32}></Icon>
                                 </View>
-                                <Text style={{ color: Theme.textColor }}>Extra Shirt</Text>
+                                <Text style={styles.broughtText}>Extra Shirt</Text>
                             </View>
                         </View>
                     </ScrollView>
@@ -198,6 +208,26 @@ const styles = StyleSheet.create({
     smallContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between'
+    },
+
+    broughtButton: {
+        padding: 12,
+        borderRadius: 999,
+        width: 60,
+        height: 60,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+
+    broughtText: {
+        textAlign: "center",
+        color: Theme.textColor
+    },
+
+    broughtButtonContainer: {
+        alignItems: "center",
+        marginRight: 10
     }
+
 });
 
