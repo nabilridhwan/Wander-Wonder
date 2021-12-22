@@ -57,6 +57,7 @@ export default ({ place }) => {
                     <Text style={{ ...styles.time }}>10:30 AM</Text>
                 </View>
 
+
                 {/* The icon and line */}
                 <View style={{ flex: 1, alignItems: "center" }}>
                     <View style={{ ...styles.icon }}>
