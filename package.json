@@ -1,5 +1,5 @@
 {
-  "name": "Wander_Wonder",
+  "name": "wander_wonder",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -10,11 +10,15 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/native-stack": "^6.2.5",
     "react": "17.0.2",
     "react-native": "0.66.3",
+    "react-native-dropdownalert": "^4.3.0",
     "react-native-maps": "^0.29.4",
     "react-native-safe-area-context": "^3.3.2",
     "react-native-screens": "^3.10.1",
+    "react-native-sheets-bottom": "^1.2.0",
     "react-native-vector-icons": "^9.0.0"
   },
   "devDependencies": {
@@ -29,5 +33,18 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nabilridhwan/Wander-Wonder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nabilridhwan/Wander-Wonder/issues"
+  },
+  "homepage": "https://github.com/nabilridhwan/Wander-Wonder#readme",
+  "description": ""
 }

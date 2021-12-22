@@ -4,6 +4,7 @@ const Theme = {
     textColor: "white",
     heartColor: "#FE5252",
     heartColorOutline: "white",
+    singleQuoteColor: "#FE5252",
     MapStyle: [
         {
           "elementType": "geometry",

@@ -2,45 +2,45 @@ import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"
 import Theme from "../config/Theme"
+import { useNavigation } from '@react-navigation/native';
 
 
-export default class Card extends React.Component {
+export default (props) => {
+  const { image_url, countryEmoji, liked, title, author } = props.place;
+  const index = props.index;
+  const handleLike = props.handleLike;
+  const navigation = useNavigation();
 
-  constructor(props) {
-    super(props);
-  }
+  return (
+    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("Guide Page", {place: props.place})}>
+      <View>
 
-  render() {
-    return (
-      <View style={styles.card}>
-        <TouchableOpacity>
-          <ImageBackground imageStyle={{ borderRadius: 10 }} source={this.props.image_url} style={card.image} resizeMode='cover'>
+        <ImageBackground imageStyle={{ borderRadius: 10 }} source={image_url} style={card.image} resizeMode='cover'>
 
 
-            <View style={{ flex: 1, justifyContent: "space-between", padding: 10 }}>
+          <View style={{ flex: 1, justifyContent: "space-between", padding: 10 }}>
 
-              <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
-                <Text style={card.countryText}>{this.props.countryEmoji}</Text>
+            <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
+              <Text style={card.countryText}>{countryEmoji}</Text>
 
-                {this.props.liked ?
-                  <Icon name="heart" color={Theme.heartColor} size={28} onPress={()=>this.props.handleLike(this.props.index)} />
-                  :
-                  <Icon name="heart-outline" color={Theme.heartColorOutline} size={28} onPress={()=>this.props.handleLike(this.props.index)} />
-                }
-              </View>
-
-              <View>
-                <Text style={card.titleText}>{this.props.title}</Text>
-                <Text style={card.authorText}>{this.props.author}</Text>
-              </View>
+              {liked ?
+                <Icon name="heart" color={Theme.heartColor} size={28} onPress={() => handleLike(index)} />
+                :
+                <Icon name="heart-outline" color={Theme.heartColorOutline} size={28} onPress={() => handleLike(index)} />
+              }
             </View>
 
-          </ImageBackground>
+            <View>
+              <Text style={card.titleText}>{title}</Text>
+              <Text style={card.authorText}>{author}</Text>
+            </View>
+          </View>
 
-        </TouchableOpacity>
+        </ImageBackground>
       </View>
-    )
-  }
+
+    </TouchableOpacity>
+  )
 }
 
 const card = StyleSheet.create({
