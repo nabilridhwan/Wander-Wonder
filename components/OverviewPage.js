@@ -27,7 +27,9 @@ export default ({ navigation, route }) => {
 
       <ImageBackground source={place.image_url} style={styles.image}>
         <View style={styles.smallContainer}>
-          <Icon name="chevron-back-circle-outline" size={45} color="silver" onPress={() => navigation.goBack()} style={{ marginLeft: 7, marginTop: 7 }} />
+          <TouchableHighlight style={{backgroundColor: Theme.backgroundColor, borderRadius: 999, alignItems: "center", justifyContent: "center", margin: 10}}>
+            <Icon name="arrow-back" size={25} color="silver" onPress={() => navigation.goBack()} style={{ padding: 5}} />
+          </TouchableHighlight>
           <Icon name="heart" size={45} color={Theme.heartColor} style={{ marginRight: 7, marginTop: 7 }} />
         </View>
 
