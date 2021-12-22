@@ -6,6 +6,8 @@ const post = [{
         countryEmoji: "🇸🇬",
         category: "Singapore",
         liked: true,
+        duration: "8 Hours",
+        weather: 30,
         latitude: 1.2546178494585092,
         longitude: 103.82389221707048,
         nearbyPlaces: [{
@@ -34,6 +36,8 @@ const post = [{
         countryEmoji: "🇸🇬",
         category: "Singapore",
         liked: false,
+        duration: "8 Hours",
+        weather: 36,
         latitude: 1.259037809615239,
         longitude: 103.81864611851513,
         nearbyPlaces: [{
@@ -62,6 +66,8 @@ const post = [{
         countryEmoji: "🇸🇬",
         category: "Singapore",
         liked: true,
+        duration: "2 Days",
+        weather: 37,
         latitude: 1.2848584956942635,
         longitude: 103.8609507823147,
         nearbyPlaces: [{
@@ -97,6 +103,8 @@ const post = [{
         countryEmoji: "🇸🇬",
         category: "Singapore",
         liked: false,
+        duration: "2 Days",
+        weather: 37,
         latitude: 1.2584817765425365,
         longitude: 103.82049327067077,
         nearbyPlaces: [{
@@ -113,6 +121,8 @@ const post = [{
         countryEmoji: "🇳🇿",
         category: "Oceania",
         liked: false,
+        duration: "2 Days",
+        weather: 37,
         latitude: -42.09124307931751,
         longitude: 172.61251584948408,
         nearbyPlaces: [{
@@ -129,6 +139,8 @@ const post = [{
         countryEmoji: "🇦🇺",
         category: "Oceania",
         liked: false,
+        duration: "2 Days",
+        weather: 37,
         latitude: -33.8566329176306,
         longitude: 151.21532888454564,
         nearbyPlaces: [{
@@ -145,6 +157,8 @@ const post = [{
         countryEmoji: "🇨🇳",
         category: "Asia",
         liked: true,
+        duration: "2 Days",
+        weather: 37,
         latitude: 39.91708726798381,
         longitude: 116.39105286325044,
         nearbyPlaces: [{
