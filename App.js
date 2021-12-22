@@ -16,7 +16,7 @@ import Search from './components/Search';
 import MapPage from './components/MapPage';
 
 import Data from "./assets/data/Guides"
-import Overview from './components/OverviewPage';
+import GuidePage from './components/GuidePage';
 
 // import Profile from './components/Profile';
 
@@ -53,27 +53,10 @@ class AppComponent extends React.Component {
   render() {
     return (
       <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle }}>
-
-        {/* <ScrollView keyboardShouldPersistTaps='handled'> */}
-
         {this.state.currentActivePage == "home" && <Home />}
         {this.state.currentActivePage == "search" && <Search />}
         {this.state.currentActivePage == "heart" && <Favourites />}
         {this.state.currentActivePage == "person" && <Profile />}
-        {/* {this.state.currentActivePage == "map" && <MapPage place={Data[2]} />} */}
-        {/* {this.state.currentActivePage == "person" && <Profile />} */}
-
-        {/* <View style={{marginBottom: 20}}>
-        <View style={{flexDirection: "row", justifyContent: "space-around"}}>
-        {this.state.appPages.map((page, index) => (
-        <Icon key={index} name={page} style={page == this.state.currentActivePage ? styles.highlightedText : styles.normalNavbarIcon} onPress={() => this.setState({currentActivePage: page})} />
-        ))}
-        </View>
-        </View> */}
-
-
-        {/* </ScrollView> */}
-
         <NavigationBar appPages={this.state.appPages} currentActivePage={this.state.currentActivePage} handleNavbarPageChange={this.handleNavbarPageChange} />
 
       </SafeAreaView >
@@ -83,14 +66,12 @@ class AppComponent extends React.Component {
 
 export default class App extends React.Component {
 
-
-
   render() {
     return (
       <NavigationContainer>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen name="App" component={AppComponent} options={{title: "Wander, Wonder", headerStyle: {backgroundColor: Theme.backgroundColor}, headerTintColor: "white"}} />
-          <Stack.Screen name="Overview" component={Overview} options={{title: "Map", headerStyle: {backgroundColor: Theme.backgroundColor}, headerTintColor: "white"}} />
+          <Stack.Screen name="Guide Page" component={GuidePage} options={{title: "Map", headerStyle: {backgroundColor: Theme.backgroundColor}, headerTintColor: "white"}} />
           <Stack.Screen name="Map" component={MapPage} />
         </Stack.Navigator>
       </NavigationContainer>

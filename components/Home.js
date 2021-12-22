@@ -64,10 +64,6 @@ export default (props) => {
   }
 
   
-  const navigateToMapPage = (index) => {
-    navigation.navigate("Map", {place: guides[index]})
-  }
-
   return (
     <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle }}>
       <Image source={require("../assets/images/header.png")} style={styles.headerImage} resizeMode='cover' />
