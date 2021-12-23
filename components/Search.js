@@ -13,7 +13,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, TextInput, FlatList, Text } from "react-native";
+import { StyleSheet, View, TouchableOpacity, TextInput, FlatList, Text, ScrollView} from "react-native";
 import Theme from '../config/Theme';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Guides from "../assets/data/Guides";
@@ -23,12 +23,21 @@ export default () => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [displayData, setDisplayData] = useState([]);
+  const [recentSearches, setRecentSearches] = useState(["Universal Studios", "Marina Bay Sands"]);
+  const [hotSearches, setHotSearches] = useState(["Opera House", "New Zealand"]);
 
+  useEffect(() => {
+    if(searchQuery == ""){
+      console.log("empty")
+      setDisplayData([]);
+    }
+  }, [searchQuery])
 
   const handleSearch = (searchQuery) => {
-
     if (searchQuery !== "") {
-      setDisplayData(Guides.filter(guide => guide.title.toLowerCase().includes(searchQuery)))
+      setDisplayData(Guides.filter(guide => guide.title.toLowerCase().includes(searchQuery.toLowerCase())))
+
+      setRecentSearches([searchQuery, ...recentSearches.filter(search => search != searchQuery)]);
     }
   }
 
@@ -45,6 +54,25 @@ export default () => {
     setDisplayData(findPostAndToggleLike)
   }
 
+  const handleSearchPress = (index) => {
+    const recentSearch = recentSearches[index]
+    console.log(`Tapped on ${recentSearch}`)
+    setSearchQuery(recentSearch);
+    handleSearch(recentSearch);
+  }
+
+  const handleHotSearchPress = (index) => {
+    const hotSearchQuery = hotSearches[index]
+    console.log(`Tapped on ${hotSearchQuery}`)
+    setSearchQuery(hotSearchQuery);
+    handleSearch(hotSearchQuery);
+  }
+
+
+  const handleRecentDelete = (index) => {
+    setRecentSearches(recentSearches.filter((search, i) => i != index))
+  }
+
   const renderNoGuide = () => {
     // TODO: Fix error. When flatlist is shown with nothing typed in, it will show no results found instead of being empty
     return (
@@ -55,53 +83,78 @@ export default () => {
   }
 
   return (
+
+    // TODO: Fix not scrolling
     <View style={{ flex: 1, ...styles.backgroundStyle }}>
 
-      <TouchableOpacity style={{ flexDirection: "row", backgroundColor: "rgba(255,255,255,0.3)", height: 45, justifyContent: "space-between", borderRadius: 10, marginBottom: 10 }}>
-        <TextInput onEndEditing={() => handleSearch(searchQuery)} placeholder='Search Guide' placeholderTextColor={"rgba(255,255,255,0.6)"} style={{ color: "white", padding: 10 }} onChangeText={(inputText) => setSearchQuery(inputText)}></TextInput>
+      <View
+        style={{ flexDirection: "row", backgroundColor: "rgba(255,255,255,0.3)", height: 45, justifyContent: "space-between", borderRadius: 10, marginBottom: 10 }}
+      >
+        <TextInput
+          style={{ backgroundColor: "red" }}
+          value={searchQuery}
+          onEndEditing={() => handleSearch(searchQuery)}
+          placeholder='Search Guide'
+          placeholderTextColor={"rgba(255,255,255,0.6)"}
+          style={{ color: "white", padding: 10 }}
+          onChangeText={(inputText) => setSearchQuery(inputText)}
 
-        <View style={{ alignItems: "center", justifyContent: "center", paddingHorizontal: 10 }}>
-          <Icon onPress={() => handleSearch(searchQuery)} name="search" color="white" size={26} />
+        />
+
+        <View
+          style={{ alignItems: "center", justifyContent: "center", paddingHorizontal: 10 }}
+        >
+          <Icon
+            onPress={() => handleSearch(searchQuery)}
+            name="search" color="white" size={26}
+          />
         </View>
+      </View>
 
-      </TouchableOpacity>
-
-      {searchQuery === "" ?
+      {displayData.length == 0 ?
         <View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 23 }}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 23 }}>
             <Text style={{ color: Theme.textColor, fontWeight: 'bold', fontSize: 15 }}>Recent</Text>
-            <Text style={{ color: Theme.primaryColor, fontWeight: 'bold', fontSize: 15 }}>Clear All</Text>
+            <Text style={{ color: Theme.primaryColor, fontWeight: 'bold', fontSize: 15 }} onPress={() => setRecentSearches([])}>Clear All</Text>
           </View>
-          <View style={styles.search}>
-            <View style={{ flexDirection: 'row' }}>
-              <Icon name="time" color="#FFA5A5" size={26} />
-              <View style={styles.searchTitle}>
-                <Text style={{ color: Theme.textColor }}>Universal Studios Singapore</Text>
-              </View>
-            </View>
-            <View style={styles.trash}>
-              <Icon name="trash" color="rgba(255,255,255,0.7)" size={20} />
-            </View>
-          </View>
-          <View style={{ marginTop: 20, ...styles.search }}>
-            <View style={{ flexDirection: 'row' }}>
-              <Icon name="time" color="#FFA5A5" size={26} />
-              <View style={styles.searchTitle}>
-                <Text style={{ color: Theme.textColor }}>Marina Bay Sands Singapore</Text>
-              </View>
-            </View>
-            <View style={styles.trash}>
-              <Icon name="trash" color="rgba(255,255,255,0.7)" size={20} />
-            </View>
-          </View>
-          <View style={{ margin:23}}>
-            <Text style={{ color: Theme.textColor, fontWeight: 'bold', fontSize: 15 }}>Hot</Text>
-            <View style={{flexDirection: 'row',justifyContent: 'flex-start',marginTop:20}}>
-                <Icon name="flame" color="#FF014D" size={26} />
-                <View style={{marginTop:6,...styles.searchTitle}}>
-                  <Text style={{ color: Theme.textColor }}>Singapore</Text>
+
+          {recentSearches.map((search, index) => (
+            <TouchableOpacity key={index} style={styles.search} onPress={() => handleSearchPress(index)}>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={styles.timeIconContainer} >
+                  <Icon name="time" color="#FFA5A5" size={26} />
                 </View>
-            </View>
+                <View style={styles.searchTitle}>
+                  <Text style={{ color: Theme.textColor }}>{search}</Text>
+                </View>
+              </View>
+              <TouchableOpacity style={styles.trashIconContainer}>
+                <Icon name="trash" onPress={() => handleRecentDelete(index)} color="rgba(255,255,255,0.7)" size={20} />
+              </TouchableOpacity>
+            </TouchableOpacity>
+
+          ))}
+
+
+          <View style={{ marginVertical: 50 }}>
+
+            <Text style={{ color: Theme.textColor, fontWeight: 'bold', fontSize: 15 }}>Hot</Text>
+
+            {hotSearches.map((search, index) => (
+              <TouchableOpacity key={index} style={styles.search} onPress={() => handleHotSearchPress(index)}>
+                <View style={{ flexDirection: 'row' }}>
+                  <View style={styles.timeIconContainer} >
+                    <Icon name="flame" color="#FF014D" size={26} />
+                  </View>
+                  <View style={styles.searchTitle}>
+                    <Text style={{ color: Theme.textColor }}>{search}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            ))}
+
+
+
           </View>
         </View>
 
@@ -115,7 +168,7 @@ export default () => {
         } keyExtractor={(item, index) => index.toString()} ListEmptyComponent={renderNoGuide} />
       }
 
-    </View >
+    </View>
   );
 };
 
@@ -129,21 +182,27 @@ const styles = StyleSheet.create({
     color: "white",
   },
   search: {
+    paddingVertical: 20,
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     borderBottomColor: "rgba(255,255,255,0.7)",
-    height: 45,
     borderBottomWidth: 1
   },
   searchTitle: {
-    justifyContent: 'center',
+    justifyContent: "center",
     marginLeft: 14,
-    marginBottom: 9
   },
-  trash: {
+  trashIconContainer: {
+    width: 35,
+    height: 35,
+    backgroundColor: "red",
+    alignItems: "center",
+    borderRadius: 999,
+    backgroundColor: "rgba(255,255,255,0.3)",
     justifyContent: 'center',
-    marginLeft: 9,
-    marginTop: 8,
-    marginBottom: 13
+  },
+  timeIconContainer: {
+    justifyContent: "center",
+    alignItems: "center"
   }
 });

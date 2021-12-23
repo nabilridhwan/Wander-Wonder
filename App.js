@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, View,StatusBar } from "react-native";
+import { FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, View, StatusBar } from "react-native";
 import Theme from "./config/Theme"
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -39,7 +39,7 @@ class AppComponent extends React.Component {
 
     this.state = {
       appPages: ["home", "search", "heart", "person"],
-      currentActivePage: "home"
+      currentActivePage: "search"
     }
 
     this.handleNavbarPageChange = this.handleNavbarPageChange.bind(this)
@@ -69,9 +69,9 @@ export default class App extends React.Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen name="App" component={AppComponent} options={{title: "Wander, Wonder", headerStyle: {backgroundColor: Theme.backgroundColor}, headerTintColor: "white"}} />
-          <Stack.Screen name="Guide Page" component={GuidePage} options={{title: "Map", headerStyle: {backgroundColor: Theme.backgroundColor}, headerTintColor: "white"}} />
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="App" component={AppComponent} options={{ title: "Wander, Wonder", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
+          <Stack.Screen name="Guide Page" component={GuidePage} options={{ title: "Map", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
           <Stack.Screen name="Map" component={MapPage} />
         </Stack.Navigator>
       </NavigationContainer>
