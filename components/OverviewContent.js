@@ -7,7 +7,6 @@
  */
 
 import React, { useState } from 'react';
-import DropdownAlert from 'react-native-dropdownalert';
 import { ImageBackground, Linking, Platform, Alert, Image, StyleSheet, Button, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../config/Theme';

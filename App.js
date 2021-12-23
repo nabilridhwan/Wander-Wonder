@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, View,StatusBar } from "react-native";
 import Theme from "./config/Theme"
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -53,6 +52,7 @@ class AppComponent extends React.Component {
   render() {
     return (
       <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle }}>
+        <StatusBar backgroundColor={Theme.statusBarBackgroundColor} barStyle="light-content" />
         {this.state.currentActivePage == "home" && <Home />}
         {this.state.currentActivePage == "search" && <Search />}
         {this.state.currentActivePage == "heart" && <Favourites />}

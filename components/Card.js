@@ -15,7 +15,7 @@ export default (props) => {
     <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("Guide Page", {place: {...props.place, index}, handleLike: handleLike})}>
       <View>
 
-        <ImageBackground imageStyle={{ borderRadius: 10 }} source={image_url} style={card.image} resizeMode='cover'>
+        <ImageBackground imageStyle={{ borderRadius: 10 }} style={card.image} source={image_url}resizeMode='cover'>
 
 
           <View style={{ flex: 1, justifyContent: "space-between", padding: 10 }}>
@@ -37,7 +37,7 @@ export default (props) => {
           </View>
 
         </ImageBackground>
-      </View>
+        </View>
 
     </TouchableOpacity>
   )
@@ -45,7 +45,7 @@ export default (props) => {
 
 const card = StyleSheet.create({
   image: {
-    height: 200,
+    width: "100%", height: "100%"
   },
 
   authorText: {
@@ -67,10 +67,11 @@ const card = StyleSheet.create({
 const styles = StyleSheet.create({
 
   card: {
-    width: "49%",
-    margin: 2
-    // height: "auto",
-  },
+    height: 200,
+    width: "47%",
+    margin: 5
+    // width: "100%"
+    },
 
   headerImage: {
     width: "100%",

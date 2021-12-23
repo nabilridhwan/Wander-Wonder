@@ -12,39 +12,111 @@
 // DIT/FT/1B/05
 
 
-import React from 'react';
-import { StyleSheet, View, TouchableOpacity, TextInput } from "react-native";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, TouchableOpacity, TextInput, FlatList, Text } from "react-native";
 import Theme from '../config/Theme';
+import Icon from 'react-native-vector-icons/Ionicons';
 import Guides from "../assets/data/Guides";
+import Card from './Card';
 
-export default class Search extends React.Component {
+export default () => {
 
-  constructor(props){
-    super(props);
-    this.state = {
-      searchQuery: "",
-      displayData: [],
+  const [searchQuery, setSearchQuery] = useState("");
+  const [displayData, setDisplayData] = useState([]);
+
+
+  const handleSearch = (searchQuery) => {
+
+    if (searchQuery !== "") {
+      setDisplayData(Guides.filter(guide => guide.title.toLowerCase().includes(searchQuery)))
     }
   }
 
-  handleSearch(searchQuery){
-    this.setState({
-      searchQuery: searchQuery,
-      displayData: Guides.filter(guide => guide.title.toLowerCase().includes(searchQuery))
+  const handleLike = (postIndex) => {
+    console.log(postIndex)
+    const findPostAndToggleLike = displayData.filter((guide, index) => {
+      if (index == postIndex) {
+        guide.liked = !guide.liked;
+      }
+
+      return guide;
     })
-    
+
+    setDisplayData(findPostAndToggleLike)
   }
-  render() {
+
+  const renderNoGuide = () => {
+    // TODO: Fix error. When flatlist is shown with nothing typed in, it will show no results found instead of being empty
     return (
-      <View style={{ flex: 1, ...styles.backgroundStyle }}>
-
-           <TouchableOpacity style={{backgroundColor: "rgba(255,255,255,0.3)", height: 45, justifyContent: "center", borderRadius: 10, marginBottom: 10}}>
-                <TextInput placeholder='Search' placeholderTextColor={"rgba(255,255,255,0.6)"} style={{color: "white", padding: 10}} onChangeText={(inputText) => this.handleSearch(inputText)}></TextInput>
-           </TouchableOpacity>
-
-      </View >
-    );
+      <View>
+        {/* <Text style={{color: Theme.textColor}}>No results found</Text> */}
+      </View>
+    )
   }
+
+  return (
+    <View style={{ flex: 1, ...styles.backgroundStyle }}>
+
+      <TouchableOpacity style={{ flexDirection: "row", backgroundColor: "rgba(255,255,255,0.3)", height: 45, justifyContent: "space-between", borderRadius: 10, marginBottom: 10 }}>
+        <TextInput onEndEditing={() => handleSearch(searchQuery)} placeholder='Search Guide' placeholderTextColor={"rgba(255,255,255,0.6)"} style={{ color: "white", padding: 10 }} onChangeText={(inputText) => setSearchQuery(inputText)}></TextInput>
+
+        <View style={{ alignItems: "center", justifyContent: "center", paddingHorizontal: 10 }}>
+          <Icon onPress={() => handleSearch(searchQuery)} name="search" color="white" size={26} />
+        </View>
+
+      </TouchableOpacity>
+
+      {searchQuery === "" ?
+        <View>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', margin: 23 }}>
+            <Text style={{ color: Theme.textColor, fontWeight: 'bold', fontSize: 15 }}>Recent</Text>
+            <Text style={{ color: Theme.primaryColor, fontWeight: 'bold', fontSize: 15 }}>Clear All</Text>
+          </View>
+          <View style={styles.search}>
+            <View style={{ flexDirection: 'row' }}>
+              <Icon name="time" color="#FFA5A5" size={26} />
+              <View style={styles.searchTitle}>
+                <Text style={{ color: Theme.textColor }}>Universal Studios Singapore</Text>
+              </View>
+            </View>
+            <View style={styles.trash}>
+              <Icon name="trash" color="rgba(255,255,255,0.7)" size={20} />
+            </View>
+          </View>
+          <View style={{ marginTop: 20, ...styles.search }}>
+            <View style={{ flexDirection: 'row' }}>
+              <Icon name="time" color="#FFA5A5" size={26} />
+              <View style={styles.searchTitle}>
+                <Text style={{ color: Theme.textColor }}>Marina Bay Sands Singapore</Text>
+              </View>
+            </View>
+            <View style={styles.trash}>
+              <Icon name="trash" color="rgba(255,255,255,0.7)" size={20} />
+            </View>
+          </View>
+          <View style={{ margin:23}}>
+            <Text style={{ color: Theme.textColor, fontWeight: 'bold', fontSize: 15 }}>Hot</Text>
+            <View style={{flexDirection: 'row',justifyContent: 'flex-start',marginTop:20}}>
+                <Icon name="flame" color="#FF014D" size={26} />
+                <View style={{marginTop:6,...styles.searchTitle}}>
+                  <Text style={{ color: Theme.textColor }}>Singapore</Text>
+                </View>
+            </View>
+          </View>
+        </View>
+
+        :
+
+        <FlatList data={displayData} renderItem={
+          ({ item, index }) =>
+            <Card place={item}
+              index={index}
+              handleLike={handleLike} />
+        } keyExtractor={(item, index) => index.toString()} ListEmptyComponent={renderNoGuide} />
+      }
+
+    </View >
+  );
 };
 
 const styles = StyleSheet.create({
@@ -56,4 +128,22 @@ const styles = StyleSheet.create({
   defaultText: {
     color: "white",
   },
+  search: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    borderBottomColor: "rgba(255,255,255,0.7)",
+    height: 45,
+    borderBottomWidth: 1
+  },
+  searchTitle: {
+    justifyContent: 'center',
+    marginLeft: 14,
+    marginBottom: 9
+  },
+  trash: {
+    justifyContent: 'center',
+    marginLeft: 9,
+    marginTop: 8,
+    marginBottom: 13
+  }
 });

@@ -1,5 +1,6 @@
 const Theme = {
     backgroundColor: "#0e0a16",
+    statusBarBackgroundColor: "#181126",
     primaryColor: "#8987ff",
     textColor: "white",
     heartColor: "#FE5252",

@@ -110,14 +110,13 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 32,
     padding: 18,
   },
 
   activeButton: {
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 32,
+    borderRadius:32,
     padding: 18,
     backgroundColor: Theme.primaryColor
   },
