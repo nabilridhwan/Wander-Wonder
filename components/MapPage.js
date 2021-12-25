@@ -5,8 +5,7 @@ import Theme from "../config/Theme";
 import Icon from "react-native-vector-icons/Ionicons"
 
 
-export default ({navigation, route}) => {
-  const props = route.params;
+export default ({navigation, route: {params: props}}) => {
   const [region, setRegion] = useState({
     longitude: props.place.longitude,
     latitude: props.place.latitude,
@@ -40,7 +39,7 @@ export default ({navigation, route}) => {
             By {props.place.author}
           </Text>
 
-          <Text style={{ ...styles.defaultText }}>
+          <Text style={styles.descriptionText}>
             {props.place.description}
           </Text>
         </View>
@@ -61,6 +60,11 @@ const styles = StyleSheet.create({
 
   defaultText: {
     color: "white",
+  },
+
+  descriptionText:{
+    color: "white",
+    lineHeight: 20,
   },
 
   highlightedText: {
