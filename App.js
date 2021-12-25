@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, View, StatusBar } from "react-native";
+import { SafeAreaView, StyleSheet, StatusBar } from "react-native";
 import Theme from "./config/Theme"
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -13,24 +13,7 @@ import Profile from './components/Profile';
 import Favourites from './components/Favourites';
 import Search from './components/Search';
 import MapPage from './components/MapPage';
-
-import Data from "./assets/data/Guides"
 import GuidePage from './components/GuidePage';
-
-// import Profile from './components/Profile';
-
-// Data files required for rendering
-
-/*
-  (IMPORT THIS TO APP.JS)
-  ==============================
-  Home Page
-  ==============================
-  Name: Nabil Ridhwanshah 
-  Admin Number: P2007421
-  Class: DIT/FT/1B/05
-*/
-
 
 class AppComponent extends React.Component {
 
@@ -39,7 +22,7 @@ class AppComponent extends React.Component {
 
     this.state = {
       appPages: ["home", "search", "heart", "person"],
-      currentActivePage: "search"
+      currentActivePage: "home"
     }
 
     this.handleNavbarPageChange = this.handleNavbarPageChange.bind(this)
