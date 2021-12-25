@@ -1,17 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-// Profile Page
-// Nabil Ridhwanshah 
-// P2007421
-// DIT/FT/1B/05
-
-
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, TextInput, FlatList, Text, ScrollView} from "react-native";
 import Theme from '../config/Theme';
@@ -39,9 +25,7 @@ export default () => {
     setDone(false);
     if (searchQuery !== "") {
       setDisplayData(Guides.filter(guide => guide.title.toLowerCase().includes(searchQuery.toLowerCase())))
-
       setRecentSearches([searchQuery, ...recentSearches.filter(search => search != searchQuery)]);
-
       setDone(true);
     }
   }
@@ -59,20 +43,13 @@ export default () => {
     setDisplayData(findPostAndToggleLike)
   }
 
-  const handleSearchPress = (index) => {
-    const recentSearch = recentSearches[index]
-    console.log(`Tapped on ${recentSearch}`)
-    setSearchQuery(recentSearch);
-    handleSearch(recentSearch);
+  const handleItemClick = (index, array) => {
+    const item = array[index];
+    // Set the search query to the item tapped
+    setSearchQuery(item);
+    // Perform a search
+    handleSearch(item);
   }
-
-  const handleHotSearchPress = (index) => {
-    const hotSearchQuery = hotSearches[index]
-    console.log(`Tapped on ${hotSearchQuery}`)
-    setSearchQuery(hotSearchQuery);
-    handleSearch(hotSearchQuery);
-  }
-
 
   const handleRecentDelete = (index) => {
     setRecentSearches(recentSearches.filter((search, i) => i != index))
@@ -120,9 +97,8 @@ export default () => {
             <Text style={{ color: Theme.textColor, fontWeight: 'bold', fontSize: 15 }}>Recent</Text>
             <Text style={{ color: Theme.primaryColor, fontWeight: 'bold', fontSize: 15 }} onPress={() => setRecentSearches([])}>Clear All</Text>
           </View>
-
           {recentSearches.map((search, index) => (
-            <TouchableOpacity key={index} style={styles.search} onPress={() => handleSearchPress(index)}>
+            <TouchableOpacity key={index} style={styles.search} onPress={() => handleItemClick(index, recentSearches)}>
               <View style={{ flexDirection: 'row' }}>
                 <View style={styles.timeIconContainer} >
                   <Icon name="time" color="#FFA5A5" size={26} />
@@ -144,7 +120,7 @@ export default () => {
             <Text style={{ color: Theme.textColor, fontWeight: 'bold', fontSize: 15 }}>Hot</Text>
 
             {hotSearches.map((search, index) => (
-              <TouchableOpacity key={index} style={styles.search} onPress={() => handleHotSearchPress(index)}>
+              <TouchableOpacity key={index} style={styles.search} onPress={() => handleItemClick(index, hotSearches)}>
                 <View style={{ flexDirection: 'row' }}>
                   <View style={styles.timeIconContainer} >
                     <Icon name="flame" color="#FF014D" size={26} />
@@ -180,7 +156,6 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: Theme.backgroundColor,
   },
-
   defaultText: {
     color: "white",
   },
