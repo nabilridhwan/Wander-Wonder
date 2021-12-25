@@ -51,10 +51,10 @@ export default (props) => {
   }
 
   const handleLike = (postIndex) => {
-    console.log(postIndex)
+    console.log(`Like status toggled for post index ${postIndex}`)
     const findPostAndToggleLike = guides.filter((guide, index) => {
       if (index == postIndex) {
-        guide.liked = !guide.liked;
+        guide.liked = !guide.liked
       }
 
       return guide;
