@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, { useEffect, useState } from 'react';
 import { ImageBackground, Platform, Image, StyleSheet, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -15,48 +7,66 @@ import OverviewContent from './OverviewContent';
 
 export default ({ navigation, route }) => {
   const [place, setPlace] = useState(route.params.place);
-  const handleLike = useState(route.params.handleLike)
+  // const handleLike = useState(route.params.handleLike)
   const [activePage, setActivePage] = useState("Overview")
+  const [liked, setLiked] = useState(place.liked)
+
+  const handleLike = () => {
+    setLiked(!liked)
+  }
 
   const changeActivePage = (page) => {
     console.log(page)
     setActivePage(page)
   };
-  
+
+  useEffect(() => {
+
+    return () => {
+      console.log("Unmounting Guides Page");
+      console.log(`Original ${place.liked}`)
+      console.log(`New ${liked}`)
+      if (liked !== place.liked) {
+
+        console.log("Like value is not the same! Calling the handleLike function!")
+        route.params.handleLike(place.index)
+      }
+    }
+
+  }, [liked])
 
   return (
     <SafeAreaView style={styles.container}>
 
       <ImageBackground source={place.image_url} style={styles.image}>
         <View style={styles.smallContainer}>
-          <TouchableHighlight style={{backgroundColor: Theme.backgroundColor, borderRadius: 999, alignItems: "center", justifyContent: "center", margin: 10}}>
-            <Icon name="arrow-back" size={25} color="silver" onPress={() => navigation.goBack()} style={{ padding: 5}} />
+          <TouchableHighlight style={{ backgroundColor: Theme.backgroundColor, borderRadius: 999, alignItems: "center", justifyContent: "center", margin: 10 }}>
+            <Icon name="arrow-back" size={25} color="silver" onPress={() => navigation.goBack()} style={{ padding: 5 }} />
           </TouchableHighlight>
 
-          
-          {/* TODO: Fix liked button not updating */}
-          {place.liked ?
-          <Icon name="heart" size={45} color={Theme.heartColor} style={{ marginRight: 7, marginTop: 7 }} onPress={handleLike
-            
-          } />
-          :
-          <Icon name="heart-outline" size={45} color={Theme.heartColorOutline} style={{ marginRight: 7, marginTop: 7 }} onPress={handleLike} />}
+
+          {liked ?
+            <Icon name="heart" size={45} color={Theme.heartColor} style={{ marginRight: 7, marginTop: 7 }} onPress={handleLike
+
+            } />
+            :
+            <Icon name="heart-outline" size={45} color={Theme.heartColorOutline} style={{ marginRight: 7, marginTop: 7 }} onPress={handleLike} />}
         </View>
 
       </ImageBackground>
 
       <View style={{ flex: 3 }}>
         <ScrollView style={styles.panelContainer}>
-          <Text style={styles.instructions}>{place.title}</Text>
+          <Text style={styles.title}>{place.title}</Text>
           <Text style={styles.author}>By {place.author}</Text>
 
           <View style={styles.subContainerSection}>
 
-            <View style={activePage == "Overview" ? {...styles.activeButton, ...styles.button} : styles.button} onTouchEnd={() => changeActivePage("Overview")}>
+            <View style={activePage == "Overview" ? { ...styles.activeButton, ...styles.button } : styles.button} onTouchEnd={() => changeActivePage("Overview")}>
               <Text style={styles.subContainerText}>Overview</Text>
             </View>
 
-            <View style={activePage == "Itinerary" ? {...styles.activeButton, ...styles.button} : styles.button} onTouchEnd={() => changeActivePage("Itinerary")}>
+            <View style={activePage == "Itinerary" ? { ...styles.activeButton, ...styles.button } : styles.button} onTouchEnd={() => changeActivePage("Itinerary")}>
               <Text style={styles.subContainerText}>Itinerary</Text>
             </View>
 
@@ -66,7 +76,7 @@ export default ({ navigation, route }) => {
         </ScrollView>
       </View>
 
-      <TouchableOpacity style={{ position: "absolute", bottom: 10, right: 20, backgroundColor: Theme.primaryColor, borderRadius: 999, padding: 20, elevation: 2 }}>
+      <TouchableOpacity style={styles.floatingButtonStyles}>
         <Icon name="navigate" color={Theme.textColor} size={24} onPress={() => navigation.navigate("Map", { place: place })} />
       </TouchableOpacity>
 
@@ -75,12 +85,12 @@ export default ({ navigation, route }) => {
 }
 
 const styles = StyleSheet.create({
-  instructions: {
+  title: {
     textAlign: 'center',
     color: 'white',
-    fontSize: 32,
+    fontSize: 30,
     marginBottom: 20,
-    fontWeight: "900",
+    fontWeight: "700",
   },
   author: {
     textAlign: 'center',
@@ -91,7 +101,7 @@ const styles = StyleSheet.create({
   subContainerSection: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-    paddingVertical: 20,
+    paddingVertical: 10,
   },
 
   button: {
@@ -103,7 +113,7 @@ const styles = StyleSheet.create({
   activeButton: {
     alignItems: "center",
     justifyContent: "center",
-    borderRadius:32,
+    borderRadius: 32,
     padding: 18,
     backgroundColor: Theme.primaryColor
   },
@@ -142,6 +152,7 @@ const styles = StyleSheet.create({
   smallContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between'
-  }
+  },
+  floatingButtonStyles: { position: "absolute", bottom: 10, right: 20, backgroundColor: Theme.primaryColor, borderRadius: 999, padding: 20, elevation: 4 }
 });
 
