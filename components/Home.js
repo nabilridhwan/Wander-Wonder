@@ -46,7 +46,9 @@ export default (props) => {
 
   const renderNoGuide = () => {
     return (
-      <Text style={styles.defaultText}>None</Text>
+      <Text style={styles.defaultText}>
+        No Guides Found!
+      </Text>
     )
   }
 
