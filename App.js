@@ -35,7 +35,7 @@ class AppComponent extends React.Component {
   render() {
     return (
       <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle }}>
-        <StatusBar backgroundColor={Theme.statusBarBackgroundColor} barStyle="light-content" />
+        <StatusBar backgroundColor={Theme.backgroundColor} barStyle="light-content" />
         {this.state.currentActivePage == "home" && <Home />}
         {this.state.currentActivePage == "search" && <Search />}
         {this.state.currentActivePage == "heart" && <Favourites />}
