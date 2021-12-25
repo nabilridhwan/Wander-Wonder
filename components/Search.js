@@ -26,17 +26,23 @@ export default () => {
   const [recentSearches, setRecentSearches] = useState(["Universal Studios", "Marina Bay Sands"]);
   const [hotSearches, setHotSearches] = useState(["Opera House", "New Zealand"]);
 
+  // This is the condition to show the recent and hot searches
+  const [done, setDone] = useState(false);
+
   useEffect(() => {
-    if(searchQuery == ""){
-      setDisplayData([]);
+    if(searchQuery.length == 0) {
+      setDone(false);
     }
-  }, [searchQuery])
+  }, [searchQuery]);
 
   const handleSearch = (searchQuery) => {
+    setDone(false);
     if (searchQuery !== "") {
       setDisplayData(Guides.filter(guide => guide.title.toLowerCase().includes(searchQuery.toLowerCase())))
 
       setRecentSearches([searchQuery, ...recentSearches.filter(search => search != searchQuery)]);
+
+      setDone(true);
     }
   }
 
@@ -73,17 +79,15 @@ export default () => {
   }
 
   const renderNoGuide = () => {
-    // TODO: Fix error. When flatlist is shown with nothing typed in, it will show no results found instead of being empty
     return (
       <View>
-        {/* <Text style={{color: Theme.textColor}}>No results found</Text> */}
+        <Text style={{color: Theme.textColor}}>No results found</Text>
       </View>
     )
   }
 
   return (
 
-    // TODO: Fix not scrolling
     <View style={{ flex: 1, ...styles.backgroundStyle }}>
 
       <View
@@ -110,7 +114,7 @@ export default () => {
         </View>
       </View>
 
-      {displayData.length == 0 ?
+      {!done ?
         <ScrollView>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 23 }}>
             <Text style={{ color: Theme.textColor, fontWeight: 'bold', fontSize: 15 }}>Recent</Text>
