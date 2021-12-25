@@ -28,7 +28,6 @@ export default () => {
 
   useEffect(() => {
     if(searchQuery == ""){
-      console.log("empty")
       setDisplayData([]);
     }
   }, [searchQuery])
@@ -112,7 +111,7 @@ export default () => {
       </View>
 
       {displayData.length == 0 ?
-        <View>
+        <ScrollView>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginVertical: 23 }}>
             <Text style={{ color: Theme.textColor, fontWeight: 'bold', fontSize: 15 }}>Recent</Text>
             <Text style={{ color: Theme.primaryColor, fontWeight: 'bold', fontSize: 15 }} onPress={() => setRecentSearches([])}>Clear All</Text>
@@ -156,11 +155,11 @@ export default () => {
 
 
           </View>
-        </View>
+        </ScrollView>
 
         :
-
-        <FlatList data={displayData} renderItem={
+        // Search results
+        <FlatList data={displayData} numColumns={2} renderItem={
           ({ item, index }) =>
             <Card place={item}
               index={index}
