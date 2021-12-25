@@ -127,7 +127,7 @@ export default ({ place }) => {
                             <Text style={{ fontWeight: '400', fontStyle: 'italic', color: Theme.textColor }}>in the Door.</Text>
                         </View>
                     </View>
-                    <View style={{ backgroundColor: '#8E4040', borderRadius: 100, justifyContent: 'center', paddingLeft: 13, paddingRight: 13, marginLeft: 15 }}>
+                    <View style={{ backgroundColor: '#8E4040', borderRadius: 20, justifyContent: 'center', paddingHorizontal: 20, marginLeft: 15 }}>
                         <Text style={{ color: Theme.textColor, fontWeight: 'bold' }}>From $128</Text>
                     </View>
                 </View>
