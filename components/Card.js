@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"
 import Theme from "../config/Theme"
@@ -6,7 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 
 
 export default (props) => {
-  const { image_url, countryEmoji, liked, title, author } = props.place;
+  const [place, setPlace] = useState(props.place);
+  // const { image_url, countryEmoji, liked, title, author } = props.place;
   const index = props.index;
   const handleLike = props.handleLike;
   const navigation = useNavigation();
@@ -15,15 +16,15 @@ export default (props) => {
     <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("Guide Page", {place: {...props.place, index}, handleLike: handleLike})}>
       <View>
 
-        <ImageBackground imageStyle={{ borderRadius: 10 }} style={card.image} source={image_url}resizeMode='cover'>
+        <ImageBackground imageStyle={{ borderRadius: 10 }} style={card.image} source={place.image_url}resizeMode='cover'>
 
 
           <View style={{ flex: 1, justifyContent: "space-between", padding: 10 }}>
 
             <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
-              <Text style={card.countryText}>{countryEmoji}</Text>
+              <Text style={card.countryText}>{place.countryEmoji}</Text>
 
-              {liked ?
+              {place.liked ?
                 <Icon name="heart" color={Theme.heartColor} size={28} onPress={() => handleLike(index)} />
                 :
                 <Icon name="heart-outline" color={Theme.heartColorOutline} size={28} onPress={() => handleLike(index)} />
@@ -31,8 +32,8 @@ export default (props) => {
             </View>
 
             <View>
-              <Text style={card.titleText}>{title}</Text>
-              <Text style={card.authorText}>{author}</Text>
+              <Text style={card.titleText}>{place.title}</Text>
+              <Text style={card.authorText}>{place.author}</Text>
             </View>
           </View>
 
