@@ -7,17 +7,23 @@ import { useNavigation } from '@react-navigation/native';
 
 export default (props) => {
   const [place, setPlace] = useState(props.place);
-  // const { image_url, countryEmoji, liked, title, author } = props.place;
   const index = props.index;
   const handleLike = props.handleLike;
   const navigation = useNavigation();
 
+  const navigateToGuidesPage = () => {
+    navigation.navigate("Guide Page", { place: { ...props.place, index }, handleLike: handleLike })
+  }
+
+  const handleClickOnLikeButton = () => {
+    handleLike(index);
+  }
+
   return (
-    <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("Guide Page", {place: {...props.place, index}, handleLike: handleLike})}>
+    <TouchableOpacity style={styles.card} onPress={navigateToGuidesPage}>
       <View>
 
-        <ImageBackground imageStyle={{ borderRadius: 10 }} style={card.image} source={place.image_url}resizeMode='cover'>
-
+        <ImageBackground imageStyle={{ borderRadius: 10 }} style={card.image} source={place.image_url} resizeMode='cover'>
 
           <View style={{ flex: 1, justifyContent: "space-between", padding: 10 }}>
 
@@ -25,9 +31,9 @@ export default (props) => {
               <Text style={card.countryText}>{place.countryEmoji}</Text>
 
               {place.liked ?
-                <Icon name="heart" color={Theme.heartColor} size={28} onPress={() => handleLike(index)} />
+                <Icon name="heart" color={Theme.heartColor} size={28} onPress={handleClickOnLikeButton} />
                 :
-                <Icon name="heart-outline" color={Theme.heartColorOutline} size={28} onPress={() => handleLike(index)} />
+                <Icon name="heart-outline" color={Theme.heartColorOutline} size={28} onPress={handleClickOnLikeButton} />
               }
             </View>
 
@@ -38,12 +44,13 @@ export default (props) => {
           </View>
 
         </ImageBackground>
-        </View>
+      </View>
 
     </TouchableOpacity>
   )
 }
 
+// Styles for the card elements
 const card = StyleSheet.create({
   image: {
     width: "100%", height: "100%"
@@ -65,65 +72,11 @@ const card = StyleSheet.create({
   }
 })
 
+// Styles specific to the page
 const styles = StyleSheet.create({
-
   card: {
     height: 200,
     width: "47%",
     margin: 5
-    // width: "100%"
-    },
-
-  headerImage: {
-    width: "100%",
   },
-
-  backgroundStyle: {
-    padding: 20,
-    backgroundColor: Theme.backgroundColor,
-  },
-
-  defaultText: {
-    height: 20,
-    color: "white",
-  },
-
-  highlightedText: {
-    height: 20,
-    color: Theme.primaryColor
-  },
-
-  navigation: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingTop: 10,
-    paddingBottom: 30,
-  },
-
-  innerNavigation: {
-    alignItems: "center",
-  },
-
-  displayHidden: {
-    display: "none",
-  },
-
-  navigationCircle: {
-    marginTop: 10,
-    width: 7,
-    height: 7,
-    borderRadius: 999,
-    backgroundColor: Theme.primaryColor
-  },
-
-  subtitle: {
-    textAlign: "center",
-    color: "#D1D1D1",
-  },
-
-  title: {
-    fontSize: 30,
-    textAlign: "center",
-    color: "white",
-  }
 });
