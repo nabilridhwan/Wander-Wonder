@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../config/Theme';
 import ItineraryContent from './ItineraryContent';
 import OverviewContent from './OverviewContent';
+import Review from './Review';
 
 export default ({ navigation, route }) => {
   const [place, setPlace] = useState(route.params.place);
@@ -70,9 +71,13 @@ export default ({ navigation, route }) => {
               <Text style={styles.subContainerText}>Itinerary</Text>
             </View>
 
+            <View style={activePage == "Review" ? { ...styles.activeButton, ...styles.button } : styles.button} onTouchEnd={() => changeActivePage("Review")}>
+              <Text style={styles.subContainerText}>Review</Text>
+            </View>
           </View>
           {activePage == "Overview" && <OverviewContent place={place} />}
           {activePage == "Itinerary" && <ItineraryContent place={place} />}
+          {activePage == "Review" && <Review place={place}/>}
         </ScrollView>
       </View>
 
