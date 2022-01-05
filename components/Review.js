@@ -44,148 +44,122 @@ export default ({ place }) => {
         )
     }
     return (
-        <View style={styles.container}>
-            <ScrollView style={styles.panelContainer}>
-                <View
-                    style={{ flexDirection: "row", backgroundColor: "rgba(255,255,255,0.3)", height: 45, justifyContent: "space-between", borderRadius: 10, marginBottom: 20 }}
-                >
-                    <TextInput
-                        style={{ backgroundColor: "red" }}
-                        value={searchQuery}
-                        onEndEditing={() => handleSearch(searchQuery)}
-                        placeholder='Search Reviews'
-                        placeholderTextColor={"rgba(255,255,255,0.6)"}
-                        style={{ color: Theme.textColor, padding: 10 }}
-                        onChangeText={(inputText) => setSearchQuery(inputText)}
-
-                    />
-
+        <SafeAreaView>
+            <View style={styles.container}>
+                <ScrollView style={styles.panelContainer}>
                     <View
-                        style={{ alignItems: "center", justifyContent: "center", paddingHorizontal: 10 }}
+                        style={{ flexDirection: "row", backgroundColor: "rgba(255,255,255,0.3)", height: 45, justifyContent: "space-between", borderRadius: 10, marginBottom: 20 }}
                     >
-                        <Icon
-                            onPress={() => handleSearch(searchQuery)}
-                            name="search" color={Theme.textColor} size={26}
+                        <TextInput
+                            style={{ backgroundColor: "red" }}
+                            value={searchQuery}
+                            onEndEditing={() => handleSearch(searchQuery)}
+                            placeholder='Search Reviews'
+                            placeholderTextColor={"rgba(255,255,255,0.6)"}
+                            style={{ color: Theme.textColor, padding: 10 }}
+                            onChangeText={(inputText) => setSearchQuery(inputText)}
+
                         />
-                    </View>
-                </View>
-                <TouchableHighlight>
-                    <View style={{ width: "35%" }}>
-                        <View style={{ borderRadius: 32, borderWidth: 3, borderColor: Theme.primaryColor, flexDirection: "row", margin: 10, padding: 10, justifyContent: 'center' }}>
-                            <Icon name="filter" color={Theme.primaryColor} size={26} />
-                            <Text style={{ margin: 7, color: Theme.primaryColor, justifyContent: "center" }}>Filter</Text>
+
+                        <View
+                            style={{ alignItems: "center", justifyContent: "center", paddingHorizontal: 10 }}
+                        >
+                            <Icon
+                                onPress={() => handleSearch(searchQuery)}
+                                name="search" color={Theme.textColor} size={26}
+                            />
                         </View>
                     </View>
-                </TouchableHighlight>
-                <View style={{ flexDirection: "row", width: "85%", margin: 9 }}>
-                    <View style={{ flex: 3, flexDirection: "row", justifyContent: "space-around", marginLeft: 10 }}>
-                        <Icon name="star" color="#FFC909" size={26} />
-                        <Icon name="star" color="#FFC909" size={26} />
-                        <Icon name="star" color="#FFC909" size={26} />
-                        <Icon name="star" color="#FFC909" size={26} />
-                        <Icon name="star" color="#FFC909" size={26} />
-                    </View>
-                    <View style={{ flex: 3, justifyContent: "center" }}>
-                        <Text style={{ color: Theme.textColor, marginLeft: 5 }}>12 reviews</Text>
-                    </View>
-                </View>
-                <View style={{ marginLeft: 10 }}>
-                    <View>
-                        <View style={{ flexDirection: "row", marginHorizontal: 12, marginLeft: 10, height: 30 }}>
-                            <View style={{ flex: 3, justifyContent: "center" }}>
-                                <Text style={{ color: Theme.textColor }}>Excellent</Text>
+                    <TouchableHighlight>
+                        <View style={{ width: "35%" }}>
+                            <View style={{ borderRadius: 32, borderWidth: 3, borderColor: Theme.primaryColor, flexDirection: "row", margin: 10, padding: 10, justifyContent: 'center' }}>
+                                <Icon name="filter" color={Theme.primaryColor} size={26} />
+                                <Text style={{ margin: 7, color: Theme.primaryColor, justifyContent: "center" }}>Filter</Text>
                             </View>
-                            <View style={{ flex: 6, height: "100%", justifyContent: "center" }}>
+                        </View>
+                    </TouchableHighlight>
+                    <View style={{ flexDirection: "row", width: "85%", margin: 9 }}>
+                        <View style={{ flex: 3, flexDirection: "row", justifyContent: "space-around", marginLeft: 10 }}>
+                            <Icon name="star" color="#FFC909" size={26} />
+                            <Icon name="star" color="#FFC909" size={26} />
+                            <Icon name="star" color="#FFC909" size={26} />
+                            <Icon name="star" color="#FFC909" size={26} />
+                            <Icon name="star" color="#FFC909" size={26} />
+                        </View>
+                        <View style={{ flex: 3, justifyContent: "center" }}>
+                            <Text style={{ color: Theme.textColor, marginLeft: 5 }}>12 reviews</Text>
+                        </View>
+                    </View>
+                    <View style={{ marginLeft: 10 }}>
+                        <View>
+                            <View style={{ flexDirection: "row", marginHorizontal: 12, marginLeft: 10, height: 30 }}>
+                                <View style={{ flex: 3, justifyContent: "center" }}>
+                                    <Text style={{ color: Theme.textColor }}>Excellent</Text>
+                                </View>
+                                <View style={{ flex: 6, height: "100%", justifyContent: "center" }}>
+                                    <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
+                                </View>
+                                <View style={{ flex: 2, justifyContent: "center", marginLeft: 8 }}>
+                                    <Text style={{ color: Theme.textColor }}>5</Text>
+                                </View>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
+                            <View style={{ flex: 3, justifyContent: "center" }}>
+                                <Text style={{ color: Theme.textColor }}>Very Good</Text>
+                            </View>
+                            <View style={{ flex: 4, height: "100%", justifyContent: "center" }}>
                                 <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
                             </View>
-                            <View style={{ flex: 2, justifyContent: "center", marginLeft: 8 }}>
-                                <Text style={{ color: Theme.textColor }}>5</Text>
+                            <View style={{ flex: 4, justifyContent: "center", marginLeft: 8 }}>
+                                <Text style={{ color: Theme.textColor }}>3</Text>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
+                            <View style={{ flex: 3, justifyContent: "center" }}>
+                                <Text style={{ color: Theme.textColor }}>Average</Text>
+                            </View>
+                            <View style={{ flex: 4, height: "100%", justifyContent: "center" }}>
+                                <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
+                            </View>
+                            <View style={{ flex: 4, justifyContent: "center", marginLeft: 8 }}>
+                                <Text style={{ color: Theme.textColor }}>3</Text>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
+                            <View style={{ flex: 3, justifyContent: "center" }}>
+                                <Text style={{ color: Theme.textColor }}>Poor</Text>
+                            </View>
+                            <View style={{ flex: 1.5, height: "100%", justifyContent: "center" }}>
+                                <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
+                            </View>
+                            <View style={{ flex: 6.5, justifyContent: "center", marginLeft: 8 }}>
+                                <Text style={{ color: Theme.textColor }}>1</Text>
+                            </View>
+                        </View>
+                        <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
+                            <View style={{ flex: 3, justifyContent: "center" }}>
+                                <Text style={{ color: Theme.textColor }}>Terrible</Text>
+                            </View>
+                            <View style={{ flex: 8, justifyContent: "center", marginLeft: 8 }}>
+                                <Text style={{ color: Theme.textColor }}>0</Text>
                             </View>
                         </View>
                     </View>
-                    <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ flex: 3, justifyContent: "center" }}>
-                            <Text style={{ color: Theme.textColor }}>Very Good</Text>
-                        </View>
-                        <View style={{ flex: 4, height: "100%", justifyContent: "center" }}>
-                            <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
-                        </View>
-                        <View style={{ flex: 4, justifyContent: "center", marginLeft: 8 }}>
-                            <Text style={{ color: Theme.textColor }}>3</Text>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ flex: 3, justifyContent: "center" }}>
-                            <Text style={{ color: Theme.textColor }}>Average</Text>
-                        </View>
-                        <View style={{ flex: 4, height: "100%", justifyContent: "center" }}>
-                            <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
-                        </View>
-                        <View style={{ flex: 4, justifyContent: "center", marginLeft: 8 }}>
-                            <Text style={{ color: Theme.textColor }}>3</Text>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ flex: 3, justifyContent: "center" }}>
-                            <Text style={{ color: Theme.textColor }}>Poor</Text>
-                        </View>
-                        <View style={{ flex: 1.5, height: "100%", justifyContent: "center" }}>
-                            <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
-                        </View>
-                        <View style={{ flex: 6.5, justifyContent: "center", marginLeft: 8 }}>
-                            <Text style={{ color: Theme.textColor }}>1</Text>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ flex: 3, justifyContent: "center" }}>
-                            <Text style={{ color: Theme.textColor }}>Terrible</Text>
-                        </View>
-                        <View style={{ flex: 8, justifyContent: "center", marginLeft: 8 }}>
-                            <Text style={{ color: Theme.textColor }}>0</Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={{ borderBottomColor: "rgba(255,255,255,0.3)", borderBottomWidth: 2, marginVertical: 17 }} />
-                <View style={{ marginLeft: 10, flexDirection: "row", height: 300 }}>
-                    <View style={{ flex: 1 }}>
-                        <Image source={require("../assets/images/profilepic/user1.jpg")} style={{ width: "100%", height: "20%", borderRadius: 999 }} />
-                    </View>
-                    <View style={{ flex: 4, marginLeft: 12 }}>
-                        <Text style={{ fontWeight: '900', fontSize: 17, color: Theme.textColor }}>Xuanrong</Text>
-                        <Text style={{ fontSize: 15, color: "rgba(255,255,255,0.7)" }}>@wif_cuteXR</Text>
-                        <View style={{ flexDirection: "row", width: "65%", justifyContent: "space-between", marginVertical: 8 }}>
-                            <Icon name="star" color="#FFC909" size={26} />
-                            <Icon name="star" color="#FFC909" size={26} />
-                            <Icon name="star" color="#FFC909" size={26} />
-                            <Icon name="star" color="#FFC909" size={26} />
-                            <Icon name="star" color="#FFC909" size={26} />
-                        </View>
-                        <Text style={{ fontWeight: '900', fontSize: 15, color: Theme.textColor, marginBottom: 7 }}>Nice Attraction</Text>
-                        <Text style={{ fontSize: 15, color: Theme.textColor }}>I think that Universal Studios Singapore is a very nice place! The rides there are super awesome! Especially the transformers ride. I rode it for 7 times in a span of 1 hour!.</Text>
-                        <View style={{ flexDirection: "row", marginVertical: 10 }}>
-                            <Text style={{ textDecorationLine: "underline" }}>
-                                <Text style={{ color: Theme.textColor }}>Read More</Text>
-                                <Icon name="caret-down" color={Theme.textColor} size={15} />
-                            </Text>
-                        </View>
-                        <Text style={{ color: Theme.textColor }}>Written  on July 5, 2021 12:32 PM</Text>
-                        <View style={{ flexDirection: "row", marginVertical: 8, height: 300, backgroundColor: "red" }}>
-                            <View style={{ flex: 1 }}>
-                                <Icon name="heart" color={Theme.heartColor} size={20} />
-                                <Text style={{ color: Theme.textColor }}>14</Text>
-                            </View>
-                            <View style={{ flex: 1 }}>
-                                <Icon name="chatbox" color="3591FE" size={20} />
-                                <Text style={{ color: "3591FE" }}>20</Text>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={{ marginLeft: 10, flexDirection: "row", height: 300 }}>
+                    <View style={{ borderBottomColor: "rgba(255,255,255,0.3)", borderBottomWidth: 2, marginVertical: 17 }} />
+                    <View style={{ marginLeft: 10, flexDirection: "row" }}>
                         <View style={{ flex: 1 }}>
-                            <Image source={require("../assets/images/profilepic/user1.jpg")} style={{ width: "100%", height: "20%", borderRadius: 999 }} />
+                            <Image source={require("../assets/images/profilepic/user1.jpg")} style={{ width: 60, height: 60, borderRadius: 999 }} />
                         </View>
                         <View style={{ flex: 4, marginLeft: 12 }}>
-                            <Text style={{ fontWeight: '900', fontSize: 17, color: Theme.textColor }}>Xuanrong</Text>
+                            <View style={{ flexDirection: "row" }}>
+                                <View style={{ flex: 1, justifyContent: "flex-start" }}>
+                                    <Text style={{ fontWeight: '900', fontSize: 17, color: Theme.textColor }}>Xuanrong</Text>
+                                </View>
+                                <View style={{ flex: 1, justifyContent: "flex-end" }}>
+                                    <Text style={{ fontSize: 15, color: "rgba(255,255,255,0.75)" }}>16 Hours Ago</Text>
+                                </View>
+                            </View>
                             <Text style={{ fontSize: 15, color: "rgba(255,255,255,0.7)" }}>@wif_cuteXR</Text>
                             <View style={{ flexDirection: "row", width: "65%", justifyContent: "space-between", marginVertical: 8 }}>
                                 <Icon name="star" color="#FFC909" size={26} />
@@ -195,7 +169,7 @@ export default ({ place }) => {
                                 <Icon name="star" color="#FFC909" size={26} />
                             </View>
                             <Text style={{ fontWeight: '900', fontSize: 15, color: Theme.textColor, marginBottom: 7 }}>Nice Attraction</Text>
-                            <Text style={{ fontSize: 15, color: Theme.textColor }}>I think that Universal Studios Singapore is a very nice place! The rides there are super awesome! Especially the transformers ride. I rode it for 7 times in a span of 1 hour!.</Text>
+                            <Text style={{ fontSize: 15, color: Theme.textColor }}>I think that Universal Studios Singapore is a very nice place! The rides there are super awesome! Especially the transformers ride. I rode it for 7 times in a span of 1 hour!</Text>
                             <View style={{ flexDirection: "row", marginVertical: 10 }}>
                                 <Text style={{ textDecorationLine: "underline" }}>
                                     <Text style={{ color: Theme.textColor }}>Read More</Text>
@@ -203,21 +177,36 @@ export default ({ place }) => {
                                 </Text>
                             </View>
                             <Text style={{ color: Theme.textColor }}>Written  on July 5, 2021 12:32 PM</Text>
-                            <View style={{ flexDirection: "row", marginVertical: 8, height: 300, backgroundColor: "red" }}>
-                                <View style={{ flex: 1 }}>
-                                    <Icon name="heart" color={Theme.heartColor} size={20} />
-                                    <Text style={{ color: Theme.textColor }}>14</Text>
+                            <View style={{ flexDirection: "row", marginVertical: 10 }}>
+                                <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-start' }}>
+                                    <Icon name="heart" color={Theme.heartColor} size={23} />
+                                    <Text style={{ color: Theme.textColor, marginLeft: 9 }}>14</Text>
                                 </View>
-                                <View style={{ flex: 1 }}>
-                                    <Icon name="chatbox" color="3591FE" size={20} />
-                                    <Text style={{ color: "3591FE" }}>20</Text>
+                                <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-start' }}>
+                                    <Icon name="chatbox-ellipses" color="#3591FE" size={23} />
+                                    <Text style={{ color: "white", marginLeft: 9 }}>20</Text>
                                 </View>
                             </View>
                         </View>
-                        </View>
                     </View>
-            </ScrollView >
+                </ScrollView>
+                <View style={{backgroundColor:Theme.backgroundColor,width:"100%",height:50}}>
+      {/* <TouchableOpacity style={styles.floatingReviewStyles}>
+        <View style={{flexDirection:"row"}}>
+          <View>
+          <Image source={require("../assets/images/profilepicture.png")} style={{borderRadius: 999,width:50,height:50}}/>
+          </View>
+          <TextInput
+                            style={{ backgroundColor: "red" }}
+                            placeholder='Leave a comment as @wif_cuteXR'
+                            placeholderTextColor={"rgba(255,255,255,0.6)"}
+                            style={{ color: Theme.textColor, padding: 10 }}
+                        />
         </View>
+      </TouchableOpacity> */}
+      </View>
+            </View>
+        </SafeAreaView>
     );
 }
 
@@ -306,7 +295,14 @@ const styles = StyleSheet.create({
     broughtButtonContainer: {
         alignItems: "center",
         marginRight: 10
-    }
-
+    },
+    floatingReviewStyles: { 
+        position: "absolute",  
+        right: 20, 
+        bottom:10,
+        backgroundColor:"rgba(255,255,255,0.25)", 
+        borderRadius: 999, 
+        padding: 8, 
+        elevation: 4 }
 });
 

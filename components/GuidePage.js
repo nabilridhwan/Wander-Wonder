@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ImageBackground, Platform, Image, StyleSheet, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
+import { ImageBackground, TextInput,Platform, Image, StyleSheet, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../config/Theme';
 import ItineraryContent from './ItineraryContent';
@@ -81,10 +81,27 @@ export default ({ navigation, route }) => {
         </ScrollView>
       </View>
 
-      <TouchableOpacity style={styles.floatingButtonStyles}>
+      <TouchableOpacity style={activePage=="Review"?{...styles.floatingButtonStyles,bottom:83}:styles.floatingButtonStyles}>
         <Icon name="navigate" color={Theme.textColor} size={24} onPress={() => navigation.navigate("Map", { place: place })} />
       </TouchableOpacity>
-
+      <View style={activePage=="Review"?{backgroundColor:Theme.backgroundColor,width:"100%",height:50}:{display:"none"}}>
+      <TouchableOpacity style={activePage=="Review"?{...styles.floatingReviewStyles}:styles.hiddenFloatingButton}>
+        <View style={{flexDirection:"row"}}>
+          <View style={{marginRight:6}}>
+          <Image source={require("../assets/images/profilepicture.png")} style={{borderRadius: 999,width:50,height:50}}/>
+          </View>
+          <TextInput
+                            style={{ backgroundColor: "red"}}
+                            placeholder='Leave a comment as @wif_cuteXR'
+                            placeholderTextColor={"rgba(255,255,255,0.6)"}
+                            style={{ color: Theme.textColor, padding: 10 }}
+                        />
+                        <View style={{justifyContent:'center',marginHorizontal:4}}>
+                        <Icon name="send" color={Theme.primaryColor} size={24}/>
+                        </View>
+        </View>
+      </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 }
@@ -158,6 +175,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between'
   },
-  floatingButtonStyles: { position: "absolute", bottom: 10, right: 20, backgroundColor: Theme.primaryColor, borderRadius: 999, padding: 20, elevation: 4 }
+  floatingButtonStyles: { 
+    position: "absolute", 
+    bottom: 10, 
+    right: 20, 
+    backgroundColor: Theme.primaryColor, 
+    borderRadius: 999, 
+    padding: 20, 
+    elevation: 4 },
+
+    floatingReviewStyles: { 
+      position: "absolute",  
+      right: 20, 
+      bottom:10,
+      backgroundColor:"#404040", 
+      borderRadius: 21, 
+      padding: 8, 
+      elevation: 4 },
+
+    hiddenFloatingButton:{
+      display:"none"
+    }
 });
 
