@@ -16,7 +16,7 @@ export default (props) => {
   }
 
   const handleClickOnLikeButton = () => {
-    handleLike(index);
+    handleLike(place);
   }
 
   return (

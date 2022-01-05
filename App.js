@@ -11,13 +11,14 @@ const Tab = createBottomTabNavigator();
 
 // Components
 import Home from './components/Home';
-import NavigationBar from './components/NavigationBar';
 import Profile from './components/Profile';
 import Favourites from './components/Favourites';
 import Search from './components/Search';
 import MapPage from './components/MapPage';
 import GuidePage from './components/GuidePage';
 import EditProfile from './components/EditProfile';
+
+import Guides from "./assets/data/Guides";
 
 class AppComponent extends React.Component {
 
@@ -26,14 +27,28 @@ class AppComponent extends React.Component {
 
     this.state = {
       appPages: ["home", "search", "heart", "person"],
-      currentActivePage: "home"
+      currentActivePage: "home",
+      guides: Guides
     }
 
     this.handleNavbarPageChange = this.handleNavbarPageChange.bind(this)
+    this.handleLike = this.handleLike.bind(this)
   }
 
   handleNavbarPageChange(page) {
     this.setState({ currentActivePage: page })
+  }
+
+  handleLike(guide){
+    let newGuides = this.state.guides.map(g => {
+      if(g.id === guide.id){
+        g.liked = !g.liked
+      }
+
+      return g
+    })
+
+    this.setState({ guides: newGuides })
   }
 
   render() {
@@ -111,10 +126,10 @@ class AppComponent extends React.Component {
           tabBarActiveTintColor: Theme.primaryColor,
           tabBarInactiveTintColor: Theme.textColor
         })}>
-          <Tab.Screen name="Home" component={Home} />
+          <Tab.Screen name="Home" children={() => <Home guides={this.state.guides} handleLike={this.handleLike} />}/>
           <Tab.Screen name="Search" component={Search} />
           <Tab.Screen name="Add" component={Favourites} />
-          <Tab.Screen name="Favourites" component={Favourites} />
+          <Tab.Screen name="Favourites" children={() => <Favourites guides={this.state.guides} handleLike={this.handleLike} />}/>
           <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
 
