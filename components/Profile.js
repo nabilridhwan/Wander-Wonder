@@ -24,11 +24,6 @@ function Profile(props){
   const navigation = useNavigation();
   const [User, setUser] = useState(UserProfile)
 
-  useEffect(() => {
-    const likedGuides = Guides.filter(guide => guide.liked);
-    setDisplayData(likedGuides);
-  }, [])
-
   const updateProfile = (user) => {
     setUser(user);
   }
