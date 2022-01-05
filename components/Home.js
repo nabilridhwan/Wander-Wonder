@@ -70,7 +70,7 @@ export default (props) => {
     <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle }}>
       <Image source={require("../assets/images/header.png")} style={styles.headerImage} resizeMode='cover' />
 
-      <View style={{ flex: 1, padding: 20 }}>
+      <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 20 }}>
         <View style={styles.navigation}>
           {pages.map((page, index) =>
 
