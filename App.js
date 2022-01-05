@@ -57,8 +57,16 @@ class AppComponent extends React.Component {
         <StatusBar backgroundColor={Theme.backgroundColor} barStyle="light-content" />
 
         <Tab.Navigator screenOptions={({ route }) => ({
-          headerShown: false,
           tabBarShowLabel: false,
+          headerStyle: {
+            backgroundColor: Theme.backgroundColor,
+            height: 40,
+          },
+          headerTitleStyle: {
+            fontSize: 15,
+          },
+          headerTintColor: "white",
+          headerTitleAlign: "center",
           tabBarStyle: [
             {
               borderTopColor: "transparent",
