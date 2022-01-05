@@ -30,7 +30,7 @@ export default ({ navigation, route }) => {
       if (liked !== place.liked) {
 
         console.log("Like value is not the same! Calling the handleLike function!")
-        route.params.handleLike(place.index)
+        route.params.handleLike(place)
       }
     }
 

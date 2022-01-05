@@ -2,43 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, View, ImageBackground, ScrollView, TouchableOpacity } from "react-native";
 import Card from './Card';
 import Theme from '../config/Theme';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useNavigation } from '@react-navigation/native';
 
-const Stack = createNativeStackNavigator();
-
-
-import Guides from "../assets/data/Guides"
-import MapPage from './MapPage';
-
-/*
-  (IMPORT THIS TO APP.JS)
-  ==============================
-  Home Page
-  ==============================
-  Name: Nabil Ridhwanshah 
-  Admin Number: P2007421
-  Class: DIT/FT/1B/05
-*/
-
-export default (props) => {
-  const navigation = useNavigation();
+export default ({guides: propGuides, handleLike}) => {
   const [pages, setPages] = useState(["All", "Singapore", "Oceania", "Asia", "Europe", "America"])
   const [currentPage, setCurrentPage] = useState("All")
-  const [guides, setGuides] = useState({})
-  const [indexMap, setIndexMap] = useState(-1)
-
-  useEffect(() => {
-    setGuides(Guides);
-  }, [])
+  const [guides, setGuides] = useState(propGuides)
 
   let handlePageChange = (page) => {
     // Filter out page
     if (page != pages[0]) {
-      const newGuides = Guides.filter(guide => guide.category == page)
+      const newGuides = propGuides.filter(guide => guide.category == page)
       setGuides(newGuides);
     } else {
-      setGuides(Guides);
+      setGuides(propGuides);
     }
 
     setCurrentPage(page)
@@ -52,20 +28,6 @@ export default (props) => {
     )
   }
 
-  const handleLike = (postIndex) => {
-    console.log(`Like status toggled for post index ${postIndex}`)
-    const findPostAndToggleLike = guides.filter((guide, index) => {
-      if (index == postIndex) {
-        guide.liked = !guide.liked
-      }
-
-      return guide;
-    })
-
-    setGuides(findPostAndToggleLike)
-  }
-
-  
   return (
     <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle }}>
       <Image source={require("../assets/images/header.png")} style={styles.headerImage} resizeMode='cover' />
