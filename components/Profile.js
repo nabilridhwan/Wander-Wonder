@@ -12,32 +12,31 @@
 // DIT/FT/1B/05
 
 
-import React from 'react';
-import { FlatList, Image, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
-import Card from './Card';
+import React, {useState, useEffect} from 'react';
+import { Image, StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
 import Theme from '../config/Theme';
+import { useNavigation } from '@react-navigation/native';
+import UserProfile from "../assets/data/Profile";
 
-import Guides from "../assets/data/Guides"
 
-export default class Profile extends React.Component {
+function Profile(props){
 
-  constructor({ props }) {
+  const navigation = useNavigation();
+  const [User, setUser] = useState(UserProfile)
 
-    super(props);
-    this.state = {
-      searchQuery: "",
-      displayData: Guides,
-    }
+  useEffect(() => {
+    const likedGuides = Guides.filter(guide => guide.liked);
+    setDisplayData(likedGuides);
+  }, [])
+
+  const updateProfile = (user) => {
+    setUser(user);
   }
 
-  componentDidMount() {
-    const likedGuides = Guides.filter(guide => guide.liked)
-    this.setState({
-      displayData: likedGuides
-    })
+  let navigateToProfilePage = () => {
+    navigation.navigate("Edit Profile", {user: User, updateProfile: updateProfile});
   }
 
-  render() {
     return (
       <View style={{ flex: 1, ...styles.backgroundStyle }}>
 
@@ -47,34 +46,18 @@ export default class Profile extends React.Component {
             <Image source={require("../assets/images/profilepicture.png")} style={{borderRadius: 999}}/>
           </View>
           
-           <Text style={{...styles.defaultText, textAlign: "center", fontWeight: "bold", fontSize: 24}}>Nabil Ridhwan</Text>
-           <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)"}}>@nabilridhwan</Text>
-           <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)"}}>I love travelling!</Text>
+           <Text style={{...styles.defaultText, textAlign: "center", fontWeight: "bold", fontSize: 24}}>{User.name}</Text>
+           <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)"}}>@{User.username}</Text>
+           <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)"}}>{User.biography}</Text>
 
            <View style={{alignItems: "center"}}>
-           <TouchableOpacity style={{backgroundColor: "#8987FF", height: 35, justifyContent: "center", borderRadius: 10, width: "60%"}}>
+           <TouchableOpacity onPress={navigateToProfilePage} style={{backgroundColor: "#8987FF", height: 35, justifyContent: "center", borderRadius: 10, width: "60%"}}>
              <Text style={{...styles.defaultText, textAlign: "center"}}>Edit Profile</Text>
            </TouchableOpacity>
            </View>
 
-           {/* <Text style={{...styles.defaultText, fontSize: 30, fontWeight: "bold"}}>Favourites</Text>
-
-
-           <TouchableOpacity style={{backgroundColor: "rgba(255,255,255,0.3)", height: 45, justifyContent: "center", borderRadius: 10}}>
-
-           <TextInput placeholder='Search your favourites...' placeholderTextColor={"rgba(255,255,255,0.6)"} style={{color: "white", padding: 10}} onChangeText={(inputText) => this.handleSearch(inputText)}></TextInput>
-           </TouchableOpacity>
-
-           <FlatList
-              data={this.state.displayData}
-              renderItem={({item: guide}) => <Card image_url={guide.image_url} title={guide.title} countryEmoji={guide.countryEmoji} author={guide.author} liked={guide.liked} />}
-              keyExtractor={(item, index) => index}
-              numColumns={2}
-           /> */}
-
       </View >
     );
-  }
 };
 
 const styles = StyleSheet.create({
@@ -112,3 +95,5 @@ const styles = StyleSheet.create({
   },
 
 });
+
+export default Profile;

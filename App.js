@@ -14,6 +14,7 @@ import Favourites from './components/Favourites';
 import Search from './components/Search';
 import MapPage from './components/MapPage';
 import GuidePage from './components/GuidePage';
+import EditProfile from './components/EditProfile';
 
 class AppComponent extends React.Component {
 
@@ -56,6 +57,7 @@ export default class App extends React.Component {
           <Stack.Screen name="App" component={AppComponent} options={{ title: "Wander, Wonder", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
           <Stack.Screen name="Guide Page" component={GuidePage} options={{ title: "Map", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
           <Stack.Screen name="Map" component={MapPage} />
+          <Stack.Screen name="Edit Profile" component={EditProfile} />
         </Stack.Navigator>
       </NavigationContainer>
     );
