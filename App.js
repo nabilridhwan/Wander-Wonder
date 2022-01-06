@@ -115,7 +115,7 @@ class AppComponent extends React.Component {
               icon = focused ? activeIcon("search") : inactiveIcon("search")
             }
 
-            if (route.name === "Add") {
+            if (route.name === "Add Guide") {
               icon = focused ? activeCenterButton() : inactiveCenterButton()
             }
 
@@ -134,7 +134,7 @@ class AppComponent extends React.Component {
         })}>
           <Tab.Screen name="Home" children={() => <Home guides={this.state.guides} handleLike={this.handleLike} />}/>
           <Tab.Screen name="Search" component={Search} />
-          <Tab.Screen name="Add" component={AddGuide} />
+          <Tab.Screen name="Add Guide" component={AddGuide} />
           <Tab.Screen name="Favourites" children={() => <Favourites guides={this.state.guides} handleLike={this.handleLike} />}/>
           <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
