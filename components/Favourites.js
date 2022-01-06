@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
 import Card from './Card';
 import Theme from '../config/Theme';
-import Guides from "../assets/data/Guides"
 
-function Favourites({ guides: propGuides, handleLike }) {
+function Favourites({ guides: guideProps, handleLike }) {
 
-  const [likedPosts, setLikedPost] = useState(propGuides.filter(guide => guide.liked));
+  const [likedPosts, setLikedPost] = useState(guideProps);
   const [searchQuery, setSearchQuery] = useState("");
 
-  useState(() => {
-    console.log("Change")
-  }, [propGuides])
+  useEffect(() => {
+    // TODO: Filter out properly
+    setLikedPost(guideProps.filter(post => post.liked));
+  }, [guideProps])
   
 
   const handleSearch = (searchQuery) => {
-    const filteredGuides = Guides.filter(guide => {
+    const filteredGuides = guideProps.filter(guide => {
       if (guide.liked && guide.title.toLocaleLowerCase().includes(searchQuery.toLowerCase())) {
         return guide;
       }
@@ -36,16 +36,11 @@ function Favourites({ guides: propGuides, handleLike }) {
   }
 
   const handleLikeButton = (guide) => {
-    console.log(guide)
-    setLikedPost(propGuides.filter(guide => guide.liked));
     handleLike(guide);
   }
 
   return (
     <View style={{ flex: 1, ...styles.backgroundStyle }}>
-
-      <Text style={{ ...styles.defaultText, fontSize: 30, fontWeight: "bold", marginBottom: 10 }}>Favourites</Text>
-      <Text style={{ color: "rgba(255,255,255,0.5)", marginBottom: 10 }}>Check in with your favourited guides!</Text>
 
 
       {/* Input box for search */}

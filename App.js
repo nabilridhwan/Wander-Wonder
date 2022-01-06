@@ -19,6 +19,7 @@ import GuidePage from './components/GuidePage';
 import EditProfile from './components/EditProfile';
 
 import Guides from "./assets/data/Guides";
+import AddGuide from './components/AddGuide';
 
 class AppComponent extends React.Component {
 
@@ -26,17 +27,10 @@ class AppComponent extends React.Component {
     super(props);
 
     this.state = {
-      appPages: ["home", "search", "heart", "person"],
-      currentActivePage: "home",
       guides: Guides
     }
 
-    this.handleNavbarPageChange = this.handleNavbarPageChange.bind(this)
     this.handleLike = this.handleLike.bind(this)
-  }
-
-  handleNavbarPageChange(page) {
-    this.setState({ currentActivePage: page })
   }
 
   handleLike(guide){
@@ -49,6 +43,10 @@ class AppComponent extends React.Component {
     })
 
     this.setState({ guides: newGuides })
+  }
+
+  getLikedPosts(){
+    return this.state.guides.filter(guide => guide.liked)
   }
 
   render() {
@@ -136,7 +134,7 @@ class AppComponent extends React.Component {
         })}>
           <Tab.Screen name="Home" children={() => <Home guides={this.state.guides} handleLike={this.handleLike} />}/>
           <Tab.Screen name="Search" component={Search} />
-          <Tab.Screen name="Add" component={Favourites} />
+          <Tab.Screen name="Add" component={AddGuide} />
           <Tab.Screen name="Favourites" children={() => <Favourites guides={this.state.guides} handleLike={this.handleLike} />}/>
           <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
