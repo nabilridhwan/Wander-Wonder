@@ -9,7 +9,7 @@
 import React, { useState } from 'react';
 import { ImageBackground, Linking, Platform, Alert, Image, StyleSheet, Button, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Theme from '../config/Theme';
+import Theme from '../../config/Theme';
 
 export default ({ place }) => {
 
@@ -97,14 +97,14 @@ export default ({ place }) => {
 
                             <View style={styles.broughtButtonContainer}>
                                 <View style={{ backgroundColor: "#FEB2B2", ...styles.broughtButton }}>
-                                    <Image source={require(`../assets/images/ticket.png`)} style={{ width: 38, height: 36 }} />
+                                    <Image source={require(`../../assets/images/ticket.png`)} style={{ width: 38, height: 36 }} />
                                 </View>
                                 <Text style={styles.broughtText}>Ticket</Text>
                             </View>
 
                             <View style={styles.broughtButtonContainer}>
                                 <View style={{ backgroundColor: "#FEB2B2", ...styles.broughtButton }}>
-                                    <Image source={require(`../assets/images/fan.png`)} style={{ width: 30, height: 36 }} />
+                                    <Image source={require(`../../assets/images/fan.png`)} style={{ width: 30, height: 36 }} />
                                 </View>
                                 <Text style={styles.broughtText}>Fan</Text>
                             </View>

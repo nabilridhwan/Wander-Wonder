@@ -10,16 +10,16 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 // Components
-import Home from './components/Home';
-import Profile from './components/Profile';
-import Favourites from './components/Favourites';
-import Search from './components/Search';
-import MapPage from './components/MapPage';
-import GuidePage from './components/GuidePage';
-import EditProfile from './components/EditProfile';
+import Home from './Pages/Home/Home';
+import Profile from './Pages/Profile/Profile';
+import Favourites from './Pages/Favourites/Favourites';
+import Search from './Pages/Search/Search';
+import MapPage from './Pages/Map/MapPage';
+import GuidePage from './Pages/GuidePage/GuidePage';
+import EditProfile from './Pages/Profile/EditProfile';
+import AddGuide from './Pages/AddGuide/AddGuide';
 
 import Guides from "./assets/data/Guides";
-import AddGuide from './components/AddGuide';
 
 class AppComponent extends React.Component {
 

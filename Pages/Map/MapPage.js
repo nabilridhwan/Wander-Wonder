@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MapView, {Marker } from 'react-native-maps';
 import { Text, View, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
-import Theme from "../config/Theme";
+import Theme from "../../config/Theme";
 import Icon from "react-native-vector-icons/Ionicons"
 
 

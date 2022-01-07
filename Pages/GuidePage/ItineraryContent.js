@@ -9,7 +9,7 @@
 import React, { useState } from 'react';
 import { ImageBackground, Platform, Image, StyleSheet, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Theme from '../config/Theme';
+import Theme from '../../config/Theme';
 export default ({ place }) => {
     return (
 
@@ -30,7 +30,7 @@ export default ({ place }) => {
 
                 <View style={{backgroundColor: "#F8B0AB", ...styles.pictureBackground }}>
                     <Text style={styles.pictureTextStyle} >Sentosa Express</Text>
-                    <Image style={styles.imageStyle} source={require("../assets/images/itinerary/sentosa.png")} />
+                    <Image style={styles.imageStyle} source={require("../../assets/images/itinerary/sentosa.png")} />
                 </View>
             </View>
 
@@ -48,7 +48,7 @@ export default ({ place }) => {
 
                 <View style={{ backgroundColor: "#F8CBAB",...styles.pictureBackground }}>
                 <Text style={styles.pictureTextStyle} >Universal Studios</Text>
-                    <Image style={styles.imageStyle} source={require("../assets/images/itinerary/universal_studio.png")} />
+                    <Image style={styles.imageStyle} source={require("../../assets/images/itinerary/universal_studio.png")} />
                 </View>
             </View>
 
@@ -68,7 +68,7 @@ export default ({ place }) => {
 
                 <View style={{backgroundColor: "#F8E2AB",...styles.pictureBackground }}>
                 <Text style={styles.pictureTextStyle} >Hollywood</Text>
-                    <Image style={styles.imageStyle} source={require("../assets/images/itinerary/hollywood.png")} />
+                    <Image style={styles.imageStyle} source={require("../../assets/images/itinerary/hollywood.png")} />
                 </View>
             </View>
 

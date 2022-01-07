@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, Image, TextInput, TouchableHighlight, TouchableOpacity } from "react-native";
-import Theme from "../config/Theme";
-import CustomTextInput from "./CustomTextInput";
+import Theme from "../../config/Theme";
+import CustomTextInput from "../../components/CustomTextInput";
 
 function EditProfile({ route, navigation }) {
     const { user, updateProfile} = route.params;

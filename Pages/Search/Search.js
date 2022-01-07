@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, TextInput, FlatList, Text, ScrollView} from "react-native";
-import Theme from '../config/Theme';
+import Theme from '../../config/Theme';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Guides from "../assets/data/Guides";
-import Card from './Card';
+import Guides from "../../assets/data/Guides";
+import Card from '../../components/Card';
 
 export default () => {
 

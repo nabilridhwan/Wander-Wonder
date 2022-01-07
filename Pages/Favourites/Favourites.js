@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
-import Card from './Card';
-import Theme from '../config/Theme';
+import Card from '../../components/Card';
+import Theme from '../../config/Theme';
 
 function Favourites({ guides: guideProps, handleLike }) {
 

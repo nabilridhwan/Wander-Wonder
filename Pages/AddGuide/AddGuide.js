@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput} from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import Theme from "../config/Theme";
+import Theme from "../../config/Theme";
+import {Picker} from "@react-native-picker/picker"
 
 function AddGuide(props) {
 
@@ -9,7 +10,7 @@ function AddGuide(props) {
     let [description, setDescription] = useState("");
     let [location, setLocation] = useState("");
     let [temperature, setTemperature] = useState("");
-    let [condition, setCondition] = useState("");
+    let [condition, setCondition] = useState();
     let [duration, setDuration] = useState("");
     let [distance, setDistance] = useState("");
     let [price, setPrice] = useState("");
@@ -34,7 +35,7 @@ function AddGuide(props) {
                         </TouchableOpacity>
 
                         {/* Image */}
-                        <Image style={{ width: 200, height: 200, borderRadius: 20 }} source={require("../assets/images/singapore/1.png")} />
+                        <Image style={{ width: 200, height: 200, borderRadius: 20 }} source={require("../../assets/images/singapore/1.png")} />
                     </View>
                 </View>
 
@@ -84,10 +85,20 @@ function AddGuide(props) {
                     <TextInput placeholder="e.g 30°C" keyboardType="number-pad" style={{textAlign: "right"}} ></TextInput>
                 </View>
 
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 20, paddingHorizontal: 20, borderBottomColor: "black", borderBottomWidth: 1 }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 20, paddingHorizontal: 20, borderBottomColor: "black", borderBottomWidth: 1, alignItems: "center"}}>
 
-                    <Text style={{ fontWeight: "bold", color: "black" }}>Condition</Text>
-                    <Text>Sunny</Text>
+                    <Text style={{ flex: 1, fontWeight: "bold", color: "black" }}>Condition</Text>
+                    <Picker
+                    style={{flex: 1}}
+                        selectedValue={condition}
+                        onValueChange={(itemValue, itemIndex) => setCondition(itemValue)}
+                    >
+                        <Picker.Item label="Cloudy" value="cloudy" />
+                        <Picker.Item label="Sunny" value="sunny" />
+                        <Picker.Item label="Windy" value="windy" />
+                        <Picker.Item label="Rainy" value="rainy" />
+                        <Picker.Item label="Snowy" value="snowy" />
+                    </Picker>
                 </View>
 
                 <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 20, paddingHorizontal: 20, borderBottomColor: "black", borderBottomWidth: 1 }}>

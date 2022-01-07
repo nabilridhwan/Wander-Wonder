@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ImageBackground, TextInput,Platform, Image, StyleSheet, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Theme from '../config/Theme';
+import Theme from '../../config/Theme';
 import ItineraryContent from './ItineraryContent';
 import OverviewContent from './OverviewContent';
 import Review from './Review';
@@ -88,7 +88,7 @@ export default ({ navigation, route }) => {
       <TouchableOpacity style={activePage=="Review"?{...styles.floatingReviewStyles}:styles.hiddenFloatingButton}>
         <View style={{flexDirection:"row"}}>
           <View style={{marginRight:6}}>
-          <Image source={require("../assets/images/profilepicture.png")} style={{borderRadius: 999,width:50,height:50}}/>
+          <Image source={require("../../assets/images/profilepicture.png")} style={{borderRadius: 999,width:50,height:50}}/>
           </View>
           <TextInput
                             style={{ backgroundColor: "red"}}

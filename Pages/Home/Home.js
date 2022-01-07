@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, View, ImageBackground, ScrollView, TouchableOpacity } from "react-native";
-import Card from './Card';
-import Theme from '../config/Theme';
+import Card from '../../components/Card';
+import Theme from '../../config/Theme';
 
 export default ({guides: propGuides, handleLike}) => {
   const [pages, setPages] = useState(["All", "Singapore", "Oceania", "Asia", "Europe", "America"])
@@ -30,7 +30,7 @@ export default ({guides: propGuides, handleLike}) => {
 
   return (
     <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle }}>
-      <Image source={require("../assets/images/header.png")} style={styles.headerImage} resizeMode='cover' />
+      <Image source={require("../../assets/images/header.png")} style={styles.headerImage} resizeMode='cover' />
 
       <View style={{ flex: 1, paddingHorizontal: 20, paddingTop: 20 }}>
         <View style={styles.navigation}>

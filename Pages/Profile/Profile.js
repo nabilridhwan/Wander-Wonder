@@ -14,9 +14,9 @@
 
 import React, {useState, useEffect} from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
-import Theme from '../config/Theme';
+import Theme from '../../config/Theme';
 import { useNavigation } from '@react-navigation/native';
-import UserProfile from "../assets/data/Profile";
+import UserProfile from "../../assets/data/Profile";
 
 
 function Profile(props){
@@ -38,7 +38,7 @@ function Profile(props){
 
           {/* Image */}
           <View style={{justifyContent: "center", alignItems: "center"}} >
-            <Image source={require("../assets/images/profilepicture.png")} style={{borderRadius: 999}}/>
+            <Image source={User.profile_picture} style={{borderRadius: 999}}/>
           </View>
           
            <Text style={{...styles.defaultText, textAlign: "center", fontWeight: "bold", fontSize: 24}}>{User.name}</Text>

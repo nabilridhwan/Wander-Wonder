@@ -9,7 +9,7 @@
 import React, { useState, useEffect } from 'react';
 import { ImageBackground, Linking, Platform, Alert, Image, StyleSheet, Button, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Theme from '../config/Theme';
+import Theme from '../../config/Theme';
 
 export default ({ place }) => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -149,7 +149,7 @@ export default ({ place }) => {
                     <View style={{ borderBottomColor: "rgba(255,255,255,0.3)", borderBottomWidth: 2, marginVertical: 17 }} />
                     <View style={{ marginLeft: 10, flexDirection: "row" }}>
                         <View style={{ flex: 1 }}>
-                            <Image source={require("../assets/images/profilepic/user1.jpg")} style={{ width: 60, height: 60, borderRadius: 999 }} />
+                            <Image source={require("../../assets/images/profilepic/user1.jpg")} style={{ width: 60, height: 60, borderRadius: 999 }} />
                         </View>
                         <View style={{ flex: 4, marginLeft: 12 }}>
                             <View style={{ flexDirection: "row" }}>

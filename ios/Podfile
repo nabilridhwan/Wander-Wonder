@@ -16,6 +16,8 @@ target 'Wander_Wonder' do
 
   pod 'react-native-maps', :path => '../node_modules/react-native-maps'
 
+  pod 'RNCPicker', :path => '../node_modules/@react-native-picker/picker'
+
   target 'Wander_WonderTests' do
     inherit! :complete
     # Pods for testing
