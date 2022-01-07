@@ -6,10 +6,7 @@ import Theme from '../../config/Theme';
 export default ({ place }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [displayData, setDisplayData] = useState([]);
-
     const [done, setDone] = useState(false);
-
-
     useEffect(() => {
         if (searchQuery.length == 0) {
             setDone(false);
@@ -38,14 +35,9 @@ export default ({ place }) => {
             </View>
         )
     }
-    const filterByRating = (rating) => {
-        console.log(rating);
-    }
-
     return (
         <SafeAreaView>
             <View style={styles.container}>
-
                 <ScrollView style={styles.panelContainer}>
                     <View
                         style={{ flexDirection: "row", backgroundColor: "rgba(255,255,255,0.3)", height: 45, justifyContent: "space-between", borderRadius: 10, marginBottom: 20 }}>
