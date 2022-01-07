@@ -13,6 +13,26 @@ const post = [
         website: "https://www.rwsentosa.com/en/attractions/universal-studios-singapore/tickets",
         latitude: 1.2546178494585092,
         longitude: 103.82389221707048,
+        comment:[
+            {
+                id:1,
+                name:"Xuanrong",
+                username:"wif_cuteXR",
+                profile_pic:require(`../images/profilepic/user1.jpg`),
+                guide_title:"Nice attraction",
+                guide_description:"I think that Universal Studios Singapore is a very nice place! The rides there are super awesome! Especially the transformers ride. I rode it for 7 times in a span of 1 hour!",
+                created_at:"July 5,2021 12:32 PM"
+            },
+            {   
+                id:2,
+                name:"XiaoZhan",
+                username:"xiaozhan_daytoy",
+                profile_pic:require(`../images/profilepic/user2.jpg`),
+                guide_title:"Very fun",
+                guide_description:"Pretty fun rides, great walking weather, minimal crowds and wait times, this was probably the most seamless USS experience I’ve had so far.",
+                created_at:"December 20,2021 01:32 PM"
+            }
+        ]
     },
     {
         id: 2,
