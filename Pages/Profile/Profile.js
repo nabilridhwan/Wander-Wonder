@@ -17,6 +17,7 @@ import { Image, StyleSheet, Text, View, TouchableOpacity, TextInput } from "reac
 import Theme from '../../config/Theme';
 import { useNavigation } from '@react-navigation/native';
 import UserProfile from "../../assets/data/Profile";
+import CustomButton from '../../components/CustomButton';
 
 
 function Profile(props){
@@ -24,8 +25,9 @@ function Profile(props){
   const navigation = useNavigation();
   const [User, setUser] = useState(UserProfile)
 
+  // TODO: Fix user profile doesn't show up after updating profile
   const updateProfile = (user) => {
-    setUser(user);
+    setUser({User, ...user});
   }
 
   let navigateToProfilePage = () => {
@@ -33,24 +35,25 @@ function Profile(props){
   }
 
     return (
-      <View style={{ flex: 1, ...styles.backgroundStyle }}>
+      <View style={{ flex: 1, ...styles.backgroundStyle, justifyContent: "center", alignItems: "center"}}>
 
+
+          <View>
 
           {/* Image */}
           <View style={{justifyContent: "center", alignItems: "center"}} >
             <Image source={User.profile_picture} style={{borderRadius: 999}}/>
           </View>
           
-           <Text style={{...styles.defaultText, textAlign: "center", fontWeight: "bold", fontSize: 24}}>{User.name}</Text>
-           <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)"}}>@{User.username}</Text>
-           <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)"}}>{User.biography}</Text>
+           <Text style={{...styles.defaultText, textAlign: "center", fontWeight: "bold", fontSize: 24, marginVertical: 5}}>{User.name}</Text>
+           <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)", marginVertical: 5}}>@{User.username}</Text>
+           <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)", marginVertical: 5}}>{User.biography}</Text>
 
-           <View style={{alignItems: "center"}}>
-           <TouchableOpacity onPress={navigateToProfilePage} style={{backgroundColor: "#8987FF", height: 35, justifyContent: "center", borderRadius: 10, width: "60%"}}>
-             <Text style={{...styles.defaultText, textAlign: "center"}}>Edit Profile</Text>
-           </TouchableOpacity>
-           </View>
-
+            <View style={{alignItems: "center"}}>
+              <CustomButton buttonText="Edit Profile" onPress={navigateToProfilePage}/>
+            </View>
+             
+          </View>
       </View >
     );
 };

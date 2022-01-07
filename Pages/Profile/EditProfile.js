@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text, Image, TextInput, TouchableHighlight, TouchableOpacity } from "react-native";
 import Theme from "../../config/Theme";
 import CustomTextInput from "../../components/CustomTextInput";
+import CustomButton from "../../components/CustomButton";
 
 function EditProfile({ route, navigation }) {
     const { user, updateProfile} = route.params;
@@ -41,11 +42,7 @@ function EditProfile({ route, navigation }) {
 
             <CustomTextInput style={{ marginBottom: 15 }} placeholder="Biography" onChangeText={(text) => setBiographyInput(text)} value={biographyInput} />
 
-            <TouchableOpacity onPress={navigateBack} style={{ backgroundColor: "#8987FF", height: 50, justifyContent: "center", borderRadius: 10, width: "100%" }}>
-                <Text style={{ color: "white", textAlign: "center" }}>Save</Text>
-            </TouchableOpacity>
-
-
+            <CustomButton buttonText="Save" onPress={navigateBack} />
 
         </View>
     )

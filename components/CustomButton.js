@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 
 function CustomButton({buttonText, onPress, style, ...otherProps}) {
     return (
-        <TouchableOpacity onPress={navigateBack} style={{ backgroundColor: Theme.primaryColor,height: 50, justifyContent: "center", borderRadius: 10, width: "100%", ...style}} {...otherProps}>
+        <TouchableOpacity onPress={onPress} style={{ backgroundColor: Theme.primaryColor,height: 50, justifyContent: "center", borderRadius: 10, width: "100%", ...style}} {...otherProps}>
             <Text style={{ color: Theme.textColor, textAlign: "center" }}>{buttonText}</Text>
         </TouchableOpacity>
     )
