@@ -133,7 +133,7 @@ class AppComponent extends React.Component {
           tabBarInactiveTintColor: Theme.textColor
         })}>
           <Tab.Screen name="Home" children={() => <Home guides={this.state.guides} handleLike={this.handleLike} />}/>
-          <Tab.Screen name="Search" component={Search} />
+          <Tab.Screen name="Search" children={() => <Search handleLike={this.handleLike}/> } />
           <Tab.Screen name="Add Guide" component={AddGuide} />
           <Tab.Screen name="Favourites" children={() => <Favourites guides={this.state.guides} handleLike={this.handleLike} />}/>
           <Tab.Screen name="Profile" component={Profile} />

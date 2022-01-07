@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Guides from "../../assets/data/Guides";
 import Card from '../../components/Card';
 
-export default () => {
+export default ({handleLike}) => {
 
   const [searchQuery, setSearchQuery] = useState("");
   const [displayData, setDisplayData] = useState([]);
@@ -28,19 +28,6 @@ export default () => {
       setRecentSearches([searchQuery, ...recentSearches.filter(search => search != searchQuery)]);
       setDone(true);
     }
-  }
-
-  const handleLike = (postIndex) => {
-    console.log(postIndex)
-    const findPostAndToggleLike = displayData.filter((guide, index) => {
-      if (index == postIndex) {
-        guide.liked = !guide.liked;
-      }
-
-      return guide;
-    })
-
-    setDisplayData(findPostAndToggleLike)
   }
 
   const handleItemClick = (index, array) => {

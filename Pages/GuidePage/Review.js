@@ -1,11 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React, { useState, useEffect } from 'react';
 import { ImageBackground, Linking, Platform, Alert, Image, StyleSheet, Button, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -14,7 +6,10 @@ import Theme from '../../config/Theme';
 export default ({ place }) => {
     const [searchQuery, setSearchQuery] = useState("");
     const [displayData, setDisplayData] = useState([]);
+
     const [done, setDone] = useState(false);
+
+
     useEffect(() => {
         if (searchQuery.length == 0) {
             setDone(false);
@@ -43,13 +38,17 @@ export default ({ place }) => {
             </View>
         )
     }
+    const filterByRating = (rating) => {
+        console.log(rating);
+    }
+
     return (
         <SafeAreaView>
             <View style={styles.container}>
+
                 <ScrollView style={styles.panelContainer}>
                     <View
-                        style={{ flexDirection: "row", backgroundColor: "rgba(255,255,255,0.3)", height: 45, justifyContent: "space-between", borderRadius: 10, marginBottom: 20 }}
-                    >
+                        style={{ flexDirection: "row", backgroundColor: "rgba(255,255,255,0.3)", height: 45, justifyContent: "space-between", borderRadius: 10, marginBottom: 20 }}>
                         <TextInput
                             style={{ backgroundColor: "red" }}
                             value={searchQuery}
@@ -190,6 +189,9 @@ export default ({ place }) => {
                         </View>
                     </View>
                 </ScrollView>
+
+
+                
                 <View style={{backgroundColor:Theme.backgroundColor,width:"100%",height:50}}>
       {/* <TouchableOpacity style={styles.floatingReviewStyles}>
         <View style={{flexDirection:"row"}}>
