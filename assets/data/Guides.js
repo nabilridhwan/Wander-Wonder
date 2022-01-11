@@ -20,7 +20,10 @@ const post = [
                 username:"wif_cuteXR",
                 profile_pic:require(`../images/profilepic/user1.jpg`),
                 guide_title:"Nice attraction",
+                guide_tag:"Couples",
+                tag_color:"#5159A6",
                 guide_description:"I think that Universal Studios Singapore is a very nice place! The rides there are super awesome! Especially the transformers ride. I rode it for 7 times in a span of 1 hour!",
+                date_created:"3 Months Ago",
                 created_at:"July 5,2021 12:32 PM"
             },
             {   
@@ -29,7 +32,10 @@ const post = [
                 username:"xiaozhan_daytoy",
                 profile_pic:require(`../images/profilepic/user2.jpg`),
                 guide_title:"Very fun",
+                guide_tag:"Solo",
+                tag_color:'#C16ABE',
                 guide_description:"Pretty fun rides, great walking weather, minimal crowds and wait times, this was probably the most seamless USS experience I’ve had so far.",
+                date_created:"16 Hours Ago",
                 created_at:"December 20,2021 01:32 PM"
             }
         ]
