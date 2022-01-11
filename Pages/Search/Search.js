@@ -131,7 +131,7 @@ export default ({handleLike}) => {
             <Card place={item}
               index={index}
               handleLike={handleLike} />
-        } keyExtractor={(item, index) => index.toString()} ListEmptyComponent={renderNoGuide} />
+        } keyExtractor={(item) => item.id} ListEmptyComponent={renderNoGuide} />
       }
 
     </View>

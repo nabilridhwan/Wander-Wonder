@@ -4,7 +4,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Theme from "../../config/Theme";
 import {Picker} from "@react-native-picker/picker"
 
-function AddGuide(props) {
+function AddGuide({navigation, route}) {
 
     let [title, setTitle] = useState("");
     let [description, setDescription] = useState("");
@@ -16,7 +16,7 @@ function AddGuide(props) {
     let [price, setPrice] = useState("");
     let [website, setWebsite] = useState("");
     let [items, setItems] = useState([]);
-    
+
     return (
         <ScrollView style={{ backgroundColor: Theme.backgroundColor, paddingHorizontal: 10 }}>
 
@@ -162,8 +162,8 @@ function AddGuide(props) {
                 </View>
             </View>
 
-            <TouchableOpacity style={{ backgroundColor: "#8987FF", height: 50, justifyContent: "center", borderRadius: 10, width: "100%" }}>
-                <Text style={{ color: "white", textAlign: "center" }}>Save</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Add Guide Itinerary")} style={{ backgroundColor: "#8987FF", height: 50, justifyContent: "center", borderRadius: 10, width: "100%" }}>
+                <Text style={{ color: "white", textAlign: "center" }}>Next</Text>
             </TouchableOpacity>
 
 

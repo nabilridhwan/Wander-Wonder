@@ -5,12 +5,18 @@ import Theme from '../../config/Theme';
 
 function Favourites({ guides: guideProps, handleLike }) {
 
-  const [likedPosts, setLikedPost] = useState(guideProps);
+  const [likedPosts, setLikedPost] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    // TODO: Filter out properly
-    setLikedPost(guideProps.filter(post => post.liked));
+    let filteredGuides = guideProps.filter(guide => {
+      if(guide.liked){
+        console.log(guide.title)
+        return true
+      }
+    })
+    setLikedPost(filteredGuides)
+    console.log("====")
   }, [guideProps])
   
 
@@ -36,6 +42,7 @@ function Favourites({ guides: guideProps, handleLike }) {
   }
 
   const handleLikeButton = (guide) => {
+    console.log(guide);
     handleLike(guide);
   }
 
@@ -54,7 +61,7 @@ function Favourites({ guides: guideProps, handleLike }) {
           <Card place={item}
             index={index}
             handleLike={handleLikeButton} />
-      } keyExtractor={(item, index) => index} ListEmptyComponent={renderNoGuide} />
+      } keyExtractor={(item) => item.id} ListEmptyComponent={renderNoGuide} />
     </View >
   );
 };
