@@ -20,6 +20,7 @@ import EditProfile from './Pages/Profile/EditProfile';
 import AddGuide from './Pages/AddGuide/AddGuide';
 
 import Guides from "./assets/data/Guides";
+import AddGuideItinerary from './Pages/AddGuide/AddGuideItinerary';
 
 class AppComponent extends React.Component {
 
@@ -38,20 +39,14 @@ class AppComponent extends React.Component {
       if(g.id === guide.id){
         g.liked = !g.liked
       }
-
       return g
     })
-
     this.setState({ guides: newGuides })
-  }
-
-  getLikedPosts(){
-    return this.state.guides.filter(guide => guide.liked)
   }
 
   render() {
     return (
-      <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle }}>
+      <View style={{ flex: 1, ...styles.backgroundStyle }}>
         <StatusBar backgroundColor={Theme.backgroundColor} barStyle="light-content" />
 
         <Tab.Navigator screenOptions={({ route }) => ({
@@ -133,13 +128,13 @@ class AppComponent extends React.Component {
           tabBarInactiveTintColor: Theme.textColor
         })}>
           <Tab.Screen name="Home" children={() => <Home guides={this.state.guides} handleLike={this.handleLike} />}/>
-          <Tab.Screen name="Search" component={Search} />
+          <Tab.Screen name="Search" children={() => <Search handleLike={this.handleLike}/> } />
           <Tab.Screen name="Add Guide" component={AddGuide} />
           <Tab.Screen name="Favourites" children={() => <Favourites guides={this.state.guides} handleLike={this.handleLike} />}/>
           <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
 
-      </SafeAreaView >
+      </View>
     )
   }
 }
@@ -154,6 +149,7 @@ export default class App extends React.Component {
           <Stack.Screen name="Guide Page" component={GuidePage} options={{ title: "Map", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
           <Stack.Screen name="Map" component={MapPage} />
           <Stack.Screen name="Edit Profile" component={EditProfile} />
+          <Stack.Screen name="Add Guide Itinerary" component={AddGuideItinerary} />
         </Stack.Navigator>
       </NavigationContainer>
     );

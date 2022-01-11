@@ -88,10 +88,19 @@ export default ({ place }) => {
         )
     }
     const handleSearch = (searchQuery) => {
+        setDone(false);
         if (searchQuery !== "") {
-            setDisplayData(place.comment.filter(guide => guide.guide_title.toLowerCase().includes(searchQuery.toLowerCase()) || guide.guide_description.toLowerCase().includes(searchQuery.toLowerCase())))
-            // setRecentSearches([searchQuery, ...recentSearches.filter(search => search != searchQuery)]);
+            setDisplayData(Guides.filter(guide => guide.title.toLowerCase().includes(searchQuery.toLowerCase())))
+            setRecentSearches([searchQuery, ...recentSearches.filter(search => search != searchQuery)]);
+            setDone(true);
         }
+    }
+    const handleItemClick = (index, array) => {
+        const item = array[index];
+        // Set the search query to the item tapped
+        setSearchQuery(item);
+        // Perform a search
+        handleSearch(item);
     }
     const renderNoGuide = () => {
         return (
@@ -259,6 +268,7 @@ export default ({ place }) => {
                     <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
                         <View style={{ flex: 3, justifyContent: "center" }}>
                             <Text style={{ color: Theme.textColor }}>Average</Text>
+
                         </View>
                         <View style={{ flex: 4, height: "100%", justifyContent: "center" }}>
                             <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
@@ -387,14 +397,13 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginRight: 10
     },
-    floatingReviewStyles: {
-        position: "absolute",
-        right: 20,
-        bottom: 10,
-        backgroundColor: "rgba(255,255,255,0.25)",
-        borderRadius: 999,
-        padding: 8,
-        elevation: 4
-    }
+    floatingReviewStyles: { 
+        position: "absolute",  
+        right: 20, 
+        bottom:10,
+        backgroundColor:"rgba(255,255,255,0.25)", 
+        borderRadius: 999, 
+        padding: 8, 
+        elevation: 4 }
 });
 

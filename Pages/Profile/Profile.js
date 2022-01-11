@@ -27,7 +27,8 @@ function Profile(props){
 
   // TODO: Fix user profile doesn't show up after updating profile
   const updateProfile = (user) => {
-    setUser({User, ...user});
+    const newUser = {...User, ...user};
+    setUser(newUser);
   }
 
   let navigateToProfilePage = () => {
@@ -47,10 +48,10 @@ function Profile(props){
           
            <Text style={{...styles.defaultText, textAlign: "center", fontWeight: "bold", fontSize: 24, marginVertical: 5}}>{User.name}</Text>
            <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)", marginVertical: 5}}>@{User.username}</Text>
-           <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)", marginVertical: 5}}>{User.biography}</Text>
+           <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)", marginVertical: 5, marginBottom: 40}}>{User.biography}</Text>
 
             <View style={{alignItems: "center"}}>
-              <CustomButton buttonText="Edit Profile" onPress={navigateToProfilePage}/>
+              <CustomButton buttonText="Edit Profile" onPress={navigateToProfilePage} style={{height: 35}}/>
             </View>
              
           </View>

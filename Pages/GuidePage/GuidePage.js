@@ -6,9 +6,9 @@ import ItineraryContent from './ItineraryContent';
 import OverviewContent from './OverviewContent';
 import Review from './Review';
 
-export default ({ navigation, route }) => {
-  const [place, setPlace] = useState(route.params.place);
-  // const handleLike = useState(route.params.handleLike)
+// Deconstruct the props
+// get the place, and handleLike from route.params
+export default ({ navigation, route: {params: {place, handleLike: handleLikePropFunc}}}) => {
   const [activePage, setActivePage] = useState("Overview")
   const [liked, setLiked] = useState(place.liked)
 
@@ -30,7 +30,7 @@ export default ({ navigation, route }) => {
       if (liked !== place.liked) {
 
         console.log("Like value is not the same! Calling the handleLike function!")
-        route.params.handleLike(place)
+        handleLikePropFunc(place);
       }
     }
 
@@ -47,11 +47,9 @@ export default ({ navigation, route }) => {
 
 
           {liked ?
-            <Icon name="heart" size={45} color={Theme.heartColor} style={{ marginRight: 7, marginTop: 7 }} onPress={handleLike
-
-            } />
+            <Icon name="heart" size={45} color={Theme.heartColor} style={{ marginRight: 7, marginTop: 7 }} onPress={handleLike}/>
             :
-            <Icon name="heart-outline" size={45} color={Theme.heartColorOutline} style={{ marginRight: 7, marginTop: 7 }} onPress={handleLike} />}
+            <Icon name="heart-outline" size={45} color={Theme.heartColorOutline} style={{ marginRight: 7, marginTop: 7 }} onPress={handleLike}/>}
         </View>
 
       </ImageBackground>
