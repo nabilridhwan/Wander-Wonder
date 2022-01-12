@@ -4,7 +4,7 @@ const post = [
         title: "Universal Studios Singapore",
         description: "Singapore's only movie-theme park features 24 rides and attractions, including a pair of dueling coasters that brush past one another in several near misses in their aerial combat. Thrill-seekers can choose between a coaster where they are seated or the other where riders are suspended.",
         author: "TheSingaporeTraveller",
-        image_url: require(`../images/singapore/1.png`),
+        image_url: require(`../images/singapore/USS.png`),
         countryEmoji: "🇸🇬",
         category: "Singapore",
         liked: true,

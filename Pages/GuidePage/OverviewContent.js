@@ -96,7 +96,7 @@ export default ({ place }) => {
                             </View>
 
                             <View style={styles.broughtButtonContainer}>
-                                <View style={{ backgroundColor: "#FEB2B2", ...styles.broughtButton }}>
+                                <View style={{ backgroundColor: "#B2FFB0", ...styles.broughtButton }}>
                                     <Image source={require(`../../assets/images/ticket.png`)} style={{ width: 38, height: 36 }} />
                                 </View>
                                 <Text style={styles.broughtText}>Ticket</Text>
