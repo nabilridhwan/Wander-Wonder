@@ -8,6 +8,7 @@
 //https://github.com/react-native-modal/react-native-modal
 import React, { useState, useEffect } from 'react';
 import { ImageBackground, Linking, Platform, Alert, FlatList,Image, StyleSheet, Button, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity, TextInput, ImageEditor } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../../config/Theme';
 import HighlightText from '@sanar/react-native-highlight-text';
@@ -90,8 +91,7 @@ export default ({ place }) => {
     const handleSearch = (searchQuery) => {
         setDone(false);
         if (searchQuery !== "") {
-            setDisplayData(Guides.filter(guide => guide.title.toLowerCase().includes(searchQuery.toLowerCase())))
-            setRecentSearches([searchQuery, ...recentSearches.filter(search => search != searchQuery)]);
+            setDisplayData(place.comment.filter(guide => guide.guide_title.toLowerCase().includes(searchQuery.toLowerCase())||guide.guide_description.toLowerCase().includes(searchQuery.toLowerCase())))
             setDone(true);
         }
     }
@@ -141,9 +141,9 @@ export default ({ place }) => {
                     onRequestClose={toggleModal}
                     onBackdropPress={toggleModal}
                 >
-                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginTop: 22 }}>
-                        <View style={{ margin: 20, backgroundColor: "white", borderRadius: 20, padding: 35, alignItems: "center", shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
-                            <Text style={{ marginBottom: 15, textAlign: "center", fontWeight: '900' }}>Filter</Text>
+                    <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 22 }}>
+                        <View style={{ margin: 20, backgroundColor: Theme.backgroundColor,  borderRadius: 20, padding: 35, alignItems: "center", shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
+                            <Text style={{ marginBottom: 15, textAlign: "center", fontWeight: '900',fontSize:21}}>Filter</Text>
                             <Text style={{ fontWeight: 'bold', alignSelf: "flex-start" }}>Traveller rating</Text>
                             <View style={{ flexDirection: "row",flexWrap:"wrap" }}>
                                 {
@@ -151,7 +151,7 @@ export default ({ place }) => {
                                         return (
                                             // <TouchableOpacity onPress={() => filterByRating(rating)}>
                                             <TouchableOpacity>
-                                                <View style={{ borderColor: "#757272", borderWidth: 2, flexDirection: "row", padding: 6, borderRadius: 12,margin:4}}>
+                                                <View style={{ borderColor: "#757272", borderWidth: 2, flexDirection: "row", padding: 6, borderRadius: 12,margin:4,backgroundColor:Theme.primaryColor}}>
                                                     {
                                                         [...new Array(5)].map((_,index)=> {
                                                             if(index+1<=rating){
@@ -169,7 +169,7 @@ export default ({ place }) => {
                                     })
                                 }
                             </View>
-                            <Text style={{ fontWeight: 'bold', alignSelf: "flex-start",marginTop:5}}>Time Of Year</Text>
+                            <Text style={{ fontWeight: 'bold', alignSelf: "flex-start",marginTop:10}}>Time Of Year</Text>
                             <View style={{ flexDirection: "row",flexWrap:"wrap" }}>
                                 {
                                     months.map((months) => {
@@ -184,7 +184,7 @@ export default ({ place }) => {
                                     })
                                 }
                             </View>
-                            <Text style={{ fontWeight: 'bold', alignSelf: "flex-start",marginTop:5}}>Type Of Visit</Text>
+                            <Text style={{ fontWeight: 'bold', alignSelf: "flex-start",marginTop:10}}>Type Of Visit</Text>
                             <View style={{ flexDirection: "row",flexWrap:"wrap" }}>
                                 {
                                     visitType.map((type) => {
@@ -199,30 +199,26 @@ export default ({ place }) => {
                                     })
                                 }
                             </View>
-                            <View style={{flexDirection:"row",marginVertical:9 }}>
-                                <View style={{flex:1}}>
+                            <View style={{flexDirection:"row",marginVertical:9,justifyContent:"space-between"}}>
                             <TouchableOpacity
-                                style={{justifyContent:"flex-start",borderRadius: 20, padding: 10, elevation: 2, backgroundColor: "#CA166C",}}
+                                style={{borderRadius: 20, padding: 10, elevation: 2, backgroundColor: "#CA166C",justifyContent:"center",alignItems: "center",marginHorizontal:10 }}
                                 onPress={toggleModal}
                             >
                                 <Text style={styles.textStyle}>Clear Filter</Text>
                             </TouchableOpacity>
-                            </View>
-                            <View style={{flex:1}}>
                             <TouchableOpacity
-                                style={{ justifyContent:"flex-end",borderRadius: 20, padding: 10, elevation: 2, backgroundColor: "#2196F3"}}
+                                style={{ borderRadius: 20, padding: 10, elevation: 2, backgroundColor: "#2196F3",justifyContent:"center",alignItems: "center",marginHorizontal:10}}
                                 onPress={toggleModal}
                             >
                                 <Text style={styles.textStyle}>Hide Modal</Text>
                             </TouchableOpacity>
-                            </View>
                             </View>
                         </View>
                     </View>
                 </Modal>
                 <TouchableHighlight onPress={toggleModal}>
                     <View style={{ width: "35%" }}>
-                        <View style={{ borderRadius: 32, borderWidth: 3, borderColor: Theme.primaryColor, flexDirection: "row", marginHorizontal: 10, marginVertical: 4, padding: 10, justifyContent: 'center' }}>
+                        <View style={{ borderRadius: 32, borderWidth: 3, borderColor: Theme.primaryColor, flexDirection: "row", marginHorizontal: 10, marginVertical: 4, padding: 6, justifyContent: 'center' ,alignContent:"center"}}>
                             <Icon name="filter" color={Theme.primaryColor} size={26} />
                             <Text style={{ margin: 7, color: Theme.primaryColor, justifyContent: "center" }}>Filter</Text>
                         </View>
