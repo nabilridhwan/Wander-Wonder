@@ -3,7 +3,7 @@ const post = [{
         title: "Universal Studios Singapore",
         description: "Singapore's only movie-theme park features 24 rides and attractions, including a pair of dueling coasters that brush past one another in several near misses in their aerial combat. Thrill-seekers can choose between a coaster where they are seated or the other where riders are suspended.",
         author: "TheSingaporeTraveller",
-        image_url: require(`../images/singapore/1.png`),
+        image_url: require(`../images/singapore/USS.png`),
         countryEmoji: "🇸🇬",
         category: "Singapore",
         liked: true,
@@ -12,6 +12,7 @@ const post = [{
         website: "https://www.rwsentosa.com/en/attractions/universal-studios-singapore/tickets",
         latitude: 1.2546178494585092,
         longitude: 103.82389221707048,
+<<<<<<< HEAD
         comment: [{
                 id: 1,
                 name: "Xuanrong",
@@ -47,6 +48,32 @@ const post = [{
                 longitude: 103.82035361154993,
                 image_url: require(`../images/singapore/resortsworldsentosacasino.jpg`),
                 description: "Resorts World Sentosa casino is located beneath Crockfords Tower that has an acreage of 15,000 sq.m."
+=======
+        comment:[
+            {
+                id:1,
+                name:"Xuanrong",
+                username:"wif_cuteXR",
+                profile_pic:require(`../images/profilepic/user1.jpg`),
+                guide_title:"Nice attraction",
+                guide_tag:"Couples",
+                tag_color:"#5159A6",
+                guide_description:"I think that Universal Studios Singapore is a very nice place! The rides there are super awesome! Especially the transformers ride. I rode it for 7 times in a span of 1 hour!",
+                date_created:"3 Months Ago",
+                created_at:"July 5,2021 12:32 PM"
+            },
+            {   
+                id:2,
+                name:"XiaoZhan",
+                username:"xiaozhan_daytoy",
+                profile_pic:require(`../images/profilepic/user2.jpg`),
+                guide_title:"Very fun",
+                guide_tag:"Solo",
+                tag_color:'#C16ABE',
+                guide_description:"Pretty fun rides, great walking weather, minimal crowds and wait times, this was probably the most seamless USS experience I’ve had so far.",
+                date_created:"16 Hours Ago",
+                created_at:"December 20,2021 01:32 PM"
+>>>>>>> 6b03e248616954265e83c48a3fcbd3fb85413bf1
             }
         ]
     },
