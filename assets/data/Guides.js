@@ -12,31 +12,50 @@ const post = [{
         website: "https://www.rwsentosa.com/en/attractions/universal-studios-singapore/tickets",
         latitude: 1.2546178494585092,
         longitude: 103.82389221707048,
-        comment:[
-            {
-                id:1,
-                name:"Xuanrong",
-                username:"wif_cuteXR",
-                profile_pic:require(`../images/profilepic/user1.jpg`),
-                guide_title:"Nice attraction",
-                guide_tag:"Couples",
-                tag_color:"#5159A6",
-                guide_description:"I think that Universal Studios Singapore is a very nice place! The rides there are super awesome! Especially the transformers ride. I rode it for 7 times in a span of 1 hour!",
-                date_created:"3 Months Ago",
-                created_at:"July 5,2021 12:32 PM"
+        comment: [{
+                id: 1,
+                name: "Xuanrong",
+                username: "wif_cuteXR",
+                profile_pic: require(`../images/profilepic/user1.jpg`),
+                guide_title: "Nice attraction",
+                guide_tag: "Couples",
+                tag_color: "#5159A6",
+                guide_description: "I think that Universal Studios Singapore is a very nice place! The rides there are super awesome! Especially the transformers ride. I rode it for 7 times in a span of 1 hour!",
+                date_created: "3 Months Ago",
+                created_at: "July 5,2021 12:32 PM"
             },
-            {   
-                id:2,
-                name:"XiaoZhan",
-                username:"xiaozhan_daytoy",
-                profile_pic:require(`../images/profilepic/user2.jpg`),
-                guide_title:"Very fun",
-                guide_tag:"Solo",
-                tag_color:'#C16ABE',
-                guide_description:"Pretty fun rides, great walking weather, minimal crowds and wait times, this was probably the most seamless USS experience I’ve had so far.",
-                date_created:"16 Hours Ago",
-                created_at:"December 20,2021 01:32 PM"
+            {
+                id: 2,
+                name: "XiaoZhan",
+                username: "xiaozhan_daytoy",
+                profile_pic: require(`../images/profilepic/user2.jpg`),
+                guide_title: "Very fun",
+                guide_tag: "Solo",
+                tag_color: '#C16ABE',
+                guide_description: "Pretty fun rides, great walking weather, minimal crowds and wait times, this was probably the most seamless USS experience I’ve had so far.",
+                date_created: "16 Hours Ago",
+                created_at: "December 20,2021 01:32 PM"
             }
+        ],
+
+        nearbyPlaces: [{
+                id: 1,
+                title: "Adventure Cove",
+                description: "Adventure Cove is a theme park located in Singapore. It is a part of Universal Studios Singapore.",
+                latitude: 1.2591310349222455,
+                longitude: 103.81859351901238,
+                image_url: require(`../images/singapore/3.png`),
+            },
+
+            {
+                id: 2,
+                title: "Resorts World Sentosa Casino",
+                description: "Resorts World Sentosa Casino is a theme park located in Singapore. It is a part of Universal Studios Singapore.",
+
+                latitude: 1.256574736864421,
+                longitude: 103.82035089212134,
+                image_url: require(`../images/singapore/resortsworldsentosacasino.jpg`),
+            },
         ]
     },
     {

@@ -32,7 +32,7 @@ export default ({ navigation, route: { params: { place } } }) => {
   const _renderItem = ({ item, index }) => {
     return (
       <ScrollView style={{ flex: 1 }}>
-        <Image source={item.image_url} style={{ width: "100%", height: 150 }} />
+        <Image source={item.image_url} style={{ width: "100%", height: 120 }} />
 
         <View style={{ padding: 20 }}>
           <Text style={styles.title}>{item.title}</Text>
@@ -73,12 +73,12 @@ export default ({ navigation, route: { params: { place } } }) => {
 
 
   return (
-    <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle }}>
+    <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle, backgroundColor: Theme.backgroundColor }}>
 
       <TouchableOpacity onPress={() => navigation.goBack()} style={{ backgroundColor: Theme.backgroundColor, position: "absolute", zIndex: 1, borderRadius: 999, top: 10, left: 10, padding: 5 }}>
         <Icon name="arrow-back" color={"white"} size={25} />
       </TouchableOpacity>
-      <MapView style={{ flex: 2 }}
+      <MapView style={{ flex: 1 }}
         customMapStyle={Theme.MapStyle}
         region={region}
         initialRegion={region}>
@@ -96,23 +96,22 @@ export default ({ navigation, route: { params: { place } } }) => {
 
       </MapView>
 
-      <View style={{ flex: 1.5 }}>
+<View style={{flex: 1}}>
         <Carousel
           ref={carouselRef}
           data={entries}
           renderItem={_renderItem}
           sliderWidth={width}
           itemWidth={width}
-          containerCustomStyle={{ flex: 1 }}
+          containerCustomStyle={{ flex: 1}}
           slideStyle={{ flex: 1 }}
           tappableDots={true}
           onSnapToItem={(index) => handleSnap(index)}
         />
-      </View>
+        </View>
 
-        <View style={{height: 100}}>
-      {pagination()}
-</View>
+
+      {entries.length > 1 && pagination()}
       {/* <View style={{ alignItems: "center" }}>
         <View style={{ position: "absolute", ...styles.backgroundStyle, bottom: 20, padding: 20, width: "90%", borderRadius: 20 }}  >
           <Text style={{ ...styles.title, fontWeight: "bold", fontSize: 24 }}>
