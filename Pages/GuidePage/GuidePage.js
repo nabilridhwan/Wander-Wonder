@@ -79,8 +79,8 @@ export default ({ navigation, route: {params: {place, handleLike: handleLikeProp
         </ScrollView>
       </View>
 
-      <TouchableOpacity style={activePage=="Review"?{...styles.floatingButtonStyles,bottom:83}:styles.floatingButtonStyles}>
-        <Icon name="navigate" color={Theme.textColor} size={24} onPress={() => navigation.navigate("Map", { place: place })} />
+      <TouchableOpacity onPress={() => navigation.navigate("Map", { place: place })} style={activePage=="Review"?{...styles.floatingButtonStyles,bottom:83}:styles.floatingButtonStyles}>
+        <Icon name="navigate" color={Theme.textColor} size={24} />
       </TouchableOpacity>
       <View style={activePage=="Review"?{backgroundColor:Theme.backgroundColor,width:"100%",height:50}:{display:"none"}}>
       <TouchableOpacity style={activePage=="Review"?{...styles.floatingReviewStyles}:styles.hiddenFloatingButton}>

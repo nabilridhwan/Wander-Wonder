@@ -1,17 +1,75 @@
-import React, { useState, useEffect } from "react";
-import MapView, {Marker } from 'react-native-maps';
-import { Text, View, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import MapView, { Marker } from 'react-native-maps';
+import { Text, View, StyleSheet, SafeAreaView, TouchableOpacity, Image, Dimensions, ScrollView } from "react-native";
 import Theme from "../../config/Theme";
 import Icon from "react-native-vector-icons/Ionicons"
+import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 
-export default ({navigation, route: {params: props}}) => {
+const { width, height } = Dimensions.get('window');
+
+export default ({ navigation, route: { params: { place } } }) => {
   const [region, setRegion] = useState({
-    longitude: props.place.longitude,
-    latitude: props.place.latitude,
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+    longitude: place.longitude,
+    latitude: place.latitude,
+    latitudeDelta: 0.00922,
+    longitudeDelta: 0.00421,
   })
+
+  const [entries, setEntries] = useState([])
+  const [activeSlide, setActiveSlide] = useState(0);
+  const carouselRef = useRef(null);
+
+  useEffect(() => {
+
+    if (place.nearbyPlaces) {
+      setEntries([place, ...place.nearbyPlaces]);
+    } else {
+      setEntries([place]);
+    }
+  }, [])
+
+  const _renderItem = ({ item, index }) => {
+    return (
+      <ScrollView style={{ flex: 1 }}>
+        <Image source={item.image_url} style={{ width: "100%", height: 150 }} />
+
+        <View style={{ padding: 20 }}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={{ ...styles.defaultText, textAlign: "center" }}>{item.description}</Text>
+        </View>
+      </ScrollView>
+    );
+  }
+
+  const pagination = () => {
+    return <Pagination
+      carouselRef={carouselRef}
+      dotsLength={entries.length}
+      activeDotIndex={activeSlide}
+      containerStyle={{ backgroundColor: 'transparent' }}
+      dotStyle={{
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+        marginHorizontal: 8,
+        backgroundColor: Theme.primaryColor
+      }}
+      inactiveDotStyle={{
+        // Define styles for inactive dots here
+      }}
+      tappableDots={true}
+      inactiveDotOpacity={0.4}
+      inactiveDotScale={0.6}
+    />
+  }
+
+  const handleSnap = (index) => {
+    setRegion({ ...region, latitude: entries[index].latitude, longitude: entries[index].longitude })
+    carouselRef.current.snapToItem(index);
+    setActiveSlide(index);
+  }
+
 
 
   return (
@@ -20,30 +78,56 @@ export default ({navigation, route: {params: props}}) => {
       <TouchableOpacity onPress={() => navigation.goBack()} style={{ backgroundColor: Theme.backgroundColor, position: "absolute", zIndex: 1, borderRadius: 999, top: 10, left: 10, padding: 5 }}>
         <Icon name="arrow-back" color={"white"} size={25} />
       </TouchableOpacity>
-      <MapView style={{ flex: 1 }}
+      <MapView style={{ flex: 2 }}
         customMapStyle={Theme.MapStyle}
+        region={region}
         initialRegion={region}>
-
         <Marker
           key={0}
-          coordinate={{latitude: region.latitude, longitude: region.longitude}} title={props.place.title} />
+          onPress={() => handleSnap(0)}
+          coordinate={{ latitude: region.latitude, longitude: region.longitude }} title={place.title} />
+        {entries.map((p, i) => {
+          return <Marker
+            key={i + 1}
+            onPress={() => handleSnap(i)}
+            coordinate={{ latitude: p.latitude, longitude: p.longitude }} title={p.title} />
+        })}
+
+
       </MapView>
 
-      <View style={{ alignItems: "center" }}>
+      <View style={{ flex: 1.5 }}>
+        <Carousel
+          ref={carouselRef}
+          data={entries}
+          renderItem={_renderItem}
+          sliderWidth={width}
+          itemWidth={width}
+          containerCustomStyle={{ flex: 1 }}
+          slideStyle={{ flex: 1 }}
+          tappableDots={true}
+          onSnapToItem={(index) => handleSnap(index)}
+        />
+      </View>
+
+        <View style={{height: 100}}>
+      {pagination()}
+</View>
+      {/* <View style={{ alignItems: "center" }}>
         <View style={{ position: "absolute", ...styles.backgroundStyle, bottom: 20, padding: 20, width: "90%", borderRadius: 20 }}  >
           <Text style={{ ...styles.title, fontWeight: "bold", fontSize: 24 }}>
-            {props.place.title}
+            {place.title}
           </Text>
 
           <Text style={{ ...styles.subtitle, marginBottom: 30 }}>
-            By {props.place.author}
+            By {place.author}
           </Text>
 
           <Text style={styles.descriptionText}>
-            {props.place.description}
+            {place.description}
           </Text>
         </View>
-      </View>
+      </View> */}
     </SafeAreaView>
   )
 }
@@ -62,7 +146,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
 
-  descriptionText:{
+  descriptionText: {
     color: "white",
     lineHeight: 20,
   },
@@ -102,6 +186,7 @@ const styles = StyleSheet.create({
 
   title: {
     fontSize: 30,
+    fontWeight: "bold",
     textAlign: "center",
     color: "white",
   }

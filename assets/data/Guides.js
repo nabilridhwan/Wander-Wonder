@@ -1,5 +1,4 @@
-const post = [
-    {
+const post = [{
         id: 1,
         title: "Universal Studios Singapore",
         description: "Singapore's only movie-theme park features 24 rides and attractions, including a pair of dueling coasters that brush past one another in several near misses in their aerial combat. Thrill-seekers can choose between a coaster where they are seated or the other where riders are suspended.",
@@ -13,24 +12,41 @@ const post = [
         website: "https://www.rwsentosa.com/en/attractions/universal-studios-singapore/tickets",
         latitude: 1.2546178494585092,
         longitude: 103.82389221707048,
-        comment:[
-            {
-                id:1,
-                name:"Xuanrong",
-                username:"wif_cuteXR",
-                profile_pic:require(`../images/profilepic/user1.jpg`),
-                guide_title:"Nice attraction",
-                guide_description:"I think that Universal Studios Singapore is a very nice place! The rides there are super awesome! Especially the transformers ride. I rode it for 7 times in a span of 1 hour!",
-                created_at:"July 5,2021 12:32 PM"
+        comment: [{
+                id: 1,
+                name: "Xuanrong",
+                username: "wif_cuteXR",
+                profile_pic: require(`../images/profilepic/user1.jpg`),
+                guide_title: "Nice attraction",
+                guide_description: "I think that Universal Studios Singapore is a very nice place! The rides there are super awesome! Especially the transformers ride. I rode it for 7 times in a span of 1 hour!",
+                created_at: "July 5,2021 12:32 PM"
             },
-            {   
-                id:2,
-                name:"XiaoZhan",
-                username:"xiaozhan_daytoy",
-                profile_pic:require(`../images/profilepic/user2.jpg`),
-                guide_title:"Very fun",
-                guide_description:"Pretty fun rides, great walking weather, minimal crowds and wait times, this was probably the most seamless USS experience I’ve had so far.",
-                created_at:"December 20,2021 01:32 PM"
+            {
+                id: 2,
+                name: "XiaoZhan",
+                username: "xiaozhan_daytoy",
+                profile_pic: require(`../images/profilepic/user2.jpg`),
+                guide_title: "Very fun",
+                guide_description: "Pretty fun rides, great walking weather, minimal crowds and wait times, this was probably the most seamless USS experience I’ve had so far.",
+                created_at: "December 20,2021 01:32 PM"
+            }
+        ],
+
+        nearbyPlaces: [{
+                id: 1,
+                title: "Adventure Cove Waterpark",
+                latitude: 1.2591461641268937,
+                longitude: 103.81878294169033,
+                image_url: require(`../images/singapore/3.png`),
+                description: "Aquatic amusement park with an aquarium, water slides, a wave pool, tubing, snorkeling & more.",
+            },
+            {
+                id: 2,
+                title: "Resorts World Sentosa Casino",
+                latitude: 1.2563140734344944,
+                longitude: 103.82035361154993,
+                image_url: require(`../images/singapore/resortsworldsentosacasino.jpg`),
+                description: "Resorts World Sentosa casino is located beneath Crockfords Tower that has an acreage of 15,000 sq.m."
             }
         ]
     },
@@ -50,7 +66,7 @@ const post = [
         longitude: 103.81864611851513,
     },
     {
-        id:3,
+        id: 3,
         title: "Best hotel rooms in Marina Bay Sands",
         description: "Marina Bay Sands is an integrated resort fronting Marina Bay in Singapore, owned by the Las Vegas Sands Corporation.",
         author: "LuxurySGTraveller",
