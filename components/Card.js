@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"
 import Theme from "../config/Theme"

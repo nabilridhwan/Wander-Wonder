@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, Image, SafeAreaView, StyleSheet, Text, View, ImageBackground, ScrollView, TouchableOpacity } from "react-native";
+import React, { useState } from 'react';
+import { FlatList, Image, SafeAreaView, StyleSheet, Text, View} from "react-native";
 import Card from '../../components/Card';
 import Theme from '../../config/Theme';
 
@@ -47,16 +47,6 @@ export default ({guides: propGuides, handleLike}) => {
 
           )}
         </View>
-
-        {/* Header part */}
-        {/* {
-                this.state.currentPage == "All" && 
-                <View style={{marginBottom: 40}}>
-                <Text style={styles.title}>Explore new places</Text>
-                <Text style={styles.subtitle}>Travel and explore the world!</Text>
-              </View>
-              } */}
-
 
         <FlatList data={guides} numColumns={2} renderItem={
           ({ item, index }) =>
