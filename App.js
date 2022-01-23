@@ -10,6 +10,9 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 // Components
+import startPage from './Pages/Login/StartPage';
+import signUp from './Pages/Login/SignUpPage'
+import Login from './Pages/Login/LoginPage';
 import Home from './Pages/Home/Home';
 import Profile from './Pages/Profile/Profile';
 import Favourites from './Pages/Favourites/Favourites';
@@ -34,9 +37,9 @@ class AppComponent extends React.Component {
     this.handleLike = this.handleLike.bind(this)
   }
 
-  handleLike(guide){
+  handleLike(guide) {
     let newGuides = this.state.guides.map(g => {
-      if(g.id === guide.id){
+      if (g.id === guide.id) {
         g.liked = !g.liked
       }
       return g
@@ -127,10 +130,11 @@ class AppComponent extends React.Component {
           tabBarActiveTintColor: Theme.primaryColor,
           tabBarInactiveTintColor: Theme.textColor
         })}>
-          <Tab.Screen name="Home" children={() => <Home guides={this.state.guides} handleLike={this.handleLike} />}/>
-          <Tab.Screen name="Search" children={() => <Search handleLike={this.handleLike}/> } />
+          
+          <Tab.Screen name="Home" children={() => <Home guides={this.state.guides} handleLike={this.handleLike} />} />
+          <Tab.Screen name="Search" children={() => <Search handleLike={this.handleLike} />} />
           <Tab.Screen name="Add Guide" component={AddGuide} />
-          <Tab.Screen name="Favourites" children={() => <Favourites guides={this.state.guides} handleLike={this.handleLike} />}/>
+          <Tab.Screen name="Favourites" children={() => <Favourites guides={this.state.guides} handleLike={this.handleLike} />} />
           <Tab.Screen name="Profile" component={Profile} />
         </Tab.Navigator>
 
@@ -144,7 +148,10 @@ export default class App extends React.Component {
   render() {
     return (
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName='Start Page'>
+          <Stack.Screen name="Start Page" component={startPage} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Sign Up" component={signUp} />
           <Stack.Screen name="App" component={AppComponent} options={{ title: "Wander, Wonder", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
           <Stack.Screen name="Guide Page" component={GuidePage} options={{ title: "Map", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
           <Stack.Screen name="Map" component={MapPage} />

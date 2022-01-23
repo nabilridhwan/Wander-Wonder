@@ -1,16 +1,25 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import { Button, ImageBackground, TextInput, Platform, Image, StyleSheet, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity, Dimensions } from 'react-native';
+import ProgressBar from 'react-native-progress/Bar'
+import moment from 'moment';
+import { Button, ImageBackground, TextInput, Platform, Image, StyleSheet, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity, Dimensions, TouchableOpacityBase } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../../config/Theme';
+import { visitType } from '../GuidePage/Review';
 import ItineraryContent from './ItineraryContent';
 import OverviewContent from './OverviewContent';
 import Review from './Review';
+import Modal from "react-native-modal";
+import { AirbnbRating } from 'react-native-ratings';
+import MonthPicker from 'react-native-month-year-picker';
+
 
 // Deconstruct the props
 // get the place, and handleLike from route.params
 export default ({ navigation, route: { params: { place, handleLike: handleLikePropFunc } } }) => {
   const carouselRef = useRef(null);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isNextVisible, setNextVisible] = useState(false);
   const [index, setIndex] = useState(0);
   const [activePage, setActivePage] = useState("Overview")
   const [liked, setLiked] = useState(place.liked)
@@ -29,8 +38,33 @@ export default ({ navigation, route: { params: { place, handleLike: handleLikePr
   {
     image: require(`../../assets/images/singapore/USS4.jpg`),
   }])
+  const [startDate, setStartDate] = useState(new Date());
+  const [date, setDate] = useState(new Date());
+  const [show, setShow] = useState(false);
+
+  const showPicker = useCallback((value) => setShow(value), []);
+
+  const onValueChange = useCallback(
+    (event, newDate) => {
+      const selectedDate = newDate || date;
+
+      showPicker(false);
+      setDate(selectedDate);
+    },
+    [date, showPicker],
+  );
   const handleLike = () => {
     setLiked(!liked)
+  }
+  const toggleModal = () => {
+    setModalVisible(!isModalVisible);
+  };
+  const toggleNext = () => {
+    setNextVisible(!isNextVisible);
+  };
+  const toggleBoth = () => {
+    toggleModal();
+    toggleNext();
   }
   const _renderItem = ({ item, index }) => {
     return (
@@ -84,18 +118,18 @@ export default ({ navigation, route: { params: { place, handleLike: handleLikePr
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.smallContainer}>
-          <TouchableHighlight style={{ backgroundColor: Theme.backgroundColor, borderRadius: 999, alignItems: "center", justifyContent: "center", margin: 10 }}>
-            <Icon name="arrow-back" size={25} color="silver" onPress={() => navigation.goBack()} style={{ padding: 5 }} />
-          </TouchableHighlight>
+        <TouchableHighlight style={{ backgroundColor: Theme.backgroundColor, borderRadius: 999, alignItems: "center", justifyContent: "center", margin: 10 }}>
+          <Icon name="arrow-back" size={25} color="silver" onPress={() => navigation.goBack()} style={{ padding: 5 }} />
+        </TouchableHighlight>
 
 
-          {liked ?
-            <Icon name="heart" size={45} color={Theme.heartColor} style={{ marginRight: 7, marginTop: 7 }} onPress={handleLike} />
-            :
-            <Icon name="heart-outline" size={45} color={Theme.heartColorOutline} style={{ marginRight: 7, marginTop: 7 }} onPress={handleLike} />}
-        </View>
+        {liked ?
+          <Icon name="heart" size={45} color={Theme.heartColor} style={{ marginRight: 7, marginTop: 7 }} onPress={handleLike} />
+          :
+          <Icon name="heart-outline" size={45} color={Theme.heartColorOutline} style={{ marginRight: 7, marginTop: 7 }} onPress={handleLike} />}
+      </View>
       <View style={{ flex: 4 }}>
-        
+
         <Carousel
           ref={carouselRef}
           onSnapToItem={(index) => setIndex(index)}
@@ -160,7 +194,7 @@ export default ({ navigation, route: { params: { place, handleLike: handleLikePr
         </ScrollView>
       </View>
 
-      <TouchableOpacity onPress={() => navigation.navigate("Map", { place: place })} style={activePage=="Review"?{...styles.floatingButtonStyles,bottom:83}:styles.floatingButtonStyles}>
+      <TouchableOpacity onPress={() => navigation.navigate("Map", { place: place })} style={activePage == "Review" ? { ...styles.floatingButtonStyles, bottom: 83 } : styles.floatingButtonStyles}>
         <Icon name="navigate" color={Theme.textColor} size={24} />
       </TouchableOpacity>
       <View style={activePage == "Review" ? { backgroundColor: Theme.backgroundColor, width: "100%", height: 50 } : { display: "none" }}>
@@ -169,17 +203,113 @@ export default ({ navigation, route: { params: { place, handleLike: handleLikePr
             <View style={{ marginRight: 6 }}>
               <Image source={require("../../assets/images/profilepicture.png")} style={{ borderRadius: 999, width: 50, height: 50 }} />
             </View>
-            <TextInput
-              style={{ backgroundColor: "red" }}
-              placeholder='Leave a comment as @wif_cuteXR'
-              placeholderTextColor={"rgba(255,255,255,0.6)"}
-              style={{ color: Theme.textColor, padding: 10 }}
-            />
+            <TouchableOpacity onPress={() => setModalVisible(true)}
+              style={{ justifyContent: "center", color: Theme.textColor, padding: 10 }}>
+              <Text style={{ color: "rgba(255,255,255,0.6)" }}>Leave a comment as @wif_cuteXR</Text>
+            </TouchableOpacity>
             <View style={{ justifyContent: 'center', marginHorizontal: 4 }}>
               <Icon name="send" color={Theme.primaryColor} size={24} />
             </View>
           </View>
         </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          isVisible={isModalVisible}
+          animationIn="slideInLeft"
+          animationOut="slideOutRight"
+          onRequestClose={toggleModal}
+          onBackdropPress={toggleModal}
+        >
+          <View style={{ flex: 1, justifyContent: "center", marginTop: 10 }}>
+            <View style={{ backgroundColor: Theme.textColor, borderRadius: 20, padding: 10, shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
+              <TouchableHighlight style={{ alignItems: "flex-start", justifyContent: "center" }}>
+                <Icon name="close" size={30} color="silver" onPress={() => toggleModal()} />
+              </TouchableHighlight>
+              <View style={{ padding: 25 }}>
+                <Text style={{ fontWeight: "bold", fontSize: 18, color: Theme.backgroundColor }}>Rate Your Experience</Text>
+                <AirbnbRating
+                  count={5}
+                  reviews={["Terrible", "Poor", "Average", "Very Good", "Excellent"]}
+                  defaultRating={5}
+                  selectedColor={"#FFC909"}
+                  size={30}
+                />
+                <Text style={{ fontWeight: "bold", fontSize: 18, color: Theme.backgroundColor, marginTop: 18 }}>Kind Of Visit</Text>
+                <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+                  {
+                    visitType.map((type) => {
+                      return (
+                        // <TouchableOpacity onPress={() => filterByRating(rating)}>
+                        <TouchableOpacity>
+                          <View style={{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }}>
+                            <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold" }}>{type}</Text>
+                          </View>
+                        </TouchableOpacity>
+                      )
+                    })
+                  }
+                </View>
+                <Text style={{ fontWeight: "bold", fontSize: 18, color: Theme.backgroundColor, marginTop: 18 }}>Visit Date</Text>
+                <TouchableOpacity onPress={() => showPicker(true)} style={{ alignItems: "flex-start", justifyContent: "center", marginBottom: 15, borderWidth: 2, borderColor: Theme.backgroundColor, borderRadius: 10 }}>
+                  <Text>{moment(date).format("MM-YYYY")}</Text>
+                </TouchableOpacity>
+                {show && (
+                  <MonthPicker
+                    onChange={onValueChange}
+                    value={date}
+                    mode="short"
+                    autoTheme={false}
+                    maximumDate={new Date()}
+                  />
+                )}
+                <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} />
+                <TouchableOpacity onPress={() => toggleBoth()} style={{ padding: 9, backgroundColor: Theme.backgroundColor, marginTop: 10 }}>
+                  <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Next</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          isVisible={isNextVisible}
+          animationIn="slideInLeft"
+          animationOut="slideOutRight"
+          onBackdropPress={toggleNext}
+        >
+          <View style={{ flex: 1, justifyContent: "center", marginTop: 10 }}>
+            <View style={{ backgroundColor: Theme.textColor, borderRadius: 20, padding: 10, shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
+            <TouchableHighlight style={{ alignItems: "flex-start", justifyContent: "center" }}>
+                <Icon name="close" size={30} color="silver" onPress={() => toggleModal()} />
+              </TouchableHighlight>
+              <View style={{ padding: 25 }}>
+                <Text style={{fontWeight:"bold"}}>Write Your Review</Text>
+                <TextInput
+                        style={{ backgroundColor: "red" }}
+                        value={searchQuery}
+                        onEndEditing={() => handleSearch(searchQuery)}
+                        placeholder='Tell us more about your ratings.'
+                        placeholderTextColor={"rgba(0,0,0,0.6)"}
+                        onChangeText={(inputText) => setSearchQuery(inputText)}
+                    />
+                <Text style={{fontWeight:"bold"}}>Title This Review</Text>
+                <TextInput
+                        value={searchQuery}
+                        onEndEditing={() => handleSearch(searchQuery)}
+                        placeholder='Summarize your visit in a few words.'
+                        placeholderTextColor={"rgba(0,0,0,0.6)"}
+                      onChangeText={(inputText) => setSearchQuery(inputText)}
+                    />
+              <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} />
+                <TouchableOpacity onPress={() => toggleBoth()} style={{ padding: 9, backgroundColor: Theme.backgroundColor, marginTop: 10 }}>
+                  <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Next</Text>
+                </TouchableOpacity>
+                </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     </SafeAreaView>
   );
@@ -255,8 +385,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     position: "absolute",
     top: 0,
-    zIndex:1,
-    width:"100%"
+    zIndex: 1,
+    width: "100%"
   },
   floatingButtonStyles: {
     position: "absolute",
@@ -292,6 +422,6 @@ const styles = StyleSheet.create({
   },
   inactiveDotStyle: {
     backgroundColor: 'rgb(255,230,230)',
-  }
+  },
 });
 

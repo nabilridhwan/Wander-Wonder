@@ -18,6 +18,8 @@ target 'Wander_Wonder' do
 
   pod 'RNCPicker', :path => '../node_modules/@react-native-picker/picker'
 
+  pod 'react-native-month-year-picker', :path => '../node_modules/react-native-month-year-picker'
+
   target 'Wander_WonderTests' do
     inherit! :complete
     # Pods for testing

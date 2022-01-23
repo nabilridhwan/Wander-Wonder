@@ -7,26 +7,29 @@
  */
 //https://github.com/react-native-modal/react-native-modal
 import React, { useState, useEffect } from 'react';
-import { ImageBackground, Linking, Platform, Alert, FlatList,Image, StyleSheet, Button, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity, TextInput, ImageEditor } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import { ImageBackground, Linking, Platform, Alert, FlatList, Image, StyleSheet, Button, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity, TextInput, ImageEditor } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../../config/Theme';
 import HighlightText from '@sanar/react-native-highlight-text';
 import Modal from "react-native-modal";
+export const visitType = ["Couple", "Business", "Family(Teens)","Family(Younger Children)", "Friends", "School","Solo"];
 
-export default ({ place }) => {
-    const visitType=["Solo","Couple","Business","Family","Friends","School"];
+export default ({ place }) => {   
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const d = new Date();
     // let monthName = months[d.getMonth()];
     const [searchQuery, setSearchQuery] = useState("");
+    const [colour, setColour] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
     const [displayData, setDisplayData] = useState(place.comment);
     const [done, setDone] = useState(false);
     const [rating, setRating] = useState([1, 2, 3, 4, 5]);
+    const clickButton = () => {
+        setColour(!colour)
+    }
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
-      };
+    };
     useEffect(() => {
         if (searchQuery.length == 0) {
             setDone(false);
@@ -70,8 +73,8 @@ export default ({ place }) => {
                             <Icon name="caret-down" color={Theme.textColor} size={15} />
                         </Text>
                     </View>
-                    <View style={{backgroundColor:item.tag_color,width:"30%",padding:5,borderRadius:9,marginBottom:5}}>
-                        <Text style={{ fontSize: 13, color: Theme.textColor,alignSelf:"center",fontWeight:"bold"}}>• {item.guide_tag}</Text>
+                    <View style={{ backgroundColor: item.tag_color, width: "30%", padding: 5, borderRadius: 9, marginBottom: 5 }}>
+                        <Text style={{ fontSize: 13, color: Theme.textColor, alignSelf: "center", fontWeight: "bold" }}>• {item.guide_tag}</Text>
                     </View>
                     <Text style={{ color: Theme.textColor }}>Written on {item.created_at}</Text>
                     <View style={{ flexDirection: "row", marginVertical: 10 }}>
@@ -91,7 +94,7 @@ export default ({ place }) => {
     const handleSearch = (searchQuery) => {
         setDone(false);
         if (searchQuery !== "") {
-            setDisplayData(place.comment.filter(guide => guide.guide_title.toLowerCase().includes(searchQuery.toLowerCase())||guide.guide_description.toLowerCase().includes(searchQuery.toLowerCase())))
+            setDisplayData(place.comment.filter(guide => guide.guide_title.toLowerCase().includes(searchQuery.toLowerCase()) || guide.guide_description.toLowerCase().includes(searchQuery.toLowerCase())))
             setDone(true);
         }
     }
@@ -141,84 +144,103 @@ export default ({ place }) => {
                     onRequestClose={toggleModal}
                     onBackdropPress={toggleModal}
                 >
-                    <View style={{flex: 1, justifyContent: "center", alignItems: "center", marginTop: 22 }}>
-                        <View style={{ margin: 20, backgroundColor: Theme.backgroundColor,  borderRadius: 20, padding: 35, alignItems: "center", shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
-                            <Text style={{ marginBottom: 15, textAlign: "center", fontWeight: '900',fontSize:21}}>Filter</Text>
-                            <Text style={{ fontWeight: 'bold', alignSelf: "flex-start" }}>Traveller rating</Text>
-                            <View style={{ flexDirection: "row",flexWrap:"wrap" }}>
+                    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginTop: 22 }}>
+                        <View style={{ margin: 20, backgroundColor: Theme.textColor, borderRadius: 20, padding: 35, alignItems: "center", shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
+                            <Text style={{ marginBottom: 15, textAlign: "center", fontWeight: 'bold', fontSize: 21, color: Theme.backgroundColor }}>Filter</Text>
+                            <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold", fontSize: 14, alignSelf: "flex-start" }}>Traveller rating</Text>
+                            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                                 {
-                                    rating.map((rating) => {
+                                    rating.map((rating, i) => {
                                         return (
                                             // <TouchableOpacity onPress={() => filterByRating(rating)}>
-                                            <TouchableOpacity>
-                                                <View style={{ borderColor: "#757272", borderWidth: 2, flexDirection: "row", padding: 6, borderRadius: 12,margin:4,backgroundColor:Theme.primaryColor}}>
-                                                    {
-                                                        [...new Array(5)].map((_,index)=> {
-                                                            if(index+1<=rating){
-                                                            return <Icon name="star" color="#FFC909" size={15}/>
-                                                            }
-                                                            else {
-                                                                return <Icon name="star-outline" color="#FFC909" size={15}/>
-                                                            }
-                                                            
-                                                        })
-                                                    }
-                                                </View>
-                                            </TouchableOpacity>
+
+                                            i == 0 ?
+                                                <TouchableOpacity>
+                                                    <View style={{ elevation: 3, flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, backgroundColor: "#8987FF" }}>
+                                                        {
+                                                            [...new Array(5)].map((_, index) => {
+                                                                if (index + 1 <= rating) {
+                                                                    return <Icon name="star" color="#FFC909" size={15} />
+                                                                }
+                                                                else {
+                                                                    return <Icon name="star-outline" color="#FFC909" size={15} />
+                                                                }
+
+                                                            })
+                                                        }
+                                                    </View>
+                                                </TouchableOpacity>
+                                                :
+                                                <TouchableOpacity>
+                                                    <View style={{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }}>
+                                                        {
+                                                            [...new Array(5)].map((_, index) => {
+                                                                if (index + 1 <= rating) {
+                                                                    return <Icon name="star" color="#C4C4C4" size={15} />
+                                                                }
+                                                                else {
+                                                                    return <Icon name="star-outline" color="rgba(0,0,0,0.25)" size={15} />
+                                                                }
+
+                                                            })
+                                                        }
+                                                    </View>
+                                                </TouchableOpacity>
+
                                         )
                                     })
                                 }
                             </View>
-                            <Text style={{ fontWeight: 'bold', alignSelf: "flex-start",marginTop:10}}>Time Of Year</Text>
-                            <View style={{ flexDirection: "row",flexWrap:"wrap" }}>
+                            <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold", fontSize: 14, alignSelf: "flex-start", marginTop: 10 }}>Time Of Year</Text>
+                            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                                 {
                                     months.map((months) => {
                                         return (
                                             // <TouchableOpacity onPress={() => filterByRating(rating)}>
                                             <TouchableOpacity>
-                                                <View style={{ borderColor: "#757272", borderWidth: 2, flexDirection: "row", padding: 6, borderRadius: 12,margin:4}}>
-                                                        <Text>{months}</Text>
+                                                <View style={{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }}>
+                                                    <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold" }}>{months}</Text>
                                                 </View>
                                             </TouchableOpacity>
                                         )
                                     })
                                 }
                             </View>
-                            <Text style={{ fontWeight: 'bold', alignSelf: "flex-start",marginTop:10}}>Type Of Visit</Text>
-                            <View style={{ flexDirection: "row",flexWrap:"wrap" }}>
+                            <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold", fontSize: 14, alignSelf: "flex-start", marginTop: 10 }}>Type Of Visit</Text>
+                            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                                 {
                                     visitType.map((type) => {
                                         return (
                                             // <TouchableOpacity onPress={() => filterByRating(rating)}>
                                             <TouchableOpacity>
-                                                <View style={{ borderColor: "#757272", borderWidth: 2, flexDirection: "row", padding: 6, borderRadius: 12,margin:4}}>
-                                                        <Text>{type}</Text>
+                                                <View style={{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }}>
+                                                    <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold" }}>{type}</Text>
                                                 </View>
                                             </TouchableOpacity>
                                         )
                                     })
                                 }
                             </View>
-                            <View style={{flexDirection:"row",marginVertical:9,justifyContent:"space-between"}}>
-                            <TouchableOpacity
-                                style={{borderRadius: 20, padding: 10, elevation: 2, backgroundColor: "#CA166C",justifyContent:"center",alignItems: "center",marginHorizontal:10 }}
-                                onPress={toggleModal}
-                            >
-                                <Text style={styles.textStyle}>Clear Filter</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{ borderRadius: 20, padding: 10, elevation: 2, backgroundColor: "#2196F3",justifyContent:"center",alignItems: "center",marginHorizontal:10}}
-                                onPress={toggleModal}
-                            >
-                                <Text style={styles.textStyle}>Hide Modal</Text>
-                            </TouchableOpacity>
+                            <View style={{ flexDirection: "row", marginVertical: 15, justifyContent: "space-between" }}>
+                                <TouchableOpacity
+                                    style={{ borderRadius: 20, padding: 10, elevation: 2, backgroundColor: "#CA166C", justifyContent: "center", alignItems: "center", marginHorizontal: 10 }}
+                                    onPress={toggleModal}
+                                >
+                                    <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Clear Filter</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={{ borderRadius: 20, padding: 10, elevation: 2, backgroundColor: "#2196F3", justifyContent: "center", alignItems: "center", marginHorizontal: 10 }}
+                                    onPress={toggleModal}
+                                >
+                                    <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Hide Modal</Text>
+                                </TouchableOpacity>
                             </View>
                         </View>
                     </View>
                 </Modal>
                 <TouchableHighlight onPress={toggleModal}>
                     <View style={{ width: "35%" }}>
-                        <View style={{ borderRadius: 32, borderWidth: 3, borderColor: Theme.primaryColor, flexDirection: "row", marginHorizontal: 10, marginVertical: 4, padding: 6, justifyContent: 'center' ,alignContent:"center"}}>
+                        <View style={{ borderRadius: 32, borderWidth: 3, borderColor: Theme.primaryColor, flexDirection: "row", marginHorizontal: 10, marginVertical: 4, padding: 6, justifyContent: 'center', alignContent: "center" }}>
                             <Icon name="filter" color={Theme.primaryColor} size={26} />
                             <Text style={{ margin: 7, color: Theme.primaryColor, justifyContent: "center" }}>Filter</Text>
                         </View>
@@ -393,13 +415,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginRight: 10
     },
-    floatingReviewStyles: { 
-        position: "absolute",  
-        right: 20, 
-        bottom:10,
-        backgroundColor:"rgba(255,255,255,0.25)", 
-        borderRadius: 999, 
-        padding: 8, 
-        elevation: 4 }
+    floatingReviewStyles: {
+        position: "absolute",
+        right: 20,
+        bottom: 10,
+        backgroundColor: "rgba(255,255,255,0.25)",
+        borderRadius: 999,
+        padding: 8,
+        elevation: 4
+    }
 });
+
 
