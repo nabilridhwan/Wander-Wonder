@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
-import ProgressBar from 'react-native-progress/Bar'
+import ProgressBar from 'react-native-progress/Bar';
 import moment from 'moment';
 import { Button, ImageBackground, TextInput, Platform, Image, StyleSheet, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity, Dimensions, TouchableOpacityBase } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -18,6 +18,8 @@ import MonthPicker from 'react-native-month-year-picker';
 // get the place, and handleLike from route.params
 export default ({ navigation, route: { params: { place, handleLike: handleLikePropFunc } } }) => {
   const carouselRef = useRef(null);
+  const[review,setReview]=useState("");
+  const[title,setTitle]=useState("");
   const [isModalVisible, setModalVisible] = useState(false);
   const [isNextVisible, setNextVisible] = useState(false);
   const [index, setIndex] = useState(0);
@@ -53,6 +55,13 @@ export default ({ navigation, route: { params: { place, handleLike: handleLikePr
     },
     [date, showPicker],
   );
+  const onSubmit=()=>{
+    if(name!=""&&password!=""){
+        saveData();
+        setName("");
+        setPassword("")
+    }
+}
   const handleLike = () => {
     setLiked(!liked)
   }
@@ -285,22 +294,21 @@ export default ({ navigation, route: { params: { place, handleLike: handleLikePr
                 <Icon name="close" size={30} color="silver" onPress={() => toggleModal()} />
               </TouchableHighlight>
               <View style={{ padding: 25 }}>
-                <Text style={{fontWeight:"bold"}}>Write Your Review</Text>
+                <Text style={{fontSize:20,fontWeight:"bold",color:Theme.backgroundColor}}>Write Your Review</Text>
                 <TextInput
-                        style={{ backgroundColor: "red" }}
-                        value={searchQuery}
-                        onEndEditing={() => handleSearch(searchQuery)}
                         placeholder='Tell us more about your ratings.'
                         placeholderTextColor={"rgba(0,0,0,0.6)"}
-                        onChangeText={(inputText) => setSearchQuery(inputText)}
+                        onChangeText={(text)=>setReview(text)} 
+                        onSubmitEditing={onSubmit}
+                        style={{marginBottom:25}}
                     />
-                <Text style={{fontWeight:"bold"}}>Title This Review</Text>
+                <Text style={{fontSize:20,fontWeight:"bold",color:Theme.backgroundColor}}>Title This Review</Text>
                 <TextInput
-                        value={searchQuery}
-                        onEndEditing={() => handleSearch(searchQuery)}
                         placeholder='Summarize your visit in a few words.'
                         placeholderTextColor={"rgba(0,0,0,0.6)"}
-                      onChangeText={(inputText) => setSearchQuery(inputText)}
+                      onChangeText={(inputText) => setTitle(inputText)}
+                      onSubmitEditing={onSubmit}
+                      style={{marginBottom:18}}
                     />
               <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} />
                 <TouchableOpacity onPress={() => toggleBoth()} style={{ padding: 9, backgroundColor: Theme.backgroundColor, marginTop: 10 }}>
