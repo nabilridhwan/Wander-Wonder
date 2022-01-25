@@ -193,6 +193,9 @@ export default class App extends React.Component {
                 <Stack.Screen name="Edit Profile" component={EditProfile} />
                 <Stack.Screen name="Add Guide Itinerary" component={AddGuideItinerary} />
 
+                <Stack.Screen name="Start Page" component={startPage} />
+                <Stack.Screen name="Login" component={Login} />
+                <Stack.Screen name="Sign Up" component={signUp} />
               </>
             )
           }

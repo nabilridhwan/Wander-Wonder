@@ -3,8 +3,23 @@ import { useState, useEffect } from 'react';
 import { ImageBackground, View, Text, Button, TextInput, TouchableOpacity, Touchable } from 'react-native';
 import Theme from '../../config/Theme';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeScreen({ navigation }) {
+
+    useEffect(() => {
+        (async () => {
+            const currentUser = await AsyncStorage.getItem("currentUser");
+            console.log("From App.js")
+            console.log(currentUser)
+            if (currentUser != null) {
+                navigation.navigate("App")
+            } 
+        })();
+
+
+    }, [])
+
     return (
         <View style={{ flex: 1 }}>
             <ImageBackground source={require('../../assets/images/startpage.jpg')} resizeMode="cover" style={{ flex: 1 }}>
