@@ -146,34 +146,11 @@ class AppComponent extends React.Component {
 
 export default class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoggedIn: false
-    }
-  }
-
-  componentDidMount() {
-    (async () => {
-      const currentUser = await AsyncStorage.getItem("currentUser");
-      console.log("From App.js")
-      console.log(currentUser)
-      if (currentUser != null) {
-        console.log("Logged in")
-        this.setState({ isLoggedIn: true })
-      } else {
-        console.log("Not logged in")
-      }
-    })();
-  }
-
   render() {
     return (
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
 
-          {this.state.isLoggedIn == false ? (
-            <>
               <Stack.Screen name="Start Page" component={startPage} />
               <Stack.Screen name="Login" component={Login} />
               <Stack.Screen name="Sign Up" component={signUp} />
@@ -183,22 +160,6 @@ export default class App extends React.Component {
               <Stack.Screen name="Map" component={MapPage} />
               <Stack.Screen name="Edit Profile" component={EditProfile} />
               <Stack.Screen name="Add Guide Itinerary" component={AddGuideItinerary} />
-            </>
-          ) :
-            (
-              <>
-                <Stack.Screen name="App" component={AppComponent} options={{ title: "Wander, Wonder", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
-                <Stack.Screen name="Guide Page" component={GuidePage} options={{ title: "Map", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
-                <Stack.Screen name="Map" component={MapPage} />
-                <Stack.Screen name="Edit Profile" component={EditProfile} />
-                <Stack.Screen name="Add Guide Itinerary" component={AddGuideItinerary} />
-
-                <Stack.Screen name="Start Page" component={startPage} />
-                <Stack.Screen name="Login" component={Login} />
-                <Stack.Screen name="Sign Up" component={signUp} />
-              </>
-            )
-          }
         </Stack.Navigator>
       </NavigationContainer>
     );
