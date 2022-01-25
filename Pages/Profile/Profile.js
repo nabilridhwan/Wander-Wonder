@@ -12,51 +12,79 @@
 // DIT/FT/1B/05
 
 
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
 import Theme from '../../config/Theme';
 import { useNavigation } from '@react-navigation/native';
-import UserProfile from "../../assets/data/Profile";
 import CustomButton from '../../components/CustomButton';
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { launchImageLibrary } from 'react-native-image-picker';
+
+import User from "../../assets/data/Profile"
 
 
-function Profile(props){
+function Profile(props) {
 
   const navigation = useNavigation();
-  const [User, setUser] = useState(UserProfile)
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [imgSrc, setImgSrc] = useState(null);
 
-  // TODO: Fix user profile doesn't show up after updating profile
-  const updateProfile = (user) => {
-    const newUser = {...User, ...user};
-    setUser(newUser);
-  }
+  useEffect(() => {
+
+    (async () => {
+      try {
+        const user = await AsyncStorage.getItem('currentUser');
+        const parsedUser = JSON.parse(user);
+        setName(parsedUser.name)
+        setUsername(parsedUser.username)
+
+        const source = { uri: parsedUser.profile_pic_uri };
+        if (parsedUser.profile_pic_uri != "") {
+
+          setImgSrc(source)
+        }
+
+      } catch (e) {
+        console.log(e);
+      }
+    })();
+
+
+  }, [])
 
   let navigateToProfilePage = () => {
-    navigation.navigate("Edit Profile", {user: User, updateProfile: updateProfile});
+    navigation.navigate("Edit Profile");
   }
 
-    return (
-      <View style={{ flex: 1, ...styles.backgroundStyle, justifyContent: "center", alignItems: "center"}}>
+  // TODO: Fix logout doesn't work
+  const logout = async () => {
+    await AsyncStorage.removeItem("currentUser");
+    navigation.navigate("Start Page");
+  }
+
+  return (
+    <View style={{ flex: 1, ...styles.backgroundStyle, justifyContent: "center", alignItems: "center" }}>
 
 
-          <View>
+      <View>
 
-          {/* Image */}
-          <View style={{justifyContent: "center", alignItems: "center"}} >
-            <Image source={User.profile_picture} style={{borderRadius: 999}}/>
-          </View>
-          
-           <Text style={{...styles.defaultText, textAlign: "center", fontWeight: "bold", fontSize: 24, marginVertical: 5}}>{User.name}</Text>
-           <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)", marginVertical: 5}}>@{User.username}</Text>
-           <Text style={{...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)", marginVertical: 5, marginBottom: 40}}>{User.biography}</Text>
+        {/* Image */}
+        <View style={{ justifyContent: "center", alignItems: "center" }} >
+          <Image source={imgSrc} style={{ borderRadius: 999 }} width={64} height={64} />
+        </View>
 
-            <View style={{alignItems: "center"}}>
-              <CustomButton buttonText="Edit Profile" onPress={navigateToProfilePage} style={{height: 35}}/>
-            </View>
-             
-          </View>
-      </View >
-    );
+        <Text style={{ ...styles.defaultText, textAlign: "center", fontWeight: "bold", fontSize: 24, marginVertical: 5 }}>{name}</Text>
+        <Text style={{ ...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)", marginVertical: 5 }}>@{username}</Text>
+
+        <View style={{ alignItems: "center" }}>
+          <CustomButton buttonText="Edit Profile" onPress={navigateToProfilePage} style={{ height: 35 }} />
+          <CustomButton buttonText="Logout" onPress={logout} />
+        </View>
+
+      </View>
+    </View >
+  );
 };
 
 const styles = StyleSheet.create({

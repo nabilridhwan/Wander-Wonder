@@ -22,6 +22,8 @@ export default ({ navigation, route: { params: { place } } }) => {
 
   useEffect(() => {
 
+    console.log("Map page")
+
     if (place.nearbyPlaces) {
       setEntries([place, ...place.nearbyPlaces]);
     } else {
@@ -69,8 +71,6 @@ export default ({ navigation, route: { params: { place } } }) => {
     carouselRef.current.snapToItem(index);
     setActiveSlide(index);
   }
-
-
 
   return (
     <SafeAreaView style={{ flex: 1, ...styles.backgroundStyle, backgroundColor: Theme.backgroundColor }}>
