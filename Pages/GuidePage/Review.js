@@ -39,7 +39,7 @@ export default ({ place }) => {
         return (
             <View style={{ flexDirection: "row", marginVertical: 6 }}>
                 <View style={{ flex: 1 }}>
-                    <Image source={item.profile_pic} style={{ width: 60, height: 60, borderRadius: 999 }} />
+                    <Image source={{uri: item.profile_pic}} style={{ width: 60, height: 60, borderRadius: 999 }} />
                 </View>
                 <View style={{ flex: 4, marginLeft: 12 }}>
                     <View style={{ flexDirection: "row" }}>

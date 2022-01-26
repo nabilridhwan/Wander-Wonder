@@ -25,16 +25,12 @@ import AddGuide from './Pages/AddGuide/AddGuide';
 import Guides from "./assets/data/Guides";
 import AddGuideItinerary from './Pages/AddGuide/AddGuideItinerary';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { getAllGuides, initGuide } from './utils/storage';
 
 class AppComponent extends React.Component {
 
   constructor(props) {
     super(props);
-
-    this.state = {
-      guides: Guides
-    }
-
     this.handleLike = this.handleLike.bind(this)
   }
 
@@ -132,11 +128,12 @@ class AppComponent extends React.Component {
           tabBarInactiveTintColor: Theme.textColor
         })}>
 
-          <Tab.Screen name="Home" children={() => <Home guides={this.state.guides} handleLike={this.handleLike} />} />
+          <Tab.Screen name="Home" component={Home} />
           <Tab.Screen name="Search" children={() => <Search handleLike={this.handleLike} />} />
           <Tab.Screen name="Add Guide" component={AddGuide} />
-          <Tab.Screen name="Favourites" children={() => <Favourites guides={this.state.guides} handleLike={this.handleLike} />} />
+          <Tab.Screen name="Favourites" component={Favourites} />
           <Tab.Screen name="Profile" component={Profile} />
+
         </Tab.Navigator>
 
       </View>
@@ -151,15 +148,15 @@ export default class App extends React.Component {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
 
-              <Stack.Screen name="Start Page" component={startPage} />
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="Sign Up" component={signUp} />
+          <Stack.Screen name="Start Page" component={startPage} />
+          <Stack.Screen name="Login" component={Login} />
+          <Stack.Screen name="Sign Up" component={signUp} />
 
-              <Stack.Screen name="App" component={AppComponent} options={{ title: "Wander, Wonder", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
-              <Stack.Screen name="Guide Page" component={GuidePage} options={{ title: "Map", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
-              <Stack.Screen name="Map" component={MapPage} />
-              <Stack.Screen name="Edit Profile" component={EditProfile} />
-              <Stack.Screen name="Add Guide Itinerary" component={AddGuideItinerary} />
+          <Stack.Screen name="App" component={AppComponent} options={{ title: "Wander, Wonder", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
+          <Stack.Screen name="Guide Page" component={GuidePage} options={{ title: "Map", headerStyle: { backgroundColor: Theme.backgroundColor }, headerTintColor: "white" }} />
+          <Stack.Screen name="Map" component={MapPage} />
+          <Stack.Screen name="Edit Profile" component={EditProfile} />
+          <Stack.Screen name="Add Guide Itinerary" component={AddGuideItinerary} />
         </Stack.Navigator>
       </NavigationContainer>
     );

@@ -1,12 +1,25 @@
-import React, { useState } from 'react';
-import { FlatList, Image, SafeAreaView, StyleSheet, Text, View} from "react-native";
+import React, { useEffect, useState } from 'react';
+import { FlatList, Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import Card from '../../components/Card';
 import Theme from '../../config/Theme';
+import { getAllGuides } from '../../utils/storage';
 
-export default ({guides: propGuides, handleLike}) => {
+export default ({ navigation }) => {
   const [pages, setPages] = useState(["All", "Singapore", "Oceania", "Asia", "Europe", "America"])
   const [currentPage, setCurrentPage] = useState("All")
-  const [guides, setGuides] = useState(propGuides)
+  const [guides, setGuides] = useState([])
+
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      refreshGuides();
+    })
+  }, [])
+
+  const refreshGuides = () => {
+    getAllGuides().then(guides => {
+      setGuides(guides)
+    })
+  }
 
   let handlePageChange = (page) => {
     // Filter out page
@@ -51,8 +64,8 @@ export default ({guides: propGuides, handleLike}) => {
         <FlatList data={guides} numColumns={2} renderItem={
           ({ item, index }) =>
             <Card place={item}
-            index={index}
-              handleLike={handleLike} />
+              index={index}
+              refreshGuides={refreshGuides} />
         } keyExtractor={(item) => item.id} ListEmptyComponent={renderNoGuide} />
 
       </View>
@@ -114,4 +127,4 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
   }
-});
+})

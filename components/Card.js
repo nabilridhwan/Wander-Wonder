@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons"
 import Theme from "../config/Theme"
 import { useNavigation } from '@react-navigation/native';
+import { toggleLikeOnGuide } from "../utils/storage";
 
 
 export default (props) => {
@@ -15,8 +16,14 @@ export default (props) => {
     navigation.navigate("Guide Page", { place: { ...props.place, index }, handleLike: handleLike })
   }
 
+  useEffect(() => {
+    setPlace(props.place);
+  }, [props.place])
+
   const handleClickOnLikeButton = () => {
-    handleLike(place);
+    toggleLikeOnGuide({id: place.id}).then(() => {
+      props.refreshGuides();
+    })
   }
 
   return (

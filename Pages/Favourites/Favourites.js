@@ -1,34 +1,38 @@
+import { NavigationRouteContext } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { FlatList, StyleSheet, Text, View, TouchableOpacity, TextInput } from "react-native";
 import Card from '../../components/Card';
 import Theme from '../../config/Theme';
+import { getAllGuides } from '../../utils/storage';
 
-function Favourites({ guides: guideProps, handleLike }) {
+function Favourites({ navigation }) {
 
   const [likedPosts, setLikedPost] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    let filteredGuides = guideProps.filter(guide => {
-      if(guide.liked){
-        console.log(guide.title)
-        return true
-      }
+    navigation.addListener('focus', () => {
+      refreshGuides();
     })
-    setLikedPost(filteredGuides)
-    console.log("====")
-  }, [guideProps])
-  
+  }, [])
+
+
+  const refreshGuides = () => {
+    getAllGuides().then(guides => {
+      const likedGuides = guides.filter(guide => guide.liked)
+      setLikedPost(likedGuides)
+    }).catch(e => { console.log(e) })
+  }
 
   const handleSearch = (searchQuery) => {
-    const filteredGuides = guideProps.filter(guide => {
-      if (guide.liked && guide.title.toLocaleLowerCase().includes(searchQuery.toLowerCase())) {
-        return guide;
-      }
-    })
 
     setSearchQuery(searchQuery);
-    setLikedPost(filteredGuides);
+
+    getAllGuides().then(guides => {
+      const likedGuides = guides.filter(guide => guide.liked && guide.title.toLowerCase().includes(searchQuery.toLowerCase()))
+
+      setLikedPost(likedGuides)
+    })
   }
 
   const renderNoGuide = () => {
@@ -52,7 +56,7 @@ function Favourites({ guides: guideProps, handleLike }) {
 
       {/* Input box for search */}
       <TouchableOpacity style={{ backgroundColor: "rgba(255,255,255,0.3)", height: 45, justifyContent: "center", borderRadius: 10, marginBottom: 10 }}>
-        <TextInput placeholder='Search your favourites...' value={searchQuery}  placeholderTextColor={"rgba(255,255,255,0.6)"} style={{ color: "white", padding: 10 }} onChangeText={handleChangeText}></TextInput>
+        <TextInput placeholder='Search your favourites...' value={searchQuery} placeholderTextColor={"rgba(255,255,255,0.6)"} style={{ color: "white", padding: 10 }} onChangeText={handleChangeText}></TextInput>
       </TouchableOpacity>
 
       {/* Display card */}
@@ -60,7 +64,7 @@ function Favourites({ guides: guideProps, handleLike }) {
         ({ item, index }) =>
           <Card place={item}
             index={index}
-            handleLike={handleLikeButton} />
+            refreshGuides={refreshGuides} />
       } keyExtractor={(item) => item.id} ListEmptyComponent={renderNoGuide} />
     </View >
   );
