@@ -129,7 +129,7 @@ class AppComponent extends React.Component {
         })}>
 
           <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Search" children={() => <Search handleLike={this.handleLike} />} />
+          <Tab.Screen name="Search" component={Search} />
           <Tab.Screen name="Add Guide" component={AddGuide} />
           <Tab.Screen name="Favourites" component={Favourites} />
           <Tab.Screen name="Profile" component={Profile} />

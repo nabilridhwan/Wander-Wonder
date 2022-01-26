@@ -38,6 +38,7 @@ import {
   AirbnbRating
 } from 'react-native-ratings';
 import MonthPicker from 'react-native-month-year-picker';
+import { toggleLikeOnGuide } from '../../utils/storage';
 
 
 // Deconstruct the props
@@ -47,7 +48,6 @@ export default ({
   route: {
     params: {
       place,
-      handleLike: handleLikePropFunc
     }
   }
 }) => {
@@ -96,7 +96,9 @@ export default ({
   //   }
   // }
   const handleLike = () => {
-    setLiked(!liked)
+    toggleLikeOnGuide({id: place.id}).then(() => {
+      setLiked(!liked)
+    })
   }
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -142,21 +144,6 @@ export default ({
     console.log(page)
     setActivePage(page)
   };
-
-  useEffect(() => {
-
-    return () => {
-      console.log("Unmounting Guides Page");
-      console.log(`Original ${place.liked}`)
-      console.log(`New ${liked}`)
-      if (liked !== place.liked) {
-
-        console.log("Like value is not the same! Calling the handleLike function!")
-        handleLikePropFunc(place);
-      }
-    }
-
-  }, [liked])
 
   return (
     <SafeAreaView style={styles.container}>

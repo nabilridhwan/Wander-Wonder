@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, TextInput, FlatList, Text, ScrollView} from "react-native";
 import Theme from '../../config/Theme';
 import Icon from 'react-native-vector-icons/Ionicons';
-import Guides from "../../assets/data/Guides";
 import Card from '../../components/Card';
+import { getAllGuides } from '../../utils/storage';
 
-export default ({handleLike}) => {
+export default ({navigation, handeLike}) => {
 
+  const [guides, setGuides] = useState([])
   const [searchQuery, setSearchQuery] = useState("");
   const [displayData, setDisplayData] = useState([]);
   const [recentSearches, setRecentSearches] = useState(["Universal Studios", "Marina Bay Sands"]);
@@ -16,15 +17,32 @@ export default ({handleLike}) => {
   const [done, setDone] = useState(false);
 
   useEffect(() => {
+    navigation.addListener('focus', () => {
+      refreshGuides();
+    })
+  }, [])
+
+  useEffect(() => {
     if(searchQuery.length == 0) {
       setDone(false);
     }
   }, [searchQuery]);
 
+  // TODO: FIX LIKED GUIDES
+  const refreshGuides = () => {
+    console.log("Refreshing")
+    getAllGuides().then(guides => {
+      setGuides(guides);
+      if(searchQuery !== ""){
+        handleSearch(searchQuery)
+      }
+    })
+  }
+
   const handleSearch = (searchQuery) => {
     setDone(false);
     if (searchQuery !== "") {
-      setDisplayData(Guides.filter(guide => guide.title.toLowerCase().includes(searchQuery.toLowerCase())))
+      setDisplayData(guides.filter(guide => guide.title.toLowerCase().includes(searchQuery.toLowerCase())))
       setRecentSearches([searchQuery, ...recentSearches.filter(search => search != searchQuery)]);
       setDone(true);
     }
@@ -130,7 +148,7 @@ export default ({handleLike}) => {
           ({ item, index }) =>
             <Card place={item}
               index={index}
-              handleLike={handleLike} />
+              refreshGuides={refreshGuides} />
         } keyExtractor={(item) => item.id} ListEmptyComponent={renderNoGuide} />
       }
 

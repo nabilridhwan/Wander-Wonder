@@ -9,11 +9,10 @@ import { toggleLikeOnGuide } from "../utils/storage";
 export default (props) => {
   const [place, setPlace] = useState(props.place);
   const index = props.index;
-  const handleLike = props.handleLike;
   const navigation = useNavigation();
 
   const navigateToGuidesPage = () => {
-    navigation.navigate("Guide Page", { place: { ...props.place, index }, handleLike: handleLike })
+    navigation.navigate("Guide Page", { place: { ...props.place, index }})
   }
 
   useEffect(() => {
