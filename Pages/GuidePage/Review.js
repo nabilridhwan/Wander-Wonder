@@ -12,13 +12,14 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../../config/Theme';
 import HighlightText from '@sanar/react-native-highlight-text';
 import Modal from "react-native-modal";
-import { addNewCommentByPostId, getAllCommentsByPostId } from '../../utils/storage';
+import { getAllCommentsByPostId } from '../../utils/storage';
 export const visitType = ["Couple", "Business", "Family(Teens)", "Family(Younger Children)", "Friends", "School", "Solo"];
 const relativeDate = require("relative-date")
 
-export default ({ place }) => {
+import moment from 'moment';
+
+export default ({ place, forceUpdate}) => {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const d = new Date();
     // let monthName = months[d.getMonth()];
     const [searchQuery, setSearchQuery] = useState("");
     const [isModalVisible, setModalVisible] = useState(false);
@@ -30,12 +31,20 @@ export default ({ place }) => {
     };
 
     useEffect(() => {
+        getLatestComments();
+    }, [])
+
+    const getLatestComments = () => {
         getAllCommentsByPostId(place.id).then(comments => {
-            setDisplayData(comments)
+            setDisplayData(comments.reverse())
         }).catch(e => {
             alert(e);
         })
-    }, [])
+    }
+
+    useEffect(() => {
+        getLatestComments();
+    }, [forceUpdate])
 
     const renderItem = ({ item }) => {
         return (
@@ -68,7 +77,7 @@ export default ({ place }) => {
                         })}
                         {new Array(5 - item.rating).fill(0).map((_, index) => {
                             return (
-                                <Icon key={index} name="ios-star" size={20} color="white" style={{marginRight: 5}}/>
+                                <Icon key={index} name="ios-star" size={20} color="white" style={{ marginRight: 5 }} />
                             )
                         }
                         )}
@@ -89,8 +98,8 @@ export default ({ place }) => {
                         </Text>
                     </View> */}
 
-                    <Text style={{ color: Theme.textColor }}>Written on {item.created_at}</Text>
-                    
+                    <Text style={{ color: Theme.textColor }}>Written on {moment(item.created_at).format('LLL')}</Text>
+
                     {/* <View style={{ flexDirection: "row", marginVertical: 10 }}>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-start' }}>
                             <Icon name="heart" color={Theme.heartColor} size={23} />
@@ -330,6 +339,7 @@ export default ({ place }) => {
                     />
                 </SafeAreaView>
             </ScrollView>
+
         </View>
     );
 }

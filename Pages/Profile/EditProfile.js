@@ -33,6 +33,7 @@ function EditProfile({ route, navigation }) {
             }
         })();
 
+        // componentDidUnmount
         return () => {
             route.params.getUser()
         }

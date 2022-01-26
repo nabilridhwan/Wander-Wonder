@@ -50,7 +50,6 @@ function Profile(props) {
     navigation.navigate("Edit Profile", {getUser: getUser});
   }
 
-  // TODO: Fix logout doesn't work
   const logout = async () => {
     await AsyncStorage.removeItem("currentUser");
     navigation.navigate("Start Page");

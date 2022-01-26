@@ -35,7 +35,7 @@ import {
   AirbnbRating
 } from 'react-native-ratings';
 import MonthPicker from 'react-native-month-year-picker';
-import { toggleLikeOnGuide,addNewCommentByPostId,getCurrentUser} from '../../utils/storage';
+import { toggleLikeOnGuide, addNewCommentByPostId, getCurrentUser, getGuide } from '../../utils/storage';
 
 
 // Deconstruct the props
@@ -48,9 +48,11 @@ export default ({
     }
   }
 }) => {
+
+  const [id, setId] = useState(place.id);
+
   const carouselRef = useRef(null);
   const [rating, setRating] = useState(5);
-  const [currentDate, setCurrentDate] = useState('');
   const [review, setReview] = useState("");
   const [title, setTitle] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
@@ -58,6 +60,12 @@ export default ({
   const [index, setIndex] = useState(0);
   const [activePage, setActivePage] = useState("Overview")
   const [liked, setLiked] = useState(place.liked)
+
+  const [profileImgSrc, setProfileImgSrc] = useState(null);
+  const [username, setUsername] = useState(null)
+
+  const [forceUpdate, setForceUpdate] = useState(0);
+
   const [image, setImage] = useState([{
     image: require(`../../assets/images/singapore/USS.png`),
   },
@@ -73,20 +81,48 @@ export default ({
   {
     image: require(`../../assets/images/singapore/USS4.jpg`),
   }])
+
+
+  // componentDidMount
+  useEffect(() => {
+
+    getCurrentUser().then(user => {
+      if (user.profile_pic_uri) {
+        setProfileImgSrc({ uri: user.profile_pic_uri })
+      }
+
+      setUsername(user.username)
+    })
+
+    // This empty array is the dependency array
+    // What is does is that it will only run the useEffect function when the array is changed
+    // E.g. if the array is empty, it will only run the useEffect function when the array is changed
+    // If the array is not empty, it will only run the useEffect function when the array is changed
+  }, [])
+
+
+  const doForceUpdate = () => {
+    setForceUpdate(forceUpdate + 1);
+  }
+
+
   const onSubmit = () => {
     if (review != "" && title != "") {
-      console.log(place.id)
-      addNewCommentByPostId(place.id, title, review, moment(Date.now()).format('LLL'), rating);
+
       setReview("");
       setTitle("")
       toggleNext();
+
+      addNewCommentByPostId(id, title, review, Date.now(), rating).then(() => {
+        doForceUpdate();
+      })
     }
-    else{
+    else {
       alert("Title and review must be filled!")
     }
   }
   const handleLike = () => {
-    toggleLikeOnGuide({id: place.id}).then(() => {
+    toggleLikeOnGuide({ id: id }).then(() => {
       setLiked(!liked)
     })
   }
@@ -210,109 +246,118 @@ export default ({
           </View>
           {activePage == "Overview" && <OverviewContent place={place} />}
           {activePage == "Itinerary" && <ItineraryContent place={place} />}
-          {activePage == "Review" && <Review place={place} />}
+          {activePage == "Review" && <Review place={place} forceUpdate={forceUpdate} />}
         </ScrollView>
       </View>
 
       <TouchableOpacity onPress={() => navigation.navigate("Map", { place: place })} style={activePage == "Review" ? { ...styles.floatingButtonStyles, bottom: 83 } : styles.floatingButtonStyles}>
         <Icon name="navigate" color={Theme.textColor} size={24} />
       </TouchableOpacity>
-      <View style={activePage == "Review" ? { backgroundColor: Theme.backgroundColor, width: "100%", height: 50 } : { display: "none" }}>
-        <TouchableOpacity style={activePage == "Review" ? { ...styles.floatingReviewStyles } : styles.hiddenFloatingButton}>
+
+
+      <TouchableOpacity onPress={() => setModalVisible(true)} style={activePage == "Review" ? { ...styles.floatingReviewStyles, alignItems: "center" } : styles.hiddenFloatingButton}>
+
+        <View style={{ backgroundColor: "#404040", width: "90%", padding: 10, borderRadius: 10 }}>
           <View style={{ flexDirection: "row" }}>
             <View style={{ marginRight: 6 }}>
-              <Image source={getCurrentUser().then(user=>user.profile_pic_uri)} style={{ borderRadius: 999, width: 50, height: 50 }} />
+              <Image source={profileImgSrc} style={{ borderRadius: 999, width: 50, height: 50 }} />
             </View>
-            <TouchableOpacity onPress={() => setModalVisible(true)}
-              style={{ justifyContent: "center", color: Theme.textColor, padding: 10 }}>
-              <Text style={{ color: "rgba(255,255,255,0.6)" }}>Leave a comment as @wif_cuteXR</Text>
-            </TouchableOpacity>
-            <View style={{ justifyContent: 'center', marginHorizontal: 4 }}>
-              <Icon name="send" color={Theme.primaryColor} size={24} />
+
+            <View style={{ flexDirection: "row", justifyContent: "space-between", width: "80%" }}>
+              <View style={{ justifyContent: "center", color: Theme.textColor, padding: 10 }}>
+                <Text style={{ color: "rgba(255,255,255,0.6)" }}>Leave a comment as @{username}</Text>
+              </View>
+
+
+              <View style={{ justifyContent: "center", }}>
+                <Icon name="send" color={Theme.primaryColor} size={24} />
+              </View>
+            </View>
+
+          </View>
+
+        </View>
+      </TouchableOpacity>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        isVisible={isModalVisible}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={{ flex: 1, justifyContent: "center", marginTop: 10 }}>
+          <View style={{ backgroundColor: Theme.textColor, borderRadius: 20, padding: 10, shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
+
+            <TouchableHighlight style={{ alignItems: "flex-start", justifyContent: "center" }}>
+              <Icon name="close" size={30} color="silver" onPress={() => setModalVisible(false)} />
+            </TouchableHighlight>
+
+            <View style={{ padding: 25 }}>
+              <Text style={{ fontWeight: "bold", fontSize: 18, color: Theme.backgroundColor }}>Rate Your Experience</Text>
+              <AirbnbRating
+                count={5}
+                reviews={["Terrible", "Poor", "Average", "Very Good", "Excellent"]}
+                defaultRating={5}
+                selectedColor={"#FFC909"}
+                onFinishRating={(rating) => setRating(rating)}
+                size={30}
+              />
+              {/* <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} /> */}
+              <TouchableOpacity onPress={() => { setModalVisible(false); setNextVisible(true) }} style={{ width: 100, borderRadius: 12, padding: 10, backgroundColor: Theme.primaryColor, marginTop: 18, alignItems: "center", alignSelf: "flex-end" }}>
+                <Text style={{ color: Theme.textColor, fontWeight: "bold", fontSize: 21 }}>Next</Text>
+              </TouchableOpacity>
+
             </View>
           </View>
-        </TouchableOpacity>
+        </View>
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        isVisible={isNextVisible}
+        animationIn="slideInLeft"
+        animationOut="slideOutRight"
+      >
+        <View style={{ flex: 1, justifyContent: "center", marginTop: 10 }}>
+          <View style={{ backgroundColor: Theme.textColor, borderRadius: 20, padding: 10, shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
 
-        <Modal
-          animationType="slide"
-          transparent={true}
-          isVisible={isModalVisible}
-          animationIn="slideInLeft"
-          animationOut="slideOutRight"
-          onRequestClose={() => setModalVisible(false)}
-        >
-          <View style={{ flex: 1, justifyContent: "center", marginTop: 10 }}>
-            <View style={{ backgroundColor: Theme.textColor, borderRadius: 20, padding: 10, shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
+            {/* Close button */}
+            <TouchableHighlight style={{ alignItems: "flex-start", justifyContent: "center" }}>
+              <Icon name="close" size={30} color="silver" onPress={() => setNextVisible(false)} />
+            </TouchableHighlight>
 
-              <TouchableHighlight style={{ alignItems: "flex-start", justifyContent: "center" }}>
-                <Icon name="close" size={30} color="silver" onPress={() => setModalVisible(false)} />
-              </TouchableHighlight>
-
-              <View style={{ padding: 25 }}>
-                <Text style={{ fontWeight: "bold", fontSize: 18, color: Theme.backgroundColor }}>Rate Your Experience</Text>
-                <AirbnbRating
-                  count={5}
-                  reviews={["Terrible", "Poor", "Average", "Very Good", "Excellent"]}
-                  defaultRating={5}
-                  selectedColor={"#FFC909"}
-                  onFinishRating={(rating)=>setRating(rating)}
-                  size={30}
-                />
-                {/* <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} /> */}
-                <TouchableOpacity onPress={() => {setModalVisible(false); setNextVisible(true)}} style={{ width: 100,borderRadius:12,padding: 10, backgroundColor: Theme.primaryColor, marginTop: 18,alignItems:"center",alignSelf:"flex-end"}}>
-                  <Text style={{  color: Theme.textColor, fontWeight: "bold",fontSize:21}}>Next</Text>
+            <View style={{ padding: 25 }}>
+              <Text style={{ fontSize: 20, fontWeight: "bold", color: Theme.backgroundColor }}>Write Your Review</Text>
+              <TextInput
+                placeholder='Tell us more about your ratings.'
+                placeholderTextColor={"rgba(0,0,0,0.6)"}
+                onChangeText={(text) => setReview(text)}
+                // onSubmitEditing={onSubmit}
+                style={{ marginBottom: 50 }}
+              />
+              <Text style={{ fontSize: 20, fontWeight: "bold", color: Theme.backgroundColor }}>Title This Review</Text>
+              <TextInput
+                placeholder='Summarize your visit in a few words.'
+                placeholderTextColor={"rgba(0,0,0,0.6)"}
+                onChangeText={(inputText) => setTitle(inputText)}
+                // onSubmitEditing={onSubmit}
+                style={{ marginBottom: 35 }}
+              />
+              {/* <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} /> */}
+              <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <TouchableOpacity onPress={() => toggleBoth()} style={{ width: 100, borderRadius: 12, padding: 11, backgroundColor: Theme.primaryColor, alignItems: "center" }}>
+                  <Text style={{ color: Theme.textColor, fontWeight: "bold", fontSize: 19 }}>Previous</Text>
                 </TouchableOpacity>
-
+                <TouchableOpacity onPress={() => onSubmit()} style={{ width: 100, borderRadius: 12, padding: 11, backgroundColor: Theme.primaryColor, alignItems: "center" }}>
+                  <Text style={{ color: Theme.textColor, fontWeight: "bold", fontSize: 19 }}>Submit</Text>
+                </TouchableOpacity>
               </View>
             </View>
           </View>
-        </Modal>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          isVisible={isNextVisible}
-          animationIn="slideInLeft"
-          animationOut="slideOutRight"
-        >
-          <View style={{ flex: 1, justifyContent: "center", marginTop: 10 }}>
-            <View style={{ backgroundColor: Theme.textColor, borderRadius: 20, padding: 10, shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
-
-              {/* Close button */}
-              <TouchableHighlight style={{ alignItems: "flex-start", justifyContent: "center" }}>
-                <Icon name="close" size={30} color="silver" onPress={() => setNextVisible(false)} />
-              </TouchableHighlight>
-
-              <View style={{ padding: 25 }}>
-                <Text style={{ fontSize: 20, fontWeight: "bold", color: Theme.backgroundColor }}>Write Your Review</Text>
-                <TextInput
-                  placeholder='Tell us more about your ratings.'
-                  placeholderTextColor={"rgba(0,0,0,0.6)"}
-                  onChangeText={(text) => setReview(text)}
-                  // onSubmitEditing={onSubmit}
-                  style={{ marginBottom: 50}}
-                />
-                <Text style={{ fontSize: 20, fontWeight: "bold", color: Theme.backgroundColor }}>Title This Review</Text>
-                <TextInput
-                  placeholder='Summarize your visit in a few words.'
-                  placeholderTextColor={"rgba(0,0,0,0.6)"}
-                  onChangeText={(inputText) => setTitle(inputText)}
-                  // onSubmitEditing={onSubmit}
-                  style={{ marginBottom: 35}}
-                />
-                {/* <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} /> */}
-                <View style={{flexDirection:"row",justifyContent:"space-between"}}>
-                <TouchableOpacity onPress={() => toggleBoth()} style={{width: 100,borderRadius:12, padding: 11, backgroundColor: Theme.primaryColor, alignItems:"center"}}>
-                  <Text style={{ color: Theme.textColor, fontWeight: "bold",fontSize:19}}>Previous</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => onSubmit()} style={{width: 100,borderRadius:12, padding: 11, backgroundColor: Theme.primaryColor, alignItems:"center"}}>
-                  <Text style={{ color: Theme.textColor, fontWeight: "bold",fontSize:19}}>Submit</Text>
-                </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </View>
-        </Modal>
-      </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -401,13 +446,7 @@ const styles = StyleSheet.create({
   },
 
   floatingReviewStyles: {
-    position: "absolute",
-    right: 20,
-    bottom: 10,
-    backgroundColor: "#404040",
-    borderRadius: 21,
-    padding: 8,
-    elevation: 4
+    backgroundColor: Theme.backgroundColor
   },
 
   hiddenFloatingButton: {
