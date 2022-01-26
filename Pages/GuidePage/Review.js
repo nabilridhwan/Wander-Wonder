@@ -90,7 +90,7 @@ export default ({ place }) => {
                     </View> */}
 
                     <Text style={{ color: Theme.textColor }}>Written on {item.created_at}</Text>
-
+                    
                     {/* <View style={{ flexDirection: "row", marginVertical: 10 }}>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-start' }}>
                             <Icon name="heart" color={Theme.heartColor} size={23} />

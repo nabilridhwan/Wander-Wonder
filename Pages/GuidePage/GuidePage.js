@@ -35,7 +35,7 @@ import {
   AirbnbRating
 } from 'react-native-ratings';
 import MonthPicker from 'react-native-month-year-picker';
-import { toggleLikeOnGuide } from '../../utils/storage';
+import { toggleLikeOnGuide,addNewCommentByPostId,getCurrentUser} from '../../utils/storage';
 
 
 // Deconstruct the props
@@ -49,6 +49,8 @@ export default ({
   }
 }) => {
   const carouselRef = useRef(null);
+  const [rating, setRating] = useState(5);
+  const [currentDate, setCurrentDate] = useState('');
   const [review, setReview] = useState("");
   const [title, setTitle] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
@@ -71,27 +73,18 @@ export default ({
   {
     image: require(`../../assets/images/singapore/USS4.jpg`),
   }])
-  const [startDate, setStartDate] = useState(new Date());
-  const [date, setDate] = useState(new Date());
-  const [show, setShow] = useState(false);
-
-  const showPicker = () => setShow(!show);
-
-  const onValueChange = (event, newDate) => {
-
-    const selectedDate = newDate || date;
-
-    showPicker(false);
-    setDate(selectedDate);
+  const onSubmit = () => {
+    if (review != "" && title != "") {
+      console.log(place.id)
+      addNewCommentByPostId(place.id, title, review, moment(Date.now()).format('LLL'), rating);
+      setReview("");
+      setTitle("")
+      toggleNext();
+    }
+    else{
+      alert("Title and review must be filled!")
+    }
   }
-
-  // const onSubmit = () => {
-  //   if (name != "" && password != "") {
-  //     saveData();
-  //     setName("");
-  //     setPassword("")
-  //   }
-  // }
   const handleLike = () => {
     toggleLikeOnGuide({id: place.id}).then(() => {
       setLiked(!liked)
@@ -104,8 +97,8 @@ export default ({
     setNextVisible(!isNextVisible);
   };
   const toggleBoth = () => {
-    setModalVisible(false)
-    setNextVisible(false)
+    toggleModal()
+    toggleNext()
   }
   const _renderItem = ({ item, index }) => {
     return (
@@ -228,7 +221,7 @@ export default ({
         <TouchableOpacity style={activePage == "Review" ? { ...styles.floatingReviewStyles } : styles.hiddenFloatingButton}>
           <View style={{ flexDirection: "row" }}>
             <View style={{ marginRight: 6 }}>
-              <Image source={require("../../assets/images/profilepicture.png")} style={{ borderRadius: 999, width: 50, height: 50 }} />
+              <Image source={getCurrentUser().then(user=>user.profile_pic_uri)} style={{ borderRadius: 999, width: 50, height: 50 }} />
             </View>
             <TouchableOpacity onPress={() => setModalVisible(true)}
               style={{ justifyContent: "center", color: Theme.textColor, padding: 10 }}>
@@ -262,11 +255,12 @@ export default ({
                   reviews={["Terrible", "Poor", "Average", "Very Good", "Excellent"]}
                   defaultRating={5}
                   selectedColor={"#FFC909"}
+                  onFinishRating={(rating)=>setRating(rating)}
                   size={30}
                 />
                 {/* <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} /> */}
-                <TouchableOpacity onPress={() => {setModalVisible(false); setNextVisible(true)}} style={{ padding: 9, backgroundColor: Theme.backgroundColor, marginTop: 10 }}>
-                  <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Next</Text>
+                <TouchableOpacity onPress={() => {setModalVisible(false); setNextVisible(true)}} style={{ width: 100,borderRadius:12,padding: 10, backgroundColor: Theme.primaryColor, marginTop: 18,alignItems:"center",alignSelf:"flex-end"}}>
+                  <Text style={{  color: Theme.textColor, fontWeight: "bold",fontSize:21}}>Next</Text>
                 </TouchableOpacity>
 
               </View>
@@ -295,7 +289,7 @@ export default ({
                   placeholderTextColor={"rgba(0,0,0,0.6)"}
                   onChangeText={(text) => setReview(text)}
                   // onSubmitEditing={onSubmit}
-                  style={{ marginBottom: 25 }}
+                  style={{ marginBottom: 50}}
                 />
                 <Text style={{ fontSize: 20, fontWeight: "bold", color: Theme.backgroundColor }}>Title This Review</Text>
                 <TextInput
@@ -303,12 +297,17 @@ export default ({
                   placeholderTextColor={"rgba(0,0,0,0.6)"}
                   onChangeText={(inputText) => setTitle(inputText)}
                   // onSubmitEditing={onSubmit}
-                  style={{ marginBottom: 18 }}
+                  style={{ marginBottom: 35}}
                 />
                 {/* <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} /> */}
-                <TouchableOpacity onPress={() => toggleBoth()} style={{ padding: 9, backgroundColor: Theme.backgroundColor, justifyContent:"flex-start"}}>
-                  <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Next</Text>
+                <View style={{flexDirection:"row",justifyContent:"space-between"}}>
+                <TouchableOpacity onPress={() => toggleBoth()} style={{width: 100,borderRadius:12, padding: 11, backgroundColor: Theme.primaryColor, alignItems:"center"}}>
+                  <Text style={{ color: Theme.textColor, fontWeight: "bold",fontSize:19}}>Previous</Text>
                 </TouchableOpacity>
+                <TouchableOpacity onPress={() => onSubmit()} style={{width: 100,borderRadius:12, padding: 11, backgroundColor: Theme.primaryColor, alignItems:"center"}}>
+                  <Text style={{ color: Theme.textColor, fontWeight: "bold",fontSize:19}}>Submit</Text>
+                </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>
