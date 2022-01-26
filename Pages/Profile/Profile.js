@@ -21,6 +21,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { launchImageLibrary } from 'react-native-image-picker';
 
 import User from "../../assets/data/Profile"
+import { getCurrentUser } from '../../utils/storage';
 
 
 function Profile(props) {
@@ -31,30 +32,22 @@ function Profile(props) {
   const [imgSrc, setImgSrc] = useState(null);
 
   useEffect(() => {
-
-    (async () => {
-      try {
-        const user = await AsyncStorage.getItem('currentUser');
-        const parsedUser = JSON.parse(user);
-        setName(parsedUser.name)
-        setUsername(parsedUser.username)
-
-        const source = { uri: parsedUser.profile_pic_uri };
-        if (parsedUser.profile_pic_uri != "") {
-
-          setImgSrc(source)
-        }
-
-      } catch (e) {
-        console.log(e);
-      }
-    })();
-
-
+    getUser();
   }, [])
 
+  const getUser = () => {
+    getCurrentUser().then(user => {
+      setName(user.name)
+      setUsername(user.username)
+      const source = { uri: user.profile_pic_uri };
+      if (user.profile_pic_uri != "") {
+        setImgSrc(source)
+      }
+    })
+  }
+
   let navigateToProfilePage = () => {
-    navigation.navigate("Edit Profile");
+    navigation.navigate("Edit Profile", {getUser: getUser});
   }
 
   // TODO: Fix logout doesn't work

@@ -21,11 +21,10 @@ export default (props) => {
 
   return (
     <TouchableOpacity style={styles.card} onPress={navigateToGuidesPage}>
-      <View>
 
-        <ImageBackground imageStyle={{ borderRadius: 10 }} style={card.image} source={place.image_url} resizeMode='cover'>
+        <ImageBackground imageStyle={{ borderRadius: 10 }} style={card.image} source={{uri: place.image_url}} resizeMode='cover'>
 
-          <View style={{ flex: 1, justifyContent: "space-between", padding: 10 }}>
+          <View style={{ flex: 1, justifyContent: "space-between", backgroundColor: "rgba(0,0,0,0.3)", padding: 10 }}>
 
             <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
               <Text style={card.countryText}>{place.countryEmoji}</Text>
@@ -44,7 +43,6 @@ export default (props) => {
           </View>
 
         </ImageBackground>
-      </View>
 
     </TouchableOpacity>
   )

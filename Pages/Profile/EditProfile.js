@@ -5,6 +5,7 @@ import CustomTextInput from "../../components/CustomTextInput";
 import CustomButton from "../../components/CustomButton";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { launchImageLibrary } from "react-native-image-picker";
+import { getCurrentUser, saveUser, updateUser } from "../../utils/storage";
 
 function EditProfile({ route, navigation }) {
 
@@ -15,29 +16,40 @@ function EditProfile({ route, navigation }) {
     const [pfpUri, setPfpUri] = useState("");
 
     useEffect(() => {
-
         (async () => {
             try {
-                const currentUser = await AsyncStorage.getItem("currentUser");
-                const parseCurrentUser = JSON.parse(currentUser);
-
-                setNameInput(parseCurrentUser.name);
-                setUsernameInput(parseCurrentUser.username);
-                setEmailInput(parseCurrentUser.email);
-                setPasswordInput(parseCurrentUser.password);
-                setPfpUri(parseCurrentUser.profile_pic_uri);
-
+                getCurrentUser().then(async (user) => {
+                    if (user) {
+                        setNameInput(user.name);
+                        setUsernameInput(user.username);
+                        setEmailInput(user.email);
+                        setPasswordInput(user.password);
+                        setPfpUri(user.profile_pic_uri);
+                    }
+                });
             } catch (e) {
                 // error reading value
                 alert(e);
             }
         })();
 
+        return () => {
+            route.params.getUser()
+        }
+
     }, [])
 
     const handleSave = () => {
-        saveUserDetails();
-        navigateBack();
+        updateUser({
+            name: nameInput,
+            username: usernameInput,
+            email: emailInput,
+            password: passwordInput,
+            profile_pic_uri: pfpUri
+        }).then(_ => {
+
+            navigateBack();
+        })
     }
 
     const navigateBack = () => {
@@ -51,38 +63,6 @@ function EditProfile({ route, navigation }) {
             setPfpUri(uri);
         }
     }
-
-    const saveUserDetails = async () => {
-        try {
-            const users = await AsyncStorage.getItem("users");
-            const parsedUsers = JSON.parse(users);
-
-            const currentUser = await AsyncStorage.getItem("currentUser");
-            const parsedCurrentUser = JSON.parse(currentUser);
-
-            console.log("From EditProfile")
-            console.log(parsedUsers);
-            console.log(parsedCurrentUser);
-
-            const userIndex = parsedUsers.findIndex(user => user.email === parsedCurrentUser.email);
-            parsedCurrentUser.profile_pic_uri = pfpUri;
-            parsedCurrentUser.name = nameInput;
-            parsedCurrentUser.username = usernameInput;
-            parsedCurrentUser.email = emailInput;
-            parsedCurrentUser.password = passwordInput;
-            parsedUsers[userIndex] = parsedCurrentUser;
-
-            console.log(parsedCurrentUser)
-
-            // Write back to db
-            await AsyncStorage.setItem("users", JSON.stringify(parsedUsers));
-            await AsyncStorage.setItem("currentUser", JSON.stringify(parsedCurrentUser));
-        } catch (e) {
-            alert(e);
-        }
-    }
-
-
 
     return (
         <View style={{ flex: 1, backgroundColor: Theme.backgroundColor, padding: 20 }}>

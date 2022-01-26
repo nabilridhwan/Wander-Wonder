@@ -294,22 +294,6 @@ export default ({
                     })
                   }
                 </View>
-                <Text style={{ fontWeight: "bold", fontSize: 18, color: Theme.backgroundColor, marginTop: 18 }}>Visit Date</Text>
-                <TouchableOpacity onPress={() => showPicker(true)} style={{ alignItems: "flex-start", justifyContent: "center", marginBottom: 15, borderWidth: 2, borderColor: Theme.backgroundColor, borderRadius: 10 }}>
-                  <Text>{moment(date).format("MM-YYYY")}</Text>
-                </TouchableOpacity>
-
-                {show && (
-                  <MonthPicker
-                    onChange={onValueChange}
-                    value={date}
-                    mode="short"
-                    autoTheme={false}
-                    minumumDate={new Date(1985, 5)}
-                    maximumDate={new Date()}
-                  />
-                )}
-
                 <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} />
                 <TouchableOpacity onPress={() => toggleBoth()} style={{ padding: 9, backgroundColor: Theme.backgroundColor, marginTop: 10 }}>
                   <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Next</Text>
