@@ -12,51 +12,68 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../../config/Theme';
 import HighlightText from '@sanar/react-native-highlight-text';
 import Modal from "react-native-modal";
-export const visitType = ["Couple", "Business", "Family(Teens)","Family(Younger Children)", "Friends", "School","Solo"];
+import { getAllCommentsByPostId } from '../../utils/storage';
+export const visitType = ["Couple", "Business", "Family(Teens)", "Family(Younger Children)", "Friends", "School", "Solo"];
+const relativeDate = require("relative-date")
 
-export default ({ place }) => {   
+export default ({ place }) => {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const d = new Date();
     // let monthName = months[d.getMonth()];
     const [searchQuery, setSearchQuery] = useState("");
     const [colour, setColour] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
-    const [displayData, setDisplayData] = useState(place.comment);
-    const [done, setDone] = useState(false);
+    const [displayData, setDisplayData] = useState([]);
     const [rating, setRating] = useState([1, 2, 3, 4, 5]);
-    const clickButton = () => {
-        setColour(!colour)
-    }
+
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
+
     useEffect(() => {
-        if (searchQuery.length == 0) {
-            setDone(false);
-        }
-    }, [searchQuery]);
+        getAllCommentsByPostId(place.id).then(comments => {
+            setDisplayData(comments)
+        }).catch(e => {
+            alert(e);
+        })
+
+    }, [])
+
     const renderItem = ({ item }) => {
         return (
             <View style={{ flexDirection: "row", marginVertical: 6 }}>
                 <View style={{ flex: 1 }}>
-                    <Image source={{uri: item.profile_pic}} style={{ width: 60, height: 60, borderRadius: 999 }} />
+                    <Image source={{ uri: item.profile_pic }} style={{ width: 60, height: 60, borderRadius: 999 }} />
                 </View>
                 <View style={{ flex: 4, marginLeft: 12 }}>
                     <View style={{ flexDirection: "row" }}>
                         <View style={{ flex: 1, justifyContent: "flex-start" }}>
                             <Text style={{ fontWeight: '900', fontSize: 17, color: Theme.textColor }}>{item.name}</Text>
                         </View>
+
+                        {/* How long ago  */}
                         <View style={{ flex: 1, justifyContent: "flex-end" }}>
-                            <Text style={{ fontSize: 15, color: "rgba(255,255,255,0.75)" }}>{item.date_created}</Text>
+                            <Text style={{ fontSize: 15, color: "rgba(255,255,255,0.75)" }}>
+                                {relativeDate(new Date(item.created_at))}
+                            </Text>
                         </View>
+
                     </View>
                     <Text style={{ fontSize: 15, color: "rgba(255,255,255,0.7)" }}>{item.username}</Text>
-                    <View style={{ flexDirection: "row", width: "65%", justifyContent: "space-between", marginVertical: 8 }}>
-                        <Icon name="star" color="#FFC909" size={26} />
-                        <Icon name="star" color="#FFC909" size={26} />
-                        <Icon name="star" color="#FFC909" size={26} />
-                        <Icon name="star" color="#FFC909" size={26} />
-                        <Icon name="star" color="#FFC909" size={26} />
+                    <View style={{ flexDirection: "row", marginVertical: 8 }}>
+
+                        {/* Rating */}
+                        {new Array(item.rating).fill(0).map((_, index) => {
+                            return (
+                                <Icon key={index} name="ios-star" size={20} color="#FFC909" style={{ marginRight: 5 }} />
+                            )
+                        })}
+                        {new Array(5 - item.rating).fill(0).map((_, index) => {
+                            return (
+                                <Icon key={index} name="ios-star" size={20} color="white" />
+                            )
+                        }
+                        )}
                     </View>
                     <Text style={{ fontWeight: '900', fontSize: 15, color: Theme.textColor, marginBottom: 7 }}>{item.guide_title}</Text>
                     {/* <Text style={{ fontSize: 15, color: Theme.textColor }}>{item.guide_description}</Text> */}
@@ -67,17 +84,16 @@ export default ({ place }) => {
                         style={{ fontSize: 15, color: Theme.textColor }}
                     />
 
-                    <View style={{ flexDirection: "row", marginVertical: 10 }}>
+                    {/* <View style={{ flexDirection: "row", marginVertical: 10 }}>
                         <Text style={{ textDecorationLine: "underline" }}>
                             <Text style={{ color: Theme.textColor }}>Read More</Text>
                             <Icon name="caret-down" color={Theme.textColor} size={15} />
                         </Text>
-                    </View>
-                    <View style={{ backgroundColor: item.tag_color, width: "30%", padding: 5, borderRadius: 9, marginBottom: 5 }}>
-                        <Text style={{ fontSize: 13, color: Theme.textColor, alignSelf: "center", fontWeight: "bold" }}>• {item.guide_tag}</Text>
-                    </View>
+                    </View> */}
+
                     <Text style={{ color: Theme.textColor }}>Written on {item.created_at}</Text>
-                    <View style={{ flexDirection: "row", marginVertical: 10 }}>
+
+                    {/* <View style={{ flexDirection: "row", marginVertical: 10 }}>
                         <View style={{ flex: 1, flexDirection: "row", justifyContent: 'flex-start' }}>
                             <Icon name="heart" color={Theme.heartColor} size={23} />
                             <Text style={{ color: Theme.textColor, marginLeft: 9 }}>14</Text>
@@ -86,25 +102,19 @@ export default ({ place }) => {
                             <Icon name="chatbox-ellipses" color="#3591FE" size={23} />
                             <Text style={{ color: "white", marginLeft: 9 }}>20</Text>
                         </View>
-                    </View>
+                    </View> */}
+
                 </View>
             </View>
         )
     }
+
     const handleSearch = (searchQuery) => {
-        setDone(false);
         if (searchQuery !== "") {
             setDisplayData(place.comment.filter(guide => guide.guide_title.toLowerCase().includes(searchQuery.toLowerCase()) || guide.guide_description.toLowerCase().includes(searchQuery.toLowerCase())))
-            setDone(true);
         }
     }
-    const handleItemClick = (index, array) => {
-        const item = array[index];
-        // Set the search query to the item tapped
-        setSearchQuery(item);
-        // Perform a search
-        handleSearch(item);
-    }
+
     const renderNoGuide = () => {
         return (
             <View>
@@ -137,6 +147,8 @@ export default ({ place }) => {
                         />
                     </View>
                 </View>
+
+                {/* Filter modal */}
                 <Modal
                     animationType="slide"
                     transparent={true}
@@ -147,6 +159,8 @@ export default ({ place }) => {
                     <View style={{ flex: 1, justifyContent: "center", alignItems: "center", marginTop: 22 }}>
                         <View style={{ margin: 20, backgroundColor: Theme.textColor, borderRadius: 20, padding: 35, alignItems: "center", shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
                             <Text style={{ marginBottom: 15, textAlign: "center", fontWeight: 'bold', fontSize: 21, color: Theme.backgroundColor }}>Filter</Text>
+
+                            {/* Rating */}
                             <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold", fontSize: 14, alignSelf: "flex-start" }}>Traveller rating</Text>
                             <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                                 {
@@ -191,7 +205,11 @@ export default ({ place }) => {
                                     })
                                 }
                             </View>
+
+
+                            {/* Time of year */}
                             <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold", fontSize: 14, alignSelf: "flex-start", marginTop: 10 }}>Time Of Year</Text>
+
                             <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                                 {
                                     months.map((months) => {
@@ -206,21 +224,8 @@ export default ({ place }) => {
                                     })
                                 }
                             </View>
-                            <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold", fontSize: 14, alignSelf: "flex-start", marginTop: 10 }}>Type Of Visit</Text>
-                            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-                                {
-                                    visitType.map((type) => {
-                                        return (
-                                            // <TouchableOpacity onPress={() => filterByRating(rating)}>
-                                            <TouchableOpacity>
-                                                <View style={{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }}>
-                                                    <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold" }}>{type}</Text>
-                                                </View>
-                                            </TouchableOpacity>
-                                        )
-                                    })
-                                }
-                            </View>
+
+                            {/* Buttons */}
                             <View style={{ flexDirection: "row", marginVertical: 15, justifyContent: "space-between" }}>
                                 <TouchableOpacity
                                     style={{ borderRadius: 20, padding: 10, elevation: 2, backgroundColor: "#CA166C", justifyContent: "center", alignItems: "center", marginHorizontal: 10 }}
@@ -238,14 +243,16 @@ export default ({ place }) => {
                         </View>
                     </View>
                 </Modal>
+
+                {/* Filter button */}
                 <TouchableHighlight onPress={toggleModal}>
-                    <View style={{ width: "35%" }}>
-                        <View style={{ borderRadius: 32, borderWidth: 3, borderColor: Theme.primaryColor, flexDirection: "row", marginHorizontal: 10, marginVertical: 4, padding: 6, justifyContent: 'center', alignContent: "center" }}>
-                            <Icon name="filter" color={Theme.primaryColor} size={26} />
-                            <Text style={{ margin: 7, color: Theme.primaryColor, justifyContent: "center" }}>Filter</Text>
-                        </View>
+                    <View style={{ width: 100, borderRadius: 32, borderWidth: 3, borderColor: Theme.primaryColor, flexDirection: "row", marginHorizontal: 10, marginVertical: 4, padding: 6, justifyContent: 'center', alignItems: "center" }}>
+                        <Icon name="funnel" color={Theme.primaryColor} size={26} />
+                        <Text style={{ marginLeft: 5, color: Theme.primaryColor, justifyContent: "center" }}>Filter</Text>
                     </View>
                 </TouchableHighlight>
+
+
                 <View style={{ flexDirection: "row", width: "85%", margin: 9 }}>
                     <View style={{ flex: 3, flexDirection: "row", justifyContent: "space-around", marginLeft: 10 }}>
                         <Icon name="star" color="#FFC909" size={26} />

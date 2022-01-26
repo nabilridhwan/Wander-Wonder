@@ -74,7 +74,7 @@ export function initGuide() {
     })
 }
 
-export function getAllGuides(){
+export function getAllGuides() {
     return new Promise((resolve, reject) => {
         AsyncStorage.getItem("guides").then(guide => {
             resolve(JSON.parse(guide));
@@ -82,7 +82,9 @@ export function getAllGuides(){
     })
 }
 
-export function getGuide({id}){
+export function getGuide({
+    id
+}) {
     return new Promise((resolve, reject) => {
         AsyncStorage.getItem("guides").then(guide => {
             const parsedGuide = JSON.parse(guide);
@@ -92,7 +94,9 @@ export function getGuide({id}){
     })
 }
 
-export function toggleLikeOnGuide({id}){
+export function toggleLikeOnGuide({
+    id
+}) {
     return new Promise((resolve, reject) => {
         AsyncStorage.getItem("guides").then(guide => {
             const parsedGuide = JSON.parse(guide);
@@ -104,4 +108,54 @@ export function toggleLikeOnGuide({id}){
 
         })
     })
+}
+
+export function getAllCommentsByPostId(id) {
+    return new Promise((resolve, reject) => {
+        getGuide({
+            id
+        }).then(guide => {
+            resolve(guide.comment);
+        }).catch(e => {
+            reject(e);
+        })
+    })
+}
+
+export function addNewCommentByPostId(id, guide_title, guide_tag, guide_description, created_at, rating) {
+    return new Promise((resolve, reject) => {
+        getGuide({
+            id
+        }).then(guide => {
+            getCurrentUser().then(({
+                username,
+                name,
+                profile_pic_uri
+            }) => {
+
+                const newComment = {
+                    id: guide.comment.length + 1,
+                    username,
+                    name,
+                    profile_pic: profile_pic_uri,
+                    guide_title,
+                    guide_tag,
+                    tag_color,
+                    guide_description,
+                    date_created,
+                    created_at
+                }
+
+                guide.comment.push(newComment);
+                console.log(guide)
+
+            })
+        }).catch(e => {
+            reject(e);
+        })
+    })
+}
+
+export const flushAllData = () => {
+    AsyncStorage.clear();
 }

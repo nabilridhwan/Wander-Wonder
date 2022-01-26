@@ -18,11 +18,9 @@
                 "username": "wif_cuteXR",
                 "profile_pic": "https://i.pinimg.com/736x/72/98/0c/72980cc0409da77e7c58eb4e7c8a8ed9.jpg",
                 "guide_title": "Nice attraction",
-                "guide_tag": "Couples",
-                "tag_color": "#5159A6",
                 "guide_description": "I think that Universal Studios Singapore is a very nice place! The rides there are super awesome! Especially the transformers ride. I rode it for 7 times in a span of 1 hour!",
-                "date_created": "3 Months Ago",
-                "created_at": "July 5,2021 12:32 PM"
+                "created_at": "July 5,2021 12:32 PM",
+                "rating": 5
             },
             {
                 "id": 2,
@@ -30,11 +28,9 @@
                 "username": "xiaozhan_daytoy",
                 "profile_pic": "https://data.whicdn.com/images/351910988/original.jpg",
                 "guide_title": "Very fun",
-                "guide_tag": "Solo",
-                "tag_color": "#C16ABE",
                 "guide_description": "Pretty fun rides, great walking weather, minimal crowds and wait times, this was probably the most seamless USS experience I’ve had so far.",
-                "date_created": "16 Hours Ago",
-                "created_at": "December 20,2021 01:32 PM"
+                "created_at": "December 20,2021 01:32 PM",
+                "rating": 4
             }
         ],
 
@@ -70,7 +66,8 @@
         "weather": 32,
         "website": "https://www.rwsentosa.com/en/attractions/adventure-cove-waterpark/tickets",
         "latitude": 1.259037809615239,
-        "longitude": 103.81864611851513
+        "longitude": 103.81864611851513,
+        "comment": []
     },
     {
         "id": 3,
@@ -85,7 +82,8 @@
         "weather": 31,
         "website": "https://www.booking.com/hotel/sg/marina-bay-sands.html",
         "latitude": 1.2848584956942635,
-        "longitude": 103.8609507823147
+        "longitude": 103.8609507823147,
+        "comment": []
     },
     {
         "id": 4,
@@ -100,7 +98,8 @@
         "weather": 33,
         "website": "https://www.rwsentosa.com/en/attractions/sea-aquarium/tickets",
         "latitude": 1.2584817765425365,
-        "longitude": 103.82049327067077
+        "longitude": 103.82049327067077,
+        "comment": []
     },
     {
         "id": 5,
@@ -115,7 +114,8 @@
         "weather": 24,
         "website": "https://www.singaporeair.com/en-sg/flights-to-new-zealand",
         "latitude": -42.09124307931751,
-        "longitude": 172.61251584948408
+        "longitude": 172.61251584948408,
+        "comment": []
     },
     {
         "id": 6,
@@ -130,7 +130,8 @@
         "weather": 26,
         "website": "https://www.singaporeair.com/en_UK/us/plan-travel/destinations/flights-to-Sydney/",
         "latitude": -33.8566329176306,
-        "longitude": 151.21532888454564
+        "longitude": 151.21532888454564,
+        "comment": []
     },
     {
         "id": 7,
@@ -145,6 +146,7 @@
         "weather": 2,
         "website": "https://www.singaporeair.com/en_UK/gb/plan-travel/destinations/flights-to-Beijing/",
         "latitude": 39.91708726798381,
-        "longitude": 116.39105286325044
+        "longitude": 116.39105286325044,
+        "comment": []
     }
 ]

@@ -27,9 +27,6 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../../config/Theme';
-import {
-  visitType
-} from '../GuidePage/Review';
 import ItineraryContent from './ItineraryContent';
 import OverviewContent from './OverviewContent';
 import Review from './Review';
@@ -107,8 +104,8 @@ export default ({
     setNextVisible(!isNextVisible);
   };
   const toggleBoth = () => {
-    toggleModal();
-    toggleNext();
+    setModalVisible(false)
+    setNextVisible(false)
   }
   const _renderItem = ({ item, index }) => {
     return (
@@ -249,14 +246,15 @@ export default ({
           isVisible={isModalVisible}
           animationIn="slideInLeft"
           animationOut="slideOutRight"
-          onRequestClose={toggleModal}
-          onBackdropPress={toggleModal}
+          onRequestClose={() => setModalVisible(false)}
         >
           <View style={{ flex: 1, justifyContent: "center", marginTop: 10 }}>
             <View style={{ backgroundColor: Theme.textColor, borderRadius: 20, padding: 10, shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
+
               <TouchableHighlight style={{ alignItems: "flex-start", justifyContent: "center" }}>
-                <Icon name="close" size={30} color="silver" onPress={() => toggleModal()} />
+                <Icon name="close" size={30} color="silver" onPress={() => setModalVisible(false)} />
               </TouchableHighlight>
+
               <View style={{ padding: 25 }}>
                 <Text style={{ fontWeight: "bold", fontSize: 18, color: Theme.backgroundColor }}>Rate Your Experience</Text>
                 <AirbnbRating
@@ -266,23 +264,8 @@ export default ({
                   selectedColor={"#FFC909"}
                   size={30}
                 />
-                <Text style={{ fontWeight: "bold", fontSize: 18, color: Theme.backgroundColor, marginTop: 18 }}>Kind Of Visit</Text>
-                <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-                  {
-                    visitType.map((type) => {
-                      return (
-                        // <TouchableOpacity onPress={() => filterByRating(rating)}>
-                        <TouchableOpacity>
-                          <View style={{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }}>
-                            <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold" }}>{type}</Text>
-                          </View>
-                        </TouchableOpacity>
-                      )
-                    })
-                  }
-                </View>
-                <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} />
-                <TouchableOpacity onPress={() => toggleBoth()} style={{ padding: 9, backgroundColor: Theme.backgroundColor, marginTop: 10 }}>
+                {/* <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} /> */}
+                <TouchableOpacity onPress={() => {setModalVisible(false); setNextVisible(true)}} style={{ padding: 9, backgroundColor: Theme.backgroundColor, marginTop: 10 }}>
                   <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Next</Text>
                 </TouchableOpacity>
 
@@ -296,13 +279,15 @@ export default ({
           isVisible={isNextVisible}
           animationIn="slideInLeft"
           animationOut="slideOutRight"
-          onBackdropPress={toggleNext}
         >
           <View style={{ flex: 1, justifyContent: "center", marginTop: 10 }}>
             <View style={{ backgroundColor: Theme.textColor, borderRadius: 20, padding: 10, shadowColor: "#000", shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.25, shadowRadius: 4, elevation: 5 }}>
+
+              {/* Close button */}
               <TouchableHighlight style={{ alignItems: "flex-start", justifyContent: "center" }}>
-                <Icon name="close" size={30} color="silver" onPress={() => toggleModal()} />
+                <Icon name="close" size={30} color="silver" onPress={() => setNextVisible(false)} />
               </TouchableHighlight>
+
               <View style={{ padding: 25 }}>
                 <Text style={{ fontSize: 20, fontWeight: "bold", color: Theme.backgroundColor }}>Write Your Review</Text>
                 <TextInput
@@ -320,8 +305,8 @@ export default ({
                   // onSubmitEditing={onSubmit}
                   style={{ marginBottom: 18 }}
                 />
-                <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} />
-                <TouchableOpacity onPress={() => toggleBoth()} style={{ padding: 9, backgroundColor: Theme.backgroundColor, marginTop: 10,width:20,height:35,justifyContent:"flex-start"}}>
+                {/* <ProgressBar progress={0.5} width={280} height={17} color={Theme.primaryColor} /> */}
+                <TouchableOpacity onPress={() => toggleBoth()} style={{ padding: 9, backgroundColor: Theme.backgroundColor, justifyContent:"flex-start"}}>
                   <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Next</Text>
                 </TouchableOpacity>
               </View>

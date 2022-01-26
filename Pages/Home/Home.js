@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import Card from '../../components/Card';
+import CustomButton from '../../components/CustomButton';
 import Theme from '../../config/Theme';
-import { getAllGuides } from '../../utils/storage';
+import { addNewCommentByPostId, flushAllData, getAllCommentsByPostId, getAllGuides, initGuide } from '../../utils/storage';
 
 export default ({ navigation }) => {
   const [pages, setPages] = useState(["All", "Singapore", "Oceania", "Asia", "Europe", "America"])
@@ -12,6 +13,7 @@ export default ({ navigation }) => {
   useEffect(() => {
     navigation.addListener('focus', () => {
       refreshGuides();
+      initGuide();
     })
   }, [])
 
