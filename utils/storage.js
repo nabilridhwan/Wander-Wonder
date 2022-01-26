@@ -29,6 +29,7 @@ export function getUserByUserObj({
 }
 
 export function updateUser({
+    id,
     profile_pic_uri,
     name,
     username,
@@ -39,10 +40,11 @@ export function updateUser({
         AsyncStorage.getItem("users").then(users => {
 
             const parsedUsers = JSON.parse(users);
-            const user = parsedUsers.find(user => user.email === email);
+            const user = parsedUsers.find(user => user.id === id);
 
             user.profile_pic_uri = profile_pic_uri;
             user.name = name;
+            user.email = email;
             user.username = username;
             user.password = password;
 
@@ -70,6 +72,8 @@ export function initGuide() {
             } else {
                 resolve(JSON.parse(guide));
             }
+        }).catch(e => {
+            reject(e)
         })
     })
 }

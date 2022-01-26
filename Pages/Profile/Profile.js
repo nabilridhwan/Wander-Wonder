@@ -59,7 +59,7 @@ function Profile(props) {
     <View style={{ flex: 1, ...styles.backgroundStyle, justifyContent: "center", alignItems: "center" }}>
 
 
-      <View>
+      <View width="100%">
 
         {/* Image */}
         <View style={{ justifyContent: "center", alignItems: "center" }} >
@@ -70,7 +70,7 @@ function Profile(props) {
         <Text style={{ ...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)", marginVertical: 5 }}>@{username}</Text>
 
         <View style={{ alignItems: "center" }}>
-          <CustomButton buttonText="Edit Profile" onPress={navigateToProfilePage} style={{ height: 35 }} />
+          <CustomButton buttonText="Edit Profile" onPress={navigateToProfilePage} style={{ marginBottom: 10}} />
           <CustomButton buttonText="Logout" onPress={logout} />
         </View>
 

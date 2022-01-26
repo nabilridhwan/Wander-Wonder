@@ -9,6 +9,7 @@ import { getCurrentUser, saveUser, updateUser } from "../../utils/storage";
 
 function EditProfile({ route, navigation }) {
 
+    const [id, setId] = useState(null)
     const [nameInput, setNameInput] = useState("");
     const [usernameInput, setUsernameInput] = useState("");
     const [emailInput, setEmailInput] = useState("");
@@ -20,6 +21,7 @@ function EditProfile({ route, navigation }) {
             try {
                 getCurrentUser().then(async (user) => {
                     if (user) {
+                        setId(user.id)
                         setNameInput(user.name);
                         setUsernameInput(user.username);
                         setEmailInput(user.email);
@@ -42,6 +44,7 @@ function EditProfile({ route, navigation }) {
 
     const handleSave = () => {
         updateUser({
+            id: id,
             name: nameInput,
             username: usernameInput,
             email: emailInput,
@@ -50,6 +53,8 @@ function EditProfile({ route, navigation }) {
         }).then(_ => {
 
             navigateBack();
+        }).catch(e => {
+            alert(e);
         })
     }
 

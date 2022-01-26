@@ -49,7 +49,8 @@ class AppComponent extends React.Component {
       <View style={{ flex: 1, ...styles.backgroundStyle }}>
         <StatusBar backgroundColor={Theme.backgroundColor} barStyle="light-content" />
 
-        <Tab.Navigator screenOptions={({ route }) => ({
+        <Tab.Navigator
+        screenOptions={({ route }) => ({
           tabBarShowLabel: false,
           headerStyle: {
             backgroundColor: Theme.backgroundColor,
@@ -157,7 +158,9 @@ export default class App extends React.Component {
           <Stack.Screen name="Map" component={MapPage} />
           <Stack.Screen name="Edit Profile" component={EditProfile} />
           <Stack.Screen name="Add Guide Itinerary" component={AddGuideItinerary} />
+          <Stack.Screen name="Add Guide" component={AddGuide} />
         </Stack.Navigator>
+
       </NavigationContainer>
     );
   }
