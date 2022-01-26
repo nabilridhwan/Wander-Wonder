@@ -3,7 +3,7 @@ import { FlatList, Image, SafeAreaView, StyleSheet, Text, View } from "react-nat
 import Card from '../../components/Card';
 import CustomButton from '../../components/CustomButton';
 import Theme from '../../config/Theme';
-import { addNewCommentByPostId, flushAllData, getAllCommentsByPostId, getAllGuides, initGuide } from '../../utils/storage';
+import { addNewCommentByPostId, flushAllData, flushGuides, getAllCommentsByPostId, getAllGuides, initGuide } from '../../utils/storage';
 
 export default ({ navigation }) => {
   const [pages, setPages] = useState(["All", "Singapore", "Oceania", "Asia", "Europe", "America"])
@@ -13,6 +13,10 @@ export default ({ navigation }) => {
   useEffect(() => {
     navigation.addListener('focus', () => {
       refreshGuides();
+
+      // Uncomment below to flush all guides
+      // flushGuides();
+
       initGuide();
     })
   }, [])

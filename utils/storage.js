@@ -122,40 +122,40 @@ export function getAllCommentsByPostId(id) {
     })
 }
 
-export function addNewCommentByPostId(id, guide_title, guide_tag, guide_description, created_at, rating) {
+export function addNewCommentByPostId(id, guide_title, guide_description, created_at, rating) {
     return new Promise((resolve, reject) => {
-        getGuide({
-            id
-        }).then(guide => {
-            getCurrentUser().then(({
-                username,
-                name,
-                profile_pic_uri
-            }) => {
 
-                const newComment = {
-                    id: guide.comment.length + 1,
+        getAllGuides().then(guides => {
+
+            getCurrentUser().then(({username, name, profile_pic_uri}) => {
+
+                const guideToReturn = guides.find(guide => guide.id === id);
+                guideToReturn.comment.push({
+                    id: guideToReturn.comment.length + 1,
                     username,
                     name,
                     profile_pic: profile_pic_uri,
                     guide_title,
-                    guide_tag,
-                    tag_color,
                     guide_description,
-                    date_created,
-                    created_at
-                }
+                    created_at,
+                    rating
+                });
 
-                guide.comment.push(newComment);
-                console.log(guide)
+                AsyncStorage.setItem("guides", JSON.stringify(guides)).then(() => {
+                    resolve(guideToReturn);
+                })
 
+            }).catch(e => {
+                console.log(e)
             })
-        }).catch(e => {
-            reject(e);
         })
     })
 }
 
 export const flushAllData = () => {
     AsyncStorage.clear();
+}
+
+export const flushGuides = () => {
+    AsyncStorage.removeItem("guides");
 }

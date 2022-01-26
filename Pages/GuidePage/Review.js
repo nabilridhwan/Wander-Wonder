@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../../config/Theme';
 import HighlightText from '@sanar/react-native-highlight-text';
 import Modal from "react-native-modal";
-import { getAllCommentsByPostId } from '../../utils/storage';
+import { addNewCommentByPostId, getAllCommentsByPostId } from '../../utils/storage';
 export const visitType = ["Couple", "Business", "Family(Teens)", "Family(Younger Children)", "Friends", "School", "Solo"];
 const relativeDate = require("relative-date")
 
@@ -21,7 +21,6 @@ export default ({ place }) => {
     const d = new Date();
     // let monthName = months[d.getMonth()];
     const [searchQuery, setSearchQuery] = useState("");
-    const [colour, setColour] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
     const [displayData, setDisplayData] = useState([]);
     const [rating, setRating] = useState([1, 2, 3, 4, 5]);
@@ -36,7 +35,6 @@ export default ({ place }) => {
         }).catch(e => {
             alert(e);
         })
-
     }, [])
 
     const renderItem = ({ item }) => {
@@ -70,7 +68,7 @@ export default ({ place }) => {
                         })}
                         {new Array(5 - item.rating).fill(0).map((_, index) => {
                             return (
-                                <Icon key={index} name="ios-star" size={20} color="white" />
+                                <Icon key={index} name="ios-star" size={20} color="white" style={{marginRight: 5}}/>
                             )
                         }
                         )}
