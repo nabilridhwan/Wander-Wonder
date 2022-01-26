@@ -20,7 +20,12 @@ import moment from 'moment';
 
 export default ({ place, forceUpdate}) => {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    // let monthName = months[d.getMonth()];
+    const [totalRating,setTotalRating]=useState(0);
+    const [excellent,setExcellent]=useState(0);
+    const [good,setGood]=useState(0);
+    const [average,setAverage]=useState(0);
+    const [poor,setPoor]=useState(0);
+    const [terrible,setTerrible]=useState(0);
     const [searchQuery, setSearchQuery] = useState("");
     const [isModalVisible, setModalVisible] = useState(false);
     const [displayData, setDisplayData] = useState([]);
@@ -29,9 +34,29 @@ export default ({ place, forceUpdate}) => {
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
-
+    const getTotalRating=()=>{
+        getAllCommentsByPostId(place.id).then(comments => {
+            let sum=0;
+            for(let i=0;i<comments.length;i++){
+                sum+=comments[i].rating;
+                if(comments[i].rating==1){
+                    setTerrible(terrible+1);
+                }else if(comments[i].rating==2){
+                    setPoor(poor+1);
+                }else if(comments[i].rating==3){
+                    setAverage(average+1);
+                }else if(comments[i].rating==4){
+                    setGood(good+1);
+                }else {
+                    setExcellent(excellent+1);
+                }
+            }
+            setTotalRating(parseInt(sum/comments.length))
+    })
+}
     useEffect(() => {
         getLatestComments();
+        getTotalRating();
     }, [])
 
     const getLatestComments = () => {
@@ -44,6 +69,7 @@ export default ({ place, forceUpdate}) => {
 
     useEffect(() => {
         getLatestComments();
+        getTotalRating()
     }, [forceUpdate])
 
     const renderItem = ({ item }) => {
@@ -125,7 +151,7 @@ export default ({ place, forceUpdate}) => {
     const renderNoGuide = () => {
         return (
             <View>
-                <Text style={{ color: Theme.textColor }}>No results found</Text>
+                <Text style={{ color: Theme.textColor }}>No reviews found</Text>
             </View>
         )
     }
@@ -262,70 +288,81 @@ export default ({ place, forceUpdate}) => {
 
                 <View style={{ flexDirection: "row", width: "85%", margin: 9 }}>
                     <View style={{ flex: 3, flexDirection: "row", justifyContent: "space-around", marginLeft: 10 }}>
+                        {new Array(totalRating).fill(0).map((_, index) => {
+                            return (
+                                <Icon key={index} name="ios-star" size={20} color="#FFC909" style={{ marginRight: 5 }} />
+                            )
+                        })}
+                        {new Array(5 - totalRating).fill(0).map((_, index) => {
+                            return (
+                                <Icon key={index} name="ios-star" size={20} color="white" style={{ marginRight: 5 }} />
+                            )
+                        }
+                        )}
+                        {/* <Icon name="star" color="#FFC909" size={26} />
                         <Icon name="star" color="#FFC909" size={26} />
                         <Icon name="star" color="#FFC909" size={26} />
                         <Icon name="star" color="#FFC909" size={26} />
-                        <Icon name="star" color="#FFC909" size={26} />
-                        <Icon name="star" color="#FFC909" size={26} />
+                        <Icon name="star" color="#FFC909" size={26} /> */}
                     </View>
                     <View style={{ flex: 3, justifyContent: "center" }}>
-                        <Text style={{ color: Theme.textColor, marginLeft: 5 }}>12 reviews</Text>
+                        <Text style={{ color: Theme.textColor, marginLeft: 5 }}>{totalRating}</Text>
                     </View>
                 </View>
                 <View style={{ marginLeft: 10 }}>
                     <View>
                         <View style={{ flexDirection: "row", marginHorizontal: 12, marginLeft: 10, height: 30 }}>
-                            <View style={{ flex: 3, justifyContent: "center" }}>
+                            <View style={{ width:100, justifyContent: "center" }}>
                                 <Text style={{ color: Theme.textColor }}>Excellent</Text>
                             </View>
-                            <View style={{ flex: 6, height: "100%", justifyContent: "center" }}>
+                            <View style={{ flex: excellent, height: "100%", justifyContent: "center" }}>
                                 <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
                             </View>
-                            <View style={{ flex: 2, justifyContent: "center", marginLeft: 8 }}>
-                                <Text style={{ color: Theme.textColor }}>5</Text>
+                            <View style={{ justifyContent: "center", marginLeft: 8 }}>
+                                <Text style={{ color: Theme.textColor }}>{excellent}</Text>
                             </View>
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ flex: 3, justifyContent: "center" }}>
+                        <View style={{ width:100, justifyContent: "center" }}>
                             <Text style={{ color: Theme.textColor }}>Very Good</Text>
                         </View>
-                        <View style={{ flex: 4, height: "100%", justifyContent: "center" }}>
+                        <View style={{ flex: good, height: "100%", justifyContent: "center" }}>
                             <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
                         </View>
-                        <View style={{ flex: 4, justifyContent: "center", marginLeft: 8 }}>
-                            <Text style={{ color: Theme.textColor }}>3</Text>
+                        <View style={{justifyContent: "center", marginLeft: 8 }}>
+                            <Text style={{ color: Theme.textColor }}>{good}</Text>
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ flex: 3, justifyContent: "center" }}>
+                        <View style={{ width:100, justifyContent: "center" }}>
                             <Text style={{ color: Theme.textColor }}>Average</Text>
 
                         </View>
-                        <View style={{ flex: 4, height: "100%", justifyContent: "center" }}>
+                        <View style={{flex:average, height: "100%", justifyContent: "center" }}>
                             <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
                         </View>
-                        <View style={{ flex: 4, justifyContent: "center", marginLeft: 8 }}>
-                            <Text style={{ color: Theme.textColor }}>3</Text>
+                        <View style={{ justifyContent: "center", marginLeft: 8 }}>
+                            <Text style={{ color: Theme.textColor }}>{average}</Text>
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ flex: 3, justifyContent: "center" }}>
+                        <View style={{ width:100, justifyContent: "center" }}>
                             <Text style={{ color: Theme.textColor }}>Poor</Text>
                         </View>
-                        <View style={{ flex: 1.5, height: "100%", justifyContent: "center" }}>
+                        <View style={{ flex:poor, height: "100%", justifyContent: "center" }}>
                             <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
                         </View>
-                        <View style={{ flex: 6.5, justifyContent: "center", marginLeft: 8 }}>
-                            <Text style={{ color: Theme.textColor }}>1</Text>
+                        <View style={{justifyContent: "center", marginLeft: 8 }}>
+                            <Text style={{ color: Theme.textColor }}>{poor}</Text>
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ flex: 3, justifyContent: "center" }}>
+                        <View style={{ width:100, justifyContent: "center" }}>
                             <Text style={{ color: Theme.textColor }}>Terrible</Text>
                         </View>
-                        <View style={{ flex: 8, justifyContent: "center", marginLeft: 8 }}>
-                            <Text style={{ color: Theme.textColor }}>0</Text>
+                        <View style={{ flex:terrible, justifyContent: "center", marginLeft: 8 }}>
+                            <Text style={{ color: Theme.textColor }}>{terrible}</Text>
                         </View>
                     </View>
                 </View>
