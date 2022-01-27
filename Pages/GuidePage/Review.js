@@ -14,7 +14,7 @@ import HighlightText from '@sanar/react-native-highlight-text';
 import Modal from "react-native-modal";
 import { getAllCommentsByPostId } from '../../utils/storage';
 import FilterRatingButton from '../../components/FilterRatingButton';
-// import FilterMonthButton from '../../components/FilterMonthButton';
+import FilterMonthButton from '../../components/FilterMonthButton';
 const relativeDate = require("relative-date")
 
 import moment from 'moment';
@@ -216,12 +216,12 @@ export default ({ place, forceUpdate}) => {
                                     months.map((months) => {
                                         return (
                                             // <TouchableOpacity onPress={() => filterByRating(rating)}>
-                                            // <FilterMonthButton onPress={()=>setMonthRating(months)} style={(monthRating==months)?{ elevation: 3, flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, backgroundColor: "#8987FF" }:{flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }} month={months} filterMonth={monthRating}/>
-                                            <TouchableOpacity>
-                                                <View style={{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }}>
-                                                    <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold" }}>{months}</Text>
-                                                </View>
-                                            </TouchableOpacity>
+                                            <FilterMonthButton onPress={()=>setMonthRating(months)} style={(monthRating==months)?{ elevation: 3, flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, backgroundColor: "#8987FF" }:{flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }} month={months} filterMonth={monthRating}/>
+                                            // <TouchableOpacity>
+                                            //     <View style={{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }}>
+                                            //         <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold" }}>{months}</Text>
+                                            //     </View>
+                                            // </TouchableOpacity>
                                         )
                                     })
                                 }
