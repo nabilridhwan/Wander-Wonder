@@ -13,7 +13,8 @@ import Theme from '../../config/Theme';
 import HighlightText from '@sanar/react-native-highlight-text';
 import Modal from "react-native-modal";
 import { getAllCommentsByPostId } from '../../utils/storage';
-export const visitType = ["Couple", "Business", "Family(Teens)", "Family(Younger Children)", "Friends", "School", "Solo"];
+import FilterRatingButton from '../../components/FilterRatingButton';
+// import FilterMonthButton from '../../components/FilterMonthButton';
 const relativeDate = require("relative-date")
 
 import moment from 'moment';
@@ -27,10 +28,11 @@ export default ({ place, forceUpdate}) => {
     const [poor,setPoor]=useState(0);
     const [terrible,setTerrible]=useState(0);
     const [searchQuery, setSearchQuery] = useState("");
+    const [filterRating,setFilterRating]=useState(null);
+    const [monthRating,setMonthRating]=useState(null);
     const [isModalVisible, setModalVisible] = useState(false);
     const [displayData, setDisplayData] = useState([]);
     const [rating, setRating] = useState([1, 2, 3, 4, 5]);
-
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
@@ -199,41 +201,7 @@ export default ({ place, forceUpdate}) => {
                                 {
                                     rating.map((rating, i) => {
                                         return (
-                                            // <TouchableOpacity onPress={() => filterByRating(rating)}>
-
-                                            i == 0 ?
-                                                <TouchableOpacity>
-                                                    <View style={{ elevation: 3, flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, backgroundColor: "#8987FF" }}>
-                                                        {
-                                                            [...new Array(5)].map((_, index) => {
-                                                                if (index + 1 <= rating) {
-                                                                    return <Icon name="star" color="#FFC909" size={15} />
-                                                                }
-                                                                else {
-                                                                    return <Icon name="star-outline" color="#FFC909" size={15} />
-                                                                }
-
-                                                            })
-                                                        }
-                                                    </View>
-                                                </TouchableOpacity>
-                                                :
-                                                <TouchableOpacity>
-                                                    <View style={{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }}>
-                                                        {
-                                                            [...new Array(5)].map((_, index) => {
-                                                                if (index + 1 <= rating) {
-                                                                    return <Icon name="star" color="#C4C4C4" size={15} />
-                                                                }
-                                                                else {
-                                                                    return <Icon name="star-outline" color="rgba(0,0,0,0.25)" size={15} />
-                                                                }
-
-                                                            })
-                                                        }
-                                                    </View>
-                                                </TouchableOpacity>
-
+                                            <FilterRatingButton onPress={()=>setFilterRating(rating)} style={(filterRating==rating)?{ elevation: 3, flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, backgroundColor: "#8987FF" }:{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }} ratingText={rating} filterRating={filterRating}/>
                                         )
                                     })
                                 }
@@ -248,6 +216,7 @@ export default ({ place, forceUpdate}) => {
                                     months.map((months) => {
                                         return (
                                             // <TouchableOpacity onPress={() => filterByRating(rating)}>
+                                            // <FilterMonthButton onPress={()=>setMonthRating(months)} style={(monthRating==months)?{ elevation: 3, flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, backgroundColor: "#8987FF" }:{flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }} month={months} filterMonth={monthRating}/>
                                             <TouchableOpacity>
                                                 <View style={{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }}>
                                                     <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold" }}>{months}</Text>
