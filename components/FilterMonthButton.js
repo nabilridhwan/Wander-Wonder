@@ -9,10 +9,10 @@ function FilterMonthButton({ onPress, style, month, filterMonth }) {
         <TouchableOpacity onPress={onPress}>
             <View style={{ ...style }}>
                 {
-                    [...new Array(5)].map((_, index) => {
-                        <Text style={{ color: filterMonth == month ? Theme.textColor : "rgba(0,0,9,0.5)", fontWeight: "bold" }}>{month}</Text>
 
-                    })
+                    <Text style={{ color: filterMonth == month ? Theme.textColor : "rgba(0,0,9,0.5)", fontWeight: "bold" }}>
+                        {month}
+                    </Text>
                 }
             </View>
         </TouchableOpacity>

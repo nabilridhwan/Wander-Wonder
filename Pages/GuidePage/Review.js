@@ -19,43 +19,55 @@ const relativeDate = require("relative-date")
 
 import moment from 'moment';
 
-export default ({ place, forceUpdate}) => {
+export default ({ place, forceUpdate }) => {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const [totalRating,setTotalRating]=useState(0);
-    const [excellent,setExcellent]=useState(0);
-    const [good,setGood]=useState(0);
-    const [average,setAverage]=useState(0);
-    const [poor,setPoor]=useState(0);
-    const [terrible,setTerrible]=useState(0);
+    const rating = [1, 2, 3, 4, 5];
+    const [totalRating, setTotalRating] = useState(0);
+    const [excellent, setExcellent] = useState(0);
+    const [good, setGood] = useState(0);
+    const [average, setAverage] = useState(0);
+    const [poor, setPoor] = useState(0);
+    const [terrible, setTerrible] = useState(0);
     const [searchQuery, setSearchQuery] = useState("");
-    const [filterRating,setFilterRating]=useState(null);
-    const [monthRating,setMonthRating]=useState(null);
+
+
+
     const [isModalVisible, setModalVisible] = useState(false);
     const [displayData, setDisplayData] = useState([]);
-    const [rating, setRating] = useState([1, 2, 3, 4, 5]);
+
+    const [filterRating, setFilterRating] = useState(null);
+    const [monthRating, setMonthRating] = useState(null);
+
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
-    const getTotalRating=()=>{
+
+    const filterItems = () => {
+        console.log("Filtering items")
+        toggleModal();
+    }
+
+
+    const getTotalRating = () => {
         getAllCommentsByPostId(place.id).then(comments => {
-            let sum=0;
-            for(let i=0;i<comments.length;i++){
-                sum+=comments[i].rating;
-                if(comments[i].rating==1){
-                    setTerrible(terrible+1);
-                }else if(comments[i].rating==2){
-                    setPoor(poor+1);
-                }else if(comments[i].rating==3){
-                    setAverage(average+1);
-                }else if(comments[i].rating==4){
-                    setGood(good+1);
-                }else {
-                    setExcellent(excellent+1);
+            let sum = 0;
+            for (let i = 0; i < comments.length; i++) {
+                sum += comments[i].rating;
+                if (comments[i].rating == 1) {
+                    setTerrible(terrible + 1);
+                } else if (comments[i].rating == 2) {
+                    setPoor(poor + 1);
+                } else if (comments[i].rating == 3) {
+                    setAverage(average + 1);
+                } else if (comments[i].rating == 4) {
+                    setGood(good + 1);
+                } else {
+                    setExcellent(excellent + 1);
                 }
             }
-            setTotalRating(parseInt(sum/comments.length))
-    })
-}
+            setTotalRating(parseInt(sum / comments.length))
+        })
+    }
     useEffect(() => {
         getLatestComments();
         getTotalRating();
@@ -67,6 +79,11 @@ export default ({ place, forceUpdate}) => {
         }).catch(e => {
             alert(e);
         })
+    }
+
+    const clearFilter = () => {
+        setMonthRating(null);
+        setFilterRating(null);
     }
 
     useEffect(() => {
@@ -201,7 +218,7 @@ export default ({ place, forceUpdate}) => {
                                 {
                                     rating.map((rating, i) => {
                                         return (
-                                            <FilterRatingButton onPress={()=>setFilterRating(rating)} style={(filterRating==rating)?{ elevation: 3, flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, backgroundColor: "#8987FF" }:{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }} ratingText={rating} filterRating={filterRating}/>
+                                            <FilterRatingButton onPress={() => setFilterRating(rating)} style={(filterRating == rating) ? { elevation: 3, flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, backgroundColor: "#8987FF" } : { flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }} ratingText={rating} filterRating={filterRating} />
                                         )
                                     })
                                 }
@@ -213,10 +230,10 @@ export default ({ place, forceUpdate}) => {
 
                             <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                                 {
-                                    months.map((months) => {
+                                    months.map((m) => {
                                         return (
                                             // <TouchableOpacity onPress={() => filterByRating(rating)}>
-                                            <FilterMonthButton onPress={()=>setMonthRating(months)} style={(monthRating==months)?{ elevation: 3, flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, backgroundColor: "#8987FF" }:{flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }} month={months} filterMonth={monthRating}/>
+                                            <FilterMonthButton onPress={() => setMonthRating(m)} style={(monthRating == m) ? { elevation: 3, flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, backgroundColor: "#8987FF" } : { flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }} month={m} filterMonth={monthRating} />
                                             // <TouchableOpacity>
                                             //     <View style={{ flexDirection: "row", padding: 6, borderRadius: 8, margin: 4, borderColor: "#979797", borderWidth: 2 }}>
                                             //         <Text style={{ color: "rgba(0,0,9,0.5)", fontWeight: "bold" }}>{months}</Text>
@@ -231,13 +248,13 @@ export default ({ place, forceUpdate}) => {
                             <View style={{ flexDirection: "row", marginVertical: 15, justifyContent: "space-between" }}>
                                 <TouchableOpacity
                                     style={{ borderRadius: 20, padding: 10, elevation: 2, backgroundColor: "#CA166C", justifyContent: "center", alignItems: "center", marginHorizontal: 10 }}
-                                    onPress={toggleModal}
+                                    onPress={clearFilter}
                                 >
                                     <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Clear Filter</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={{ borderRadius: 20, padding: 10, elevation: 2, backgroundColor: "#2196F3", justifyContent: "center", alignItems: "center", marginHorizontal: 10 }}
-                                    onPress={toggleModal}
+                                    onPress={filterItems}
                                 >
                                     <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Hide Modal</Text>
                                 </TouchableOpacity>
@@ -281,7 +298,7 @@ export default ({ place, forceUpdate}) => {
                 <View style={{ marginLeft: 10 }}>
                     <View>
                         <View style={{ flexDirection: "row", marginHorizontal: 12, marginLeft: 10, height: 30 }}>
-                            <View style={{ width:100, justifyContent: "center" }}>
+                            <View style={{ width: 100, justifyContent: "center" }}>
                                 <Text style={{ color: Theme.textColor }}>Excellent</Text>
                             </View>
                             <View style={{ flex: excellent, height: "100%", justifyContent: "center" }}>
@@ -293,22 +310,22 @@ export default ({ place, forceUpdate}) => {
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ width:100, justifyContent: "center" }}>
+                        <View style={{ width: 100, justifyContent: "center" }}>
                             <Text style={{ color: Theme.textColor }}>Very Good</Text>
                         </View>
                         <View style={{ flex: good, height: "100%", justifyContent: "center" }}>
                             <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
                         </View>
-                        <View style={{justifyContent: "center", marginLeft: 8 }}>
+                        <View style={{ justifyContent: "center", marginLeft: 8 }}>
                             <Text style={{ color: Theme.textColor }}>{good}</Text>
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ width:100, justifyContent: "center" }}>
+                        <View style={{ width: 100, justifyContent: "center" }}>
                             <Text style={{ color: Theme.textColor }}>Average</Text>
 
                         </View>
-                        <View style={{flex:average, height: "100%", justifyContent: "center" }}>
+                        <View style={{ flex: average, height: "100%", justifyContent: "center" }}>
                             <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
                         </View>
                         <View style={{ justifyContent: "center", marginLeft: 8 }}>
@@ -316,21 +333,21 @@ export default ({ place, forceUpdate}) => {
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ width:100, justifyContent: "center" }}>
+                        <View style={{ width: 100, justifyContent: "center" }}>
                             <Text style={{ color: Theme.textColor }}>Poor</Text>
                         </View>
-                        <View style={{ flex:poor, height: "100%", justifyContent: "center" }}>
+                        <View style={{ flex: poor, height: "100%", justifyContent: "center" }}>
                             <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
                         </View>
-                        <View style={{justifyContent: "center", marginLeft: 8 }}>
+                        <View style={{ justifyContent: "center", marginLeft: 8 }}>
                             <Text style={{ color: Theme.textColor }}>{poor}</Text>
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ width:100, justifyContent: "center" }}>
+                        <View style={{ width: 100, justifyContent: "center" }}>
                             <Text style={{ color: Theme.textColor }}>Terrible</Text>
                         </View>
-                        <View style={{ flex:terrible, justifyContent: "center", marginLeft: 8 }}>
+                        <View style={{ flex: terrible, justifyContent: "center", marginLeft: 8 }}>
                             <Text style={{ color: Theme.textColor }}>{terrible}</Text>
                         </View>
                     </View>

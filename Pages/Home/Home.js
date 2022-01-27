@@ -15,7 +15,7 @@ export default ({ navigation }) => {
       refreshGuides();
 
       // Uncomment below to flush all guides
-      // flushGuides();
+      flushGuides();
 
       initGuide();
     })

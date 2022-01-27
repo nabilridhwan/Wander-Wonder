@@ -34,7 +34,7 @@ export default ({ navigation, route: { params: { place } } }) => {
   const _renderItem = ({ item, index }) => {
     return (
       <ScrollView style={{ flex: 1 }}>
-        <Image source={{uri: item.image_url}} style={{ width: "100%", height: 120 }} />
+        <Image source={{uri: (index == 0 ? item.image_url[0] : item.image_url)}} style={{ width: "100%", height: 120 }} />
 
         <View style={{ padding: 20 }}>
           <Text style={styles.title}>{item.title}</Text>

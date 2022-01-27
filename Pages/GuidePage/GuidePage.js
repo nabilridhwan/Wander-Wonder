@@ -66,21 +66,7 @@ export default ({
 
   const [forceUpdate, setForceUpdate] = useState(0);
 
-  const [image, setImage] = useState([{
-    image: require(`../../assets/images/singapore/USS.png`),
-  },
-  {
-    image: require(`../../assets/images/singapore/USS1.jpg`),
-  },
-  {
-    image: require(`../../assets/images/singapore/USS2.jpg`),
-  },
-  {
-    image: require(`../../assets/images/singapore/USS3.jpg`),
-  },
-  {
-    image: require(`../../assets/images/singapore/USS4.jpg`),
-  }])
+  const image= place.image_url;
 
 
   // componentDidMount
@@ -139,11 +125,10 @@ export default ({
   const _renderItem = ({ item, index }) => {
     return (
       <View style={{
-        backgroundColor: 'red',
         borderRadius: 5,
         flex: 1
       }}>
-        <ImageBackground source={item.image} style={styles.image} />
+        <ImageBackground source={{uri: item}} style={styles.image} />
       </View>
     )
   }

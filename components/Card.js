@@ -28,7 +28,7 @@ export default (props) => {
   return (
     <TouchableOpacity style={styles.card} onPress={navigateToGuidesPage}>
 
-        <ImageBackground imageStyle={{ borderRadius: 10 }} style={card.image} source={{uri: place.image_url}} resizeMode='cover'>
+        <ImageBackground imageStyle={{ borderRadius: 10 }} style={card.image} source={{uri: place.image_url[0]}} resizeMode='cover'>
 
           <View style={{ flex: 1, justifyContent: "space-between", backgroundColor: "rgba(0,0,0,0.3)", padding: 10 }}>
 
