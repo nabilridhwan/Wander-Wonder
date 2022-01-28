@@ -4,6 +4,7 @@ import { ImageBackground, View, Text, Button, TextInput, TouchableOpacity, Touch
 import Theme from '../../config/Theme';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import BlackTextInput from '../../components/BlackTextInput';
 
 const STORAGE_KEY_NAME = "@save_name";
 const STORAGE_KEY_PASSWORD = "@save_password";
@@ -91,16 +92,10 @@ export default function HomeScreen({ navigation }) {
                         <Text style={{ marginVertical: 9, fontSize: 40, fontWeight: "bold", color: Theme.primaryColor }}>Login</Text>
                         <Text style={{ fontSize: 20, color: Theme.textColor, marginVertical: 9 }}>Please sign in to continue.</Text>
 
-
-                        <View style={{ width: "80%", height: 55, marginVertical: 15, elevation: 3 }}>
-                            <TextInput style={{ height: "100%", backgroundColor: "#1A1329", borderRadius: 10, paddingHorizontal: 8, color: Theme.textColor }} placeholder="Email" placeholderTextColor="rgba(255,255,255,0.4)" value={email} onChangeText={(text) => setEmail(text)} onSubmitEditing={onSubmit} />
-                        </View>
-
-                        <View style={{ width: "80%", height: 55, marginVertical: 15, elevation: 3 }}>
-                            <TextInput style={{ height: "100%", backgroundColor: "#1A1329", borderRadius: 10, paddingHorizontal: 8, color: Theme.textColor }} placeholder="Password" placeholderTextColor="rgba(255,255,255,0.4)" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} onSubmitEditing={onSubmit} />
-                        </View>
-
-
+                            <BlackTextInput placeholder={"Email"} value={email} onChangeText={(text) => setEmail(text)} onSubmit={onSubmit}/>
+                            
+                            <BlackTextInput placeholder={"Password"} value={password} onChangeText={(text) => setPassword(text)} onSubmitEditing={onSubmit} secureTextEntry={true}/>
+                        
                         <View style={{ marginTop: 40, width: "80%", height: 50 }}>
                             <TouchableOpacity onPress={onSubmit} style={{ padding: 8, backgroundColor: Theme.primaryColor, height: "100%", alignItems: "center", justifyContent: "center", borderRadius: 9 }}>
                                 <View style={{ flexDirection: "row" }}>

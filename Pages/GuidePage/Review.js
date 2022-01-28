@@ -22,6 +22,7 @@ import moment from 'moment';
 export default ({ place, forceUpdate }) => {
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     const rating = [1, 2, 3, 4, 5];
+    const [numComment,setNumComment]=useState(0);
     const [totalRating, setTotalRating] = useState(0);
     const [excellent, setExcellent] = useState(0);
     const [good, setGood] = useState(0);
@@ -43,7 +44,18 @@ export default ({ place, forceUpdate }) => {
     };
 
     const filterItems = () => {
-        console.log("Filtering items")
+        if(filterRating!=null&&monthRating==null){
+            setDisplayData(place.comment.filter(guide => guide.rating==filterRating ))
+        }
+        else if(filterRating==null&&monthRating!=null){
+            setDisplayData(place.comment.filter(guide => moment(guide.created_at.toLowerCase()).format('MMMM')==monthRating.toLowerCase()))
+        }
+        else if(filterRating!=null&&monthRating!=null){
+        setDisplayData(place.comment.filter(guide => guide.rating==filterRating && moment(guide.created_at.toLowerCase()).format('MMMM')==monthRating.toLowerCase()))
+        }
+        else {
+            getLatestComments()
+        }
         toggleModal();
     }
 
@@ -51,6 +63,7 @@ export default ({ place, forceUpdate }) => {
     const getTotalRating = () => {
         getAllCommentsByPostId(place.id).then(comments => {
             let sum = 0;
+            setNumComment(comments.length)
             for (let i = 0; i < comments.length; i++) {
                 sum += comments[i].rating;
                 if (comments[i].rating == 1) {
@@ -165,6 +178,9 @@ export default ({ place, forceUpdate }) => {
         if (searchQuery !== "") {
             setDisplayData(place.comment.filter(guide => guide.guide_title.toLowerCase().includes(searchQuery.toLowerCase()) || guide.guide_description.toLowerCase().includes(searchQuery.toLowerCase())))
         }
+        else {
+            getLatestComments();
+        }
     }
 
     const renderNoGuide = () => {
@@ -256,7 +272,7 @@ export default ({ place, forceUpdate }) => {
                                     style={{ borderRadius: 20, padding: 10, elevation: 2, backgroundColor: "#2196F3", justifyContent: "center", alignItems: "center", marginHorizontal: 10 }}
                                     onPress={filterItems}
                                 >
-                                    <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Hide Modal</Text>
+                                    <Text style={{ color: Theme.textColor, fontWeight: "bold" }}>Apply Filter</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -292,7 +308,7 @@ export default ({ place, forceUpdate }) => {
                         <Icon name="star" color="#FFC909" size={26} /> */}
                     </View>
                     <View style={{ flex: 3, justifyContent: "center" }}>
-                        <Text style={{ color: Theme.textColor, marginLeft: 5 }}>{totalRating}</Text>
+                        <Text style={{ color: Theme.textColor, marginLeft: 5 }}>{numComment}</Text>
                     </View>
                 </View>
                 <View style={{ marginLeft: 10 }}>
@@ -301,7 +317,7 @@ export default ({ place, forceUpdate }) => {
                             <View style={{ width: 100, justifyContent: "center" }}>
                                 <Text style={{ color: Theme.textColor }}>Excellent</Text>
                             </View>
-                            <View style={{ flex: excellent, height: "100%", justifyContent: "center" }}>
+                            <View style={{ width: (excellent/totalRating)*100+"%", height: "100%", justifyContent: "center" }}>
                                 <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
                             </View>
                             <View style={{ justifyContent: "center", marginLeft: 8 }}>
@@ -313,7 +329,7 @@ export default ({ place, forceUpdate }) => {
                         <View style={{ width: 100, justifyContent: "center" }}>
                             <Text style={{ color: Theme.textColor }}>Very Good</Text>
                         </View>
-                        <View style={{ flex: good, height: "100%", justifyContent: "center" }}>
+                        <View style={{ width: (good/totalRating)*100+"%", height: "100%", justifyContent: "center" }}>
                             <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
                         </View>
                         <View style={{ justifyContent: "center", marginLeft: 8 }}>
@@ -325,7 +341,7 @@ export default ({ place, forceUpdate }) => {
                             <Text style={{ color: Theme.textColor }}>Average</Text>
 
                         </View>
-                        <View style={{ flex: average, height: "100%", justifyContent: "center" }}>
+                        <View style={{ width: (average/totalRating)*100+"%", height: "100%", justifyContent: "center" }}>
                             <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
                         </View>
                         <View style={{ justifyContent: "center", marginLeft: 8 }}>
@@ -336,7 +352,7 @@ export default ({ place, forceUpdate }) => {
                         <View style={{ width: 100, justifyContent: "center" }}>
                             <Text style={{ color: Theme.textColor }}>Poor</Text>
                         </View>
-                        <View style={{ flex: poor, height: "100%", justifyContent: "center" }}>
+                        <View style={{ width: (poor/totalRating)*100+"%", height: "100%", justifyContent: "center" }}>
                             <View style={{ width: "100%", height: 16, backgroundColor: Theme.primaryColor, borderRadius: 23 }}></View>
                         </View>
                         <View style={{ justifyContent: "center", marginLeft: 8 }}>
@@ -344,10 +360,10 @@ export default ({ place, forceUpdate }) => {
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", marginHorizontal: 12, height: 30 }}>
-                        <View style={{ width: 100, justifyContent: "center" }}>
+                        <View style={{ width: (terrible/totalRating)*100+"%", justifyContent: "center" }}>
                             <Text style={{ color: Theme.textColor }}>Terrible</Text>
                         </View>
-                        <View style={{ flex: terrible, justifyContent: "center", marginLeft: 8 }}>
+                        <View style={{ justifyContent: "center", marginLeft: 8 }}>
                             <Text style={{ color: Theme.textColor }}>{terrible}</Text>
                         </View>
                     </View>

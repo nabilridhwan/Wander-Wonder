@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import CustomButton from '../../components/CustomButton';
 import { launchImageLibrary } from 'react-native-image-picker';
+import BlackTextInput from '../../components/BlackTextInput';
 
 const STORAGE_KEY_NAME = "@save_name";
 const STORAGE_KEY_EMAIL = "@save_email";
@@ -110,40 +111,25 @@ export default function HomeScreen({ navigation }) {
 
                 <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.65)', justifyContent: "center" }}>
                     <View style={{ alignItems: "center" }}>
-                        <Text style={{ marginVertical: 9, fontSize: 40, fontWeight: "bold", color: Theme.textColor }}>Sign Up</Text>
+                        <Text style={{ marginVertical: 9, fontSize: 40, fontWeight: "bold", color: Theme.primaryColor }}>Sign Up</Text>
                         <Text style={{ fontSize: 20, color: Theme.textColor, marginVertical: 9 }}>Sign up for a new account.</Text>
 
-                        <CustomButton title="Sign Up" buttonText={"Upload Profile Picture"} onPress={handleUploadProfilePicture} />
-
+                        <CustomButton title="Sign Up" buttonText={"Upload Profile Picture"} onPress={handleUploadProfilePicture}/>
 
                         {/* Name */}
-                        <View style={{ width: "80%", height: 55, marginVertical: 15, elevation: 3 }}>
-                            <TextInput style={{ height: "100%", backgroundColor: "#1A1329", borderRadius: 10, paddingHorizontal: 8, color: Theme.textColor }} placeholder="Name" placeholderTextColor="rgba(255,255,255,0.4)" value={name} onChangeText={(text) => setName(text)} onSubmitEditing={onSubmit} />
-                        </View>
-
-
+                        <BlackTextInput placeholder={"Name"} value={name} onChangeText={(text) => setName(text)} onSubmit={onSubmit}/>
+                        
                         {/* Username */}
-                        <View style={{ width: "80%", height: 55, marginVertical: 15, elevation: 3 }}>
-                            <TextInput style={{ height: "100%", backgroundColor: "#1A1329", borderRadius: 10, paddingHorizontal: 8, color: Theme.textColor }} placeholder="Username" placeholderTextColor="rgba(255,255,255,0.4)" value={username} onChangeText={(text) => setUsername(text)} onSubmitEditing={onSubmit} />
-                        </View>
-
+                        <BlackTextInput placeholder={"Username"} value={username} onChangeText={(text) => setUsername(text)} onSubmit={onSubmit}/>
 
                         {/* Email */}
-                        <View style={{ width: "80%", height: 55, marginVertical: 15, elevation: 3 }}>
-                            <TextInput style={{ height: "100%", backgroundColor: "#1A1329", borderRadius: 10, paddingHorizontal: 8, color: Theme.textColor }} placeholder="Email" placeholderTextColor="rgba(255,255,255,0.4)" value={email} onChangeText={(text) => setEmail(text)} onSubmitEditing={onSubmit} />
-                        </View>
-
+                        <BlackTextInput placeholder={"Email"} value={email} onChangeText={(text) => setEmail(text)} onSubmit={onSubmit}/>
 
                         {/* Password */}
-                        <View style={{ width: "80%", height: 55, marginVertical: 15, elevation: 3 }}>
-                            <TextInput style={{ height: "100%", backgroundColor: "#1A1329", borderRadius: 10, paddingHorizontal: 8, color: Theme.textColor }} placeholder="Password" placeholderTextColor="rgba(255,255,255,0.4)" secureTextEntry={true} value={password} onChangeText={(text) => setPassword(text)} onSubmitEditing={onSubmit} />
-                        </View>
-
+                        <BlackTextInput placeholder={"Password"} value={password} onChangeText={(text) => setPassword(text)} onSubmit={onSubmit} secureTextEntry={true}/>
 
                         {/* Confirm Password */}
-                        <View style={{ width: "80%", height: 55, marginVertical: 15, elevation: 3 }}>
-                            <TextInput style={{ height: "100%", backgroundColor: "#1A1329", borderRadius: 10, paddingHorizontal: 8, color: Theme.textColor }} placeholder="Confirm Password" placeholderTextColor="rgba(255,255,255,0.4)" secureTextEntry={true} value={confirmPassword} onChangeText={(text) => setConfirmPassword(text)} onSubmitEditing={onSubmit} />
-                        </View>
+                        <BlackTextInput placeholder={"Confirm Password"} value={confirmPassword} onChangeText={(text) => setConfirmPassword(text)} onSubmit={onSubmit} secureTextEntry={true}/>
 
                         {/* Button */}
                         <View style={{ marginTop: 40, width: "80%", height: 50 }}>
