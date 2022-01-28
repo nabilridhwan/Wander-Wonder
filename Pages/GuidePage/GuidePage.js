@@ -99,7 +99,7 @@ export default ({
       setTitle("")
       toggleNext();
 
-      addNewCommentByPostId(id, title, review, new Date().toLocaleString(), rating).then(() => {
+      addNewCommentByPostId(id, title, review, new Date().toISOString(), rating).then(() => {
         doForceUpdate();
       })
     }
