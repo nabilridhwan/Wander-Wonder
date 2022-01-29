@@ -29,6 +29,7 @@
     "react-native-maps": "^0.29.4",
     "react-native-modal": "^13.0.0",
     "react-native-month-year-picker": "^1.8.0",
+    "react-native-number-please": "^1.0.5",
     "react-native-progress": "^5.0.0",
     "react-native-ratings": "^8.1.0",
     "react-native-safe-area-context": "^3.3.2",

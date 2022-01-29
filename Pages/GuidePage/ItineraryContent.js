@@ -6,71 +6,50 @@
  * @flow strict-local
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImageBackground, Platform, Image, StyleSheet, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../../config/Theme';
 export default ({ place }) => {
+
+    const [itinerary, setItinerary] = useState(place.itinerary);
+
     return (
 
         <View style={styles.container}>
 
-            <View style={{ flexDirection: "row", height: 250 }}>
-                <View style={{ flex: 1 }}>
-                    <Text style={{ ...styles.time }}>10:30 AM</Text>
+            {itinerary
+                ? itinerary.map((item, index) => {
+
+                    return (
+                        <View style={{ flexDirection: "row", height: 250 }}>
+                            <View style={{ flex: 1 }}>
+                                <Text style={{ ...styles.time }}>{item.time}</Text>
+                            </View>
+
+                            {/* The icon and line */}
+                            <View style={{ flex: 1, alignItems: "center" }}>
+                                <View style={{ ...styles.icon }}>
+                                    <Icon name="navigate-circle" color="black" size={40} />
+                                </View>
+                                <View style={styles.lines} />
+                            </View>
+
+                            <View style={{ backgroundColor: "#F8B0AB", ...styles.pictureBackground }}>
+                                <Text style={styles.pictureTextStyle} >{item.place}</Text>
+                                <Image style={styles.imageStyle} source={{ uri: item.img_url }} />
+                            </View>
+                        </View>
+                    )
+                })
+
+                :
+
+                <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+                    <Text style={{ fontSize: 20, fontWeight: "bold", color: "white" }}>No itinerary</Text>
                 </View>
 
-                {/* The icon and line */}
-                <View style={{ flex: 1, alignItems: "center" }}>
-                    <View style={{ ...styles.icon }}>
-                        <Icon name="train" color="black" size={40} />
-                    </View>
-                    <View style={styles.lines} />
-                </View>
-
-                <View style={{backgroundColor: "#F8B0AB", ...styles.pictureBackground }}>
-                    <Text style={styles.pictureTextStyle} >Sentosa Express</Text>
-                    <Image style={styles.imageStyle} source={require("../../assets/images/itinerary/sentosa.png")} />
-                </View>
-            </View>
-
-            <View style={{ flexDirection: "row", height: 250 }}>
-                <View style={{ flex: 1 }}>
-                    <Text style={{ ...styles.time }}>10:45 AM</Text>
-                </View>
-                {/* The icon and line */}
-                <View style={{ flex: 1, alignItems: "center"}}>
-                <View style={{ ...styles.icon }}>
-                        <Icon name="pin" color="black" size={40} />
-                    </View>
-                    <View style={styles.lines} />
-                </View>
-
-                <View style={{ backgroundColor: "#F8CBAB",...styles.pictureBackground }}>
-                <Text style={styles.pictureTextStyle} >Universal Studios</Text>
-                    <Image style={styles.imageStyle} source={require("../../assets/images/itinerary/universal_studio.png")} />
-                </View>
-            </View>
-
-            <View style={{ flexDirection: "row", height: 250 }}>
-                <View style={{ flex: 1}}>
-                    <Text style={{ ...styles.time }}>11:00 AM</Text>
-                </View>
-
-
-                {/* The icon and line */}
-                <View style={{ flex: 1, alignItems: "center" }}>
-                <View style={{ ...styles.icon,justifyContent:"center" }}>
-                    <Text style={{fontWeight:"bold",fontSize:26,color:Theme.backgroundColor}}>1</Text>
-                    </View>
-                    <View style={styles.lines} />
-                </View>
-
-                <View style={{backgroundColor: "#F8E2AB",...styles.pictureBackground }}>
-                <Text style={styles.pictureTextStyle} >Hollywood</Text>
-                    <Image style={styles.imageStyle} source={require("../../assets/images/itinerary/hollywood.png")} />
-                </View>
-            </View>
+            }
 
 
         </View>
@@ -92,7 +71,7 @@ const styles = StyleSheet.create({
     },
 
     pictureBackground: {
-        marginHorizontal:5,
+        marginHorizontal: 5,
         height: "80%",
         padding: 10,
         borderRadius: 10,
@@ -126,7 +105,7 @@ const styles = StyleSheet.create({
         fontWeight: '900',
         color: Theme.textColor,
         fontSize: 17,
-        marginTop:16
+        marginTop: 16
     }
 });
 

@@ -51,7 +51,36 @@
                 "longitude": 103.82035089212134,
                 "image_url": "https://static.mothership.sg/1/2020/11/resorts-world-sentosa-casino-profit-covid-19.jpg"
             }
+        ],
+
+        "items": [
+            "Camera",
+            "Umbrella",
+            "Ticket",
+            "Fan",
+            "Extra Shirt"
+        ],
+
+        "itinerary": [
+            {
+                "time": "10:30 AM",
+                "place": "Sentosa Express",
+                "img_url": "https://res.klook.com/images/fl_lossy.progressive,q_65/c_fill,w_1295,h_720/w_80,x_15,y_15,g_south_west,l_klook_water/activities/zoxvbowa2xztwl1qygyx/SentosaExpressTrainTicket.webp"
+            },
+
+            {
+                "time": "10:45 AM",
+                "place": "Universal Studios",
+                "img_url": "https://www.rwsentosa.com/-/media/project/non-gaming/rwsentosa/articles/attractions/insider-tips-to-uss/insider-tips-to-universal-studios-singapore-globe-1366x666.jpg"
+            },
+
+            {
+                "time": "6:00 PM",
+                "place": "Palawan Beach",
+                "img_url": "https://www.sentosa.com.sg/-/media/sentosa/product-listing/product-card/attractions/palawanbeach.jpg?revision=c0b05af6-2e87-4df4-8661-387387d0be82"
+            }
         ]
+
     },
     {
         "id": 2,

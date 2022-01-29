@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput} from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput, Modal, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Theme from "../../config/Theme";
-import {Picker} from "@react-native-picker/picker"
+import { launchImageLibrary } from "react-native-image-picker";
+import { Picker } from "@react-native-picker/picker"
 
-function AddGuide({navigation, route}) {
-
+function AddGuide({ navigation, route }) {
     let [title, setTitle] = useState("");
     let [description, setDescription] = useState("");
     let [location, setLocation] = useState("");
@@ -17,79 +17,145 @@ function AddGuide({navigation, route}) {
     let [website, setWebsite] = useState("");
     let [items, setItems] = useState([]);
 
-    return (
-        <ScrollView style={{ backgroundColor: Theme.backgroundColor, paddingHorizontal: 10 }}>
+    let [itemInput, setItemInput] = useState("");
+    const [showIconPreview, setShowIconPreview] = useState(false);
 
-            <Text style={{ fontWeight: "bold", color: "white", fontSize: 28, textAlign: "center" }}>Write a travel guide</Text>
-            <Text style={{ color: "white", fontSize: 15, textAlign: "center" }}>Share tips and recommendations for your favourite destination</Text>
+    const [region, setRegion] = useState("");
+    let [modalVisible, setModalVisible] = useState(false);
+    const [travelPictures, setTravelPictures] = useState([]);
+    const submitIcon = () => {
+        // Capitalize the first letter of itemInput
+        setItems([...items, itemInput]);
+        setModalVisible(false);
+    }
+    const openImagePicker = async () => {
+
+        try {
+
+            const result = await launchImageLibrary({ mediaType: "photo", selectionLimit: 5 });
+            if (!result.didCancel) {
+
+                const uris = result.assets.map(asset => asset.uri);
+                if (travelPictures.length == 0) {
+                    setTravelPictures(uris);
+                } else {
+                    setTravelPictures([...travelPictures, ...uris]);
+                }
+            }
+
+        } catch (e) {
+            alert(e);
+        }
+    }
+
+    const removeImage = (index) => {
+        console.log("Removing")
+        setTravelPictures(travelPictures.filter((_, i) => i !== index));
+    }
+
+    const navigateToNextPage = () => {
+        const props = {
+            travelPictures,
+            title,
+            description,
+            location,
+            temperature,
+            condition,
+            duration,
+            distance,
+            price,
+            website,
+            items
+        }
+
+        navigation.navigate("Add Guide Itinerary", {props})
+    }
+
+    return (
+        <ScrollView style={{ backgroundColor: Theme.backgroundColor, paddingHorizontal: 20, }}>
+
+            <Text style={{ fontWeight: "bold", color: "white", fontSize: 21, textAlign: "center", marginVertical: 18 }}>Write A Travel Guide</Text>
+            <Text style={{ color: "white", fontSize: 14, textAlign: "center" }}>Share tips and recommendations</Text>
+            <Text style={{ color: "white", fontSize: 14, textAlign: "center", marginBottom: 7 }}>for your favourite destination</Text>
 
             <ScrollView horizontal={true}>
 
-                {/* Image */}
-                <View style={{ height: "auto", width: 220, justifyContent: "flex-end", alignItems: "flex-start" }}>
-                    <View>
+                {travelPictures.map((uri, index) => {
 
-                        {/* Button */}
-                        <TouchableOpacity style={{ backgroundColor: "#F14747", width: 30, height: 30, borderRadius: 999, transform: [{ rotate: "45deg" }], position: "absolute", top: -10, right: -10, zIndex: 9, justifyContent: "center", alignItems: "center", elevation: 2 }}>
-                            <Icon name="add" color="white" size={25} />
-                        </TouchableOpacity>
+                    // Image
+                    return (<View key={index} style={{ height: 220, width: 220, justifyContent: "flex-end", alignItems: "flex-start" }}>
+                        <View>
 
-                        {/* Image */}
-                        <Image style={{ width: 200, height: 200, borderRadius: 20 }} source={require("../../assets/images/singapore/1.png")} />
-                    </View>
-                </View>
+                            {/* Button */}
+                            <TouchableOpacity onPress={() => removeImage(index)} style={{ backgroundColor: "#F14747", width: 30, height: 30, borderRadius: 999, transform: [{ rotate: "45deg" }], position: "absolute", top: -10, right: -10, zIndex: 9, justifyContent: "center", alignItems: "center", elevation: 2 }}>
+                                <Icon name="add" color="white" size={25} />
+                            </TouchableOpacity>
 
+                            {/* Image */}
+                            <Image style={{ width: 180, height: 180, borderRadius: 20 }} source={{ uri: uri }} />
+                        </View>
+                    </View>)
+
+                })}
                 {/* Add button */}
-                <View style={{ height: 220, width: 220, justifyContent: "flex-end", alignItems: "center" }}>
+                <TouchableOpacity style={{ height: 220, width: 220, justifyContent: "flex-end", alignItems: "center" }} onPress={openImagePicker}>
 
-                    <View style={{ width: 200, height: 200, backgroundColor: "#757272", borderRadius: 20, justifyContent: "center", alignItems: "center" }}>
-                        <Icon name="add" color="white" size={100} />
+                    <View style={{ width: 180, height: 180, backgroundColor: "#757272", borderRadius: 20, justifyContent: "center", alignItems: "center" }}>
+                        <Icon name="add" color="white" size={70} />
                     </View>
-                </View>
+                </TouchableOpacity>
             </ScrollView>
 
 
-            <View style={{ backgroundColor: "#FFD7D7", width: "100%", height: 200, borderRadius: 10, marginVertical: 20 }}>
+            <View style={{ backgroundColor: "#F6E5F5", height: 200, borderRadius: 10, marginVertical: 20 }}>
 
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 20, paddingHorizontal: 20, borderBottomColor: "black", borderBottomWidth: 1, alignItems: "center" }}>
+                <View style={{ justifyContent: "space-between", paddingTop: 25, paddingLeft: 25, paddingBottom: 25 }}>
 
-                    <Text style={{ fontWeight: "bold", color: "black" }}>Guide Title</Text>
-                    <TextInput placeholder="e.g Singapore" ></TextInput>
+                    <Text style={styles.header}>Guide Title</Text>
+                    <TextInput placeholder="e.g Singapore" onChangeText={(text) => setTitle(text)}></TextInput>
+
+                    <Text style={styles.header}>Guide Description</Text>
+                    <TextInput
+                        multiline={true}
+                        placeholder="Description"
+                        onChangeText={(text) => setDescription(text)}
+                    />
                 </View>
-
-                <TextInput
-                style={{padding: 20, textAlign: "center"}}
-                multiline={true}
-                    numberOfLines={4}
-                    placeholder="Description"
-                />
-
             </View>
 
             {/* Purple */}
-            <View style={{ backgroundColor: "#C0C7FF", width: "100%", borderRadius: 10, marginVertical: 20 }}>
+            <View style={{ backgroundColor: "#FBF4F9", width: "100%", borderRadius: 10, marginVertical: 20 }}>
 
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 20, paddingHorizontal: 20, borderBottomColor: "black", borderBottomWidth: 1 }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 20 }}>
 
-                    <Text style={{ fontWeight: "bold", color: "black" }}>Location</Text>
-                    <Text>Singapore</Text>
+                    <Text style={{ flex: 1, fontWeight: "bold", color: "black" }}>Region</Text>
+                    <Picker
+                        style={{ flex: 1 }}
+                        selectedValue={region}
+                        onValueChange={(itemValue, itemIndex) => setRegion(itemValue)}
+                    >
+                        <Picker.Item label="Singapore" value="singapore" />
+                        <Picker.Item label="Asia" value="asia" />
+                        <Picker.Item label="Oceania" value="oceania" />
+                        <Picker.Item label="Europe" value="europe" />
+                        <Picker.Item label="America" value="america" />
+                    </Picker>
                 </View>
 
-                <View style={{ paddingTop: 20, paddingBottom: 0, paddingHorizontal: 20 }}>
-                    <Text style={{ fontWeight: "bold", color: "black" }}>Weather</Text>
-                </View>
-
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 20, paddingHorizontal: 20, alignItems: "center"}}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center" }}>
 
                     <Text style={{ fontWeight: "bold", color: "black" }}>Temperature</Text>
-                    <TextInput placeholder="e.g 30°C" keyboardType="number-pad" style={{textAlign: "right"}} ></TextInput>
+                    <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
+                        <TextInput placeholder="e.g 30 " keyboardType="number-pad" style={{ textAlign: "right" }} onChangeText={(text) => setTemperature(text)}></TextInput>
+                        <Text style={{ color: "black" }}>°C</Text>
+                    </View>
                 </View>
 
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 20, paddingHorizontal: 20, borderBottomColor: "black", borderBottomWidth: 1, alignItems: "center"}}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 20, alignItems: "center" }}>
 
                     <Text style={{ flex: 1, fontWeight: "bold", color: "black" }}>Condition</Text>
                     <Picker
-                    style={{flex: 1}}
+                        style={{ flex: 1 }}
                         selectedValue={condition}
                         onValueChange={(itemValue, itemIndex) => setCondition(itemValue)}
                     >
@@ -101,70 +167,117 @@ function AddGuide({navigation, route}) {
                     </Picker>
                 </View>
 
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 20, paddingHorizontal: 20, borderBottomColor: "black", borderBottomWidth: 1 }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 20 }}>
 
                     <Text style={{ fontWeight: "bold", color: "black" }}>Duration</Text>
-                    <Text>6 Hours</Text>
+                    <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
+                        <TextInput placeholder="e.g 6 " keyboardType="number-pad" style={{ textAlign: "right" }} onChangeText={(text) => setDuration(text)}></TextInput>
+                        <Text style={{ color: "black" }}>hours</Text>
+                    </View>
                 </View>
 
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 20, paddingHorizontal: 20, borderBottomColor: "black", borderBottomWidth: 1 }}>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 20 }}>
 
                     <Text style={{ fontWeight: "bold", color: "black" }}>Distance</Text>
-                    <Text>Not Set</Text>
+                    <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "center" }}>
+                        <TextInput placeholder="e.g 6 " keyboardType="number-pad" style={{ textAlign: "right" }} onChangeText={(text) => setDistance(text)} ></TextInput>
+                        <Text style={{ color: "black" }}>km</Text>
+                    </View>
                 </View>
             </View>
 
             {/* Pink */}
-            <View style={{ backgroundColor: "#FFC8F0", width: "100%", borderRadius: 10, marginVertical: 20 }}>
+            <View style={{ backgroundColor: "#F6E7E6", width: "100%", borderRadius: 10, marginVertical: 20, padding: 10 }}>
 
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 20, paddingHorizontal: 20, borderBottomColor: "black", borderBottomWidth: 1 }}>
-
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", paddingHorizontal: 20, alignItems: "center" }}>
                     <Text style={{ fontWeight: "bold", color: "black" }}>Estimated Price</Text>
-                    <Text>$100</Text>
+                    <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "center", }}>
+                        <Text style={{ color: "black" }}>$ </Text>
+                        <TextInput placeholder="e.g 6 " keyboardType="number-pad" style={{ textAlign: "right" }} onChangeText={(text) => setPrice(text)}></TextInput>
+                    </View>
                 </View>
 
-                <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 20, paddingHorizontal: 20, borderBottomColor: "black", borderBottomWidth: 1 }}>
-
-                    <Text style={{ fontWeight: "bold", color: "black" }}>Website Buying Ticket</Text>
-                    <Text>https://restortworld...</Text>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", addingHorizontal: 20 }}>
+                    <Text style={{ fontWeight: "bold", color: "black" }} >Purchase Ticket Website</Text>
+                    <TextInput placeholder="https://..." style={{ textAlign: "right" }} onChangeText={(text) => setWebsite(text)}></TextInput>
                 </View>
             </View>
 
             {/* Blue */}
 
-            <View style={{ backgroundColor: "#D7FAFF", height: 300, width: "100%", borderRadius: 10, marginTop: 20, marginBottom: 40 }}>
+            <View style={{ backgroundColor: "#C5D4ED", height: "auto", width: "100%", borderRadius: 10, marginTop: 0, marginBottom: 30 }}>
+
+                <Text style={{ fontSize: 24, textAlign: "center", fontWeight: "bold", color: "black", paddingTop: 20}}>What did you bring?</Text>
+
+                <Text style={{ fontSize: 18, textAlign: "center", paddingVertical: 1 }}>Get your readers ready!</Text>
+
+
+
+
+                {items.map((item, index) => {
+
+
+                    return (<View key={index} style={{ backgroundColor: "white", margin: 20, marginVertical: 10, padding: 20, borderRadius: 10, elevation: 4 }}>
+
+                        {/* Delete button  */}
+                        <TouchableOpacity style={{ backgroundColor: "red", width: 30, height: 30, alignItems: "center", justifyContent: "center", transform: [{ rotate: "45deg" }], borderRadius: 999, position: "absolute", right: -10, top: -10, elevation: 2 }} onPress={() => setItems(items.filter((_, i) => i != index))}>
+                            <Icon name="add" color="white" size={25} />
+                        </TouchableOpacity>
+
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                            <Text style={{ fontWeight: "bold", color: "black", fontSize: 17 }}>{item.charAt(0).toUpperCase() + item.slice(1)}</Text>
+
+                            <Icon name={item} color="black" size={25} />
+                        </View>
+                    </View>)
+
+                })}
 
                 {/* Add Button */}
-                <TouchableOpacity style={{ width: "100%", alignItems: "center", position: "absolute", bottom: -30, zIndex: 999 }}>
+                <TouchableOpacity style={{ width: "100%", alignItems: "center", marginBottom: 16 }} onPress={() => setModalVisible(!modalVisible)}>
                     <View style={{ backgroundColor: "#005FCE", width: 50, height: 40, alignItems: "center", justifyContent: "center", borderRadius: 10, elevation: 2 }}>
                         <Icon name="add" color="white" size={25} />
                     </View>
 
                 </TouchableOpacity>
 
-                <Text style={{ fontSize: 24, textAlign: "center", fontWeight: "bold", color: "black", paddingVertical: 20 }}>What did you bring?</Text>
-
-                <Text style={{ fontSize: 18, textAlign: "center", paddingVertical: 10 }}>Get your readers ready!</Text>
-
-                <View style={{ backgroundColor: "white", margin: 20, padding: 20, borderRadius: 10, elevation: 4 }}>
-
-                    {/* Delete button */}
-                    <View style={{ backgroundColor: "red", width: 30, height: 30, alignItems: "center", justifyContent: "center", transform: [{ rotate: "45deg" }], borderRadius: 999, position: "absolute", right: -10, top: -10, elevation: 2 }}>
-                        <Icon name="add" color="white" size={25} />
-                    </View>
-
-
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Text style={{ fontWeight: "bold", color: "black", fontSize: 17 }}>Camera</Text>
-
-                        <Icon name="camera" color="black" size={25} />
-                    </View>
-                </View>
             </View>
 
-            <TouchableOpacity onPress={() => navigation.navigate("Add Guide Itinerary")} style={{ backgroundColor: "#8987FF", height: 50, justifyContent: "center", borderRadius: 10, width: "100%" }}>
+            <TouchableOpacity onPress={() => navigateToNextPage()} style={{
+                backgroundColor: "#8987FF", height: 50, justifyContent: "center", borderRadius: 10, width: "100%", marginBottom: 30
+            }}>
                 <Text style={{ color: "white", textAlign: "center" }}>Next</Text>
             </TouchableOpacity>
+
+
+
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        {/* <Text style={styles.modalText}></Text> */}
+                        <TextInput placeholder="Items" onChangeText={(text) => setItemInput(text)} onFocus={() => setShowIconPreview(false)} onBlur={() => setShowIconPreview(true)} onSubmitEditing={() => setShowIconPreview(true)} />
+
+                        {showIconPreview && (
+                            <Icon name={itemInput} color="black" size={25} />
+                        )}
+
+                        <Pressable
+                            style={[styles.button, styles.buttonClose]}
+                            onPress={() => submitIcon()}
+                        >
+                            <Text style={styles.textStyle}>Done</Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </Modal>
 
 
         </ScrollView>
@@ -175,6 +288,54 @@ const styles = StyleSheet.create({
     backgroundStyle: {
         backgroundColor: Theme.backgroundColor,
     },
+
+    header: {
+        color: "black",
+        fontSize: 15,
+        fontWeight: "bold",
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+        width: "100%"
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+    },
+    buttonOpen: {
+        backgroundColor: "#F194FF",
+    },
+    buttonClose: {
+        backgroundColor: "#2196F3",
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    }
 });
 
 export default AddGuide;

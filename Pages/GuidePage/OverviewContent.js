@@ -81,43 +81,24 @@ export default ({ place }) => {
                     </View>
                     <ScrollView horizontal={true}>
                         <View style={{ flexDirection: "row", marginVertical: 15 }}>
-                            <View style={styles.broughtButtonContainer}>
-                                <View style={{ backgroundColor: "#B2E3FE", ...styles.broughtButton }}>
-                                    <Icon name="camera" color="black" size={31}></Icon>
-                                </View>
-                                <Text style={styles.broughtText}>Camera</Text>
-                            </View>
 
-                            <View style={styles.broughtButtonContainer}>
-                                <View style={{ backgroundColor: "#A3CDFF", ...styles.broughtButton }}>
-                                    <Icon name="umbrella" color="black" size={33}></Icon>
-                                </View>
-                                <Text style={styles.broughtText}>Umbrella</Text>
-                            </View>
+                            {place.items ? place.items.map((item, index) => {
 
-                            <View style={styles.broughtButtonContainer}>
-                                <View style={{ backgroundColor: "#B2FFB0", ...styles.broughtButton }}>
-                                    <Image source={require(`../../assets/images/ticket.png`)} style={{ width: 38, height: 36 }} />
-                                </View>
-                                <Text style={styles.broughtText}>Ticket</Text>
-                            </View>
-
-                            <View style={styles.broughtButtonContainer}>
-                                <View style={{ backgroundColor: "#FEB2B2", ...styles.broughtButton }}>
-                                    <Image source={require(`../../assets/images/fan.png`)} style={{ width: 30, height: 36 }} />
-                                </View>
-                                <Text style={styles.broughtText}>Fan</Text>
-                            </View>
-
-                            <View style={styles.broughtButtonContainer}>
-                                <View style={{ backgroundColor: "#FFD698", ...styles.broughtButton }}>
-                                    <Icon name="shirt" color="black" size={32}></Icon>
-                                </View>
-                                <Text style={styles.broughtText}>Extra Shirt</Text>
-                            </View>
+                                return (
+                                    <View key={index} style={styles.broughtButtonContainer}>
+                                        <View style={{ backgroundColor: "#B2E3FE", ...styles.broughtButton }}>
+                                            <Icon name="cube" color="black" size={31}></Icon>
+                                        </View>
+                                        <Text style={styles.broughtText}>{item}</Text>
+                                    </View>
+                                )
+                            }) : <Text style={{color: Theme.textColor}}>Nothing</Text>}
                         </View>
                     </ScrollView>
                 </View>
+
+
+
                 <View style={{ borderBottomColor: '#C9D1FF', borderBottomWidth: 6, borderStyle: 'dashed' }} />
                 <View style={{ flexDirection: 'row', marginTop: 32, marginBottom: 32, justifyContent: 'space-around' }}>
                     <View>
