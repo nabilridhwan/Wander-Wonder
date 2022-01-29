@@ -18,16 +18,16 @@ function AddGuide({ navigation, route }) {
     let [items, setItems] = useState([]);
 
     let [itemInput, setItemInput] = useState("");
-    const [showIconPreview, setShowIconPreview] = useState(false);
 
     const [region, setRegion] = useState("");
     let [modalVisible, setModalVisible] = useState(false);
     const [travelPictures, setTravelPictures] = useState([]);
-    const submitIcon = () => {
+    const submitItem = () => {
         // Capitalize the first letter of itemInput
         setItems([...items, itemInput]);
         setModalVisible(false);
     }
+
     const openImagePicker = async () => {
 
         try {
@@ -224,11 +224,8 @@ function AddGuide({ navigation, route }) {
                             <Icon name="add" color="white" size={25} />
                         </TouchableOpacity>
 
-                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={{ fontWeight: "bold", color: "black", fontSize: 17 }}>{item.charAt(0).toUpperCase() + item.slice(1)}</Text>
 
-                            <Icon name={item} color="black" size={25} />
-                        </View>
                     </View>)
 
                 })}
@@ -263,17 +260,13 @@ function AddGuide({ navigation, route }) {
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         {/* <Text style={styles.modalText}></Text> */}
-                        <TextInput placeholder="Items" onChangeText={(text) => setItemInput(text)} onFocus={() => setShowIconPreview(false)} onBlur={() => setShowIconPreview(true)} onSubmitEditing={() => setShowIconPreview(true)} />
-
-                        {showIconPreview && (
-                            <Icon name={itemInput} color="black" size={25} />
-                        )}
+                        <TextInput placeholder="What did you bring?" onChangeText={(text) => setItemInput(text)} />
 
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
-                            onPress={() => submitIcon()}
+                            onPress={() => submitItem()}
                         >
-                            <Text style={styles.textStyle}>Done</Text>
+                            <Text style={styles.textStyle}>Add</Text>
                         </Pressable>
                     </View>
                 </View>
@@ -317,7 +310,8 @@ const styles = StyleSheet.create({
         width: "100%"
     },
     button: {
-        borderRadius: 20,
+        borderRadius: 10,
+        width: 50,
         padding: 10,
         elevation: 2
     },
