@@ -128,7 +128,7 @@ export default ({
         borderRadius: 5,
         flex: 1
       }}>
-        <ImageBackground source={{uri: item}} style={styles.image} />
+        <ImageBackground source={{uri: item }} style={styles.image} />
       </View>
     )
   }
@@ -211,7 +211,7 @@ export default ({
       </ImageBackground> */}
 
       <View style={{ flex: 7 }}>
-        <ScrollView style={styles.panelContainer}>
+        <ScrollView style={styles.panelContainer} nestedScrollEnabled={true}>
           <Text style={styles.title}>{place.title}</Text>
           <Text style={styles.author}>By {place.author}</Text>
 

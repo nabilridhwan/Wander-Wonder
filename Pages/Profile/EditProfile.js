@@ -35,11 +35,6 @@ function EditProfile({ route, navigation }) {
             }
         })();
 
-        // componentDidUnmount
-        return () => {
-            route.params.getUser()
-        }
-
     }, [])
 
     const handleSave = () => {
@@ -51,7 +46,6 @@ function EditProfile({ route, navigation }) {
             password: passwordInput,
             profile_pic_uri: pfpUri
         }).then(_ => {
-
             navigateBack();
         }).catch(e => {
             alert(e);
@@ -63,9 +57,9 @@ function EditProfile({ route, navigation }) {
     }
 
     const openImagePicker = async () => {
-        const result = await launchImageLibrary({ mediaType: "photo", includeBase64: true });
+        const result = await launchImageLibrary({ mediaType: "photo"});
         if (!result.didCancel) {
-            const { assets: [{ fileName, uri, base64 }] } = result;
+            const { assets: [{ uri}] } = result;
             setPfpUri(uri);
         }
     }

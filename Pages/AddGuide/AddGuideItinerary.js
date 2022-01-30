@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity, TextInput, Modal, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import Theme from "../../config/Theme";
@@ -16,6 +16,10 @@ function AddGuideItinerary({ navigation, route: { params: { props } } }) {
   const [image, setImage] = useState(null);
   let [showTimePicker, setShowTimePicker] = useState(false);
   const [nameOfPlace, setNameOfPlace] = useState("");
+
+  useEffect(() => {
+    console.log(props)
+  }, []);
 
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;

@@ -33,6 +33,9 @@ function Profile(props) {
 
   useEffect(() => {
     getUser();
+    navigation.addListener('focus', () => {
+      getUser();
+    })
   }, [])
 
   const getUser = () => {
@@ -47,7 +50,7 @@ function Profile(props) {
   }
 
   let navigateToProfilePage = () => {
-    navigation.navigate("Edit Profile", {getUser: getUser});
+    navigation.navigate("Edit Profile");
   }
 
   const logout = async () => {
@@ -59,19 +62,19 @@ function Profile(props) {
     <View style={{ flex: 1, ...styles.backgroundStyle, justifyContent: "center", alignItems: "center" }}>
 
 
-      <View width="100%">
+      <View style={{width: "100%"}}>
 
         {/* Image */}
         <View style={{ justifyContent: "center", alignItems: "center" }} >
-          <Image source={imgSrc} style={{ borderRadius: 999 }} width={64} height={64} />
+          <Image source={imgSrc} style={{ borderRadius: 999 }} width={72} height={72} />
         </View>
 
         <Text style={{ ...styles.defaultText, textAlign: "center", fontWeight: "bold", fontSize: 24, marginVertical: 5 }}>{name}</Text>
-        <Text style={{ ...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)", marginVertical: 5 }}>@{username}</Text>
+        <Text style={{ ...styles.defaultText, textAlign: "center", fontSize: 18, color: "rgba(255,255,255,0.7)", marginVertical: 5,marginBottom: 20 }}>@{username}</Text>
 
-        <View style={{ alignItems: "center" }}>
-          <CustomButton buttonText="Edit Profile" onPress={navigateToProfilePage} style={{ marginBottom: 10}} />
-          <CustomButton buttonText="Logout" onPress={logout} />
+        <View style={{ alignItems: "center"}}>
+          <CustomButton buttonText="Edit Profile" onPress={navigateToProfilePage} style={{width: 200, marginBottom: 10}} />
+          <CustomButton buttonText="Logout" onPress={logout} style={{width: 200}} />
         </View>
 
       </View>

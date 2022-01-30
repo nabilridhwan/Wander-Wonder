@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { FlatList, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Card from '../../components/Card';
 import CustomButton from '../../components/CustomButton';
 import Theme from '../../config/Theme';
@@ -9,34 +9,28 @@ export default ({ navigation }) => {
   const [pages, setPages] = useState(["All", "Singapore", "Oceania", "Asia", "Europe", "America"])
   const [currentPage, setCurrentPage] = useState("All")
   const [guides, setGuides] = useState([])
+  const [displayGuides, setDisplayGuides] = useState([])
 
   useEffect(() => {
     navigation.addListener('focus', () => {
+      setCurrentPage("All")
       refreshGuides();
 
-      // Uncomment below to flush all guides
+      // The two commands below flushes all guides and replacing them from the one in Guides.json 
       flushGuides();
-
       initGuide();
     })
   }, [])
 
+  useEffect(() => {
+    setDisplayGuides(currentPage === "All" ? guides : guides.filter(guide => guide.category == currentPage))
+  }, [currentPage])
+
   const refreshGuides = () => {
     getAllGuides().then(guides => {
       setGuides(guides)
+      setDisplayGuides(guides)
     })
-  }
-
-  let handlePageChange = (page) => {
-    // Filter out page
-    if (page != pages[0]) {
-      const newGuides = propGuides.filter(guide => guide.category == page)
-      setGuides(newGuides);
-    } else {
-      setGuides(propGuides);
-    }
-
-    setCurrentPage(page)
   }
 
   const renderNoGuide = () => {
@@ -55,19 +49,19 @@ export default ({ navigation }) => {
         <View style={styles.navigation}>
           {pages.map((page, index) =>
 
-            <View style={styles.innerNavigation} key={index} onTouchEnd={() => handlePageChange(page)}>
+            <TouchableOpacity style={styles.innerNavigation} key={index} onPress={() => setCurrentPage(page)}>
 
               <Text style={currentPage == page ? styles.highlightedText : styles.defaultText}>
                 {page}
               </Text>
 
               <View style={currentPage == page ? styles.navigationCircle : styles.displayHidden}></View>
-            </View>
+            </TouchableOpacity>
 
           )}
         </View>
 
-        <FlatList data={guides} numColumns={2} renderItem={
+        <FlatList data={displayGuides} numColumns={2} renderItem={
           ({ item, index }) =>
             <Card place={item}
               index={index}

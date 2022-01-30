@@ -62,8 +62,6 @@ export function updateUser({
 
 export function initGuide() {
     return new Promise((resolve, reject) => {
-        console.log(Guides)
-
         AsyncStorage.getItem("guides").then(guide => {
             if (guide === null) {
                 AsyncStorage.setItem("guides", JSON.stringify(Guides)).then(() => {
@@ -150,7 +148,7 @@ export function addNewCommentByPostId(id, guide_title, guide_description, create
                 })
 
             }).catch(e => {
-                console.log(e)
+                reject(e);
             })
         })
     })
