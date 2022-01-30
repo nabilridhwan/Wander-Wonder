@@ -18,7 +18,7 @@ export default ({ place }) => {
 
         <View style={styles.container}>
 
-            {itinerary
+            {itinerary && itinerary.length > 0
                 ? itinerary.map((item, index) => {
 
                     return (

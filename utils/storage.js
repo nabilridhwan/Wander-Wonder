@@ -129,7 +129,11 @@ export function addNewCommentByPostId(id, guide_title, guide_description, create
 
         getAllGuides().then(guides => {
 
-            getCurrentUser().then(({username, name, profile_pic_uri}) => {
+            getCurrentUser().then(({
+                username,
+                name,
+                profile_pic_uri
+            }) => {
 
                 const guideToReturn = guides.find(guide => guide.id === id);
                 guideToReturn.comment.push({
@@ -160,4 +164,72 @@ export const flushAllData = () => {
 
 export const flushGuides = () => {
     AsyncStorage.removeItem("guides");
+}
+
+export function addNewGuide({
+    condition,
+    description,
+    distance,
+    duration,
+    items,
+    category,
+    price,
+    temperature,
+    title,
+    travelPictures: image_url,
+    website,
+    itinerary,
+}) {
+    return new Promise((resolve, reject) => {
+
+        // Get all guides
+        // Form the object to push
+        // Push it
+        getAllGuides().then(guides => {
+            getCurrentUser().then(({
+                username,
+                name,
+                profile_pic_uri
+            }) => {
+
+                const newGuide = {
+                    id: guides.length + 1,
+                    title,
+                    description,
+                    author: username,
+                    image_url,
+                    countryEmoji: "🚩",
+                    category,
+                    liked: false,
+                    duration: duration + " Hours",
+                    weather: temperature,
+                    website,
+                    latitude: 1,
+                    longitude: 1,
+                    comment: [],
+                    items,
+                    itinerary,
+                    condition,
+                    distance,
+                    price
+                }
+
+                console.log(newGuide)
+
+                guides.push(newGuide);
+
+                // Write back
+                AsyncStorage.setItem("guides", JSON.stringify(guides)).then(() => {
+                    resolve(newGuide);
+                }).catch(e => {
+                    reject(e);
+                })
+
+            }).catch(e => {
+                reject(e)
+            })
+        }).catch(e => {
+            reject(e)
+        })
+    })
 }

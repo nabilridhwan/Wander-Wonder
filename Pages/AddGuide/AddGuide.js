@@ -8,9 +8,8 @@ import { Picker } from "@react-native-picker/picker"
 function AddGuide({ navigation, route }) {
     let [title, setTitle] = useState("");
     let [description, setDescription] = useState("");
-    let [location, setLocation] = useState("");
     let [temperature, setTemperature] = useState("");
-    let [condition, setCondition] = useState();
+    let [condition, setCondition] = useState("cloudy");
     let [duration, setDuration] = useState("");
     let [distance, setDistance] = useState("");
     let [price, setPrice] = useState("");
@@ -18,8 +17,8 @@ function AddGuide({ navigation, route }) {
     let [items, setItems] = useState([]);
 
     let [itemInput, setItemInput] = useState("");
+    const [region, setRegion] = useState("Singapore");
 
-    const [region, setRegion] = useState("");
     let [modalVisible, setModalVisible] = useState(false);
     const [travelPictures, setTravelPictures] = useState([]);
     const submitItem = () => {
@@ -58,14 +57,14 @@ function AddGuide({ navigation, route }) {
             travelPictures,
             title,
             description,
-            location,
             temperature,
             condition,
             duration,
             distance,
             price,
             website,
-            items
+            items,
+            category: region
         }
 
         navigation.navigate("Add Guide Itinerary", {props})
@@ -134,11 +133,11 @@ function AddGuide({ navigation, route }) {
                         selectedValue={region}
                         onValueChange={(itemValue, itemIndex) => setRegion(itemValue)}
                     >
-                        <Picker.Item label="Singapore" value="singapore" />
-                        <Picker.Item label="Asia" value="asia" />
-                        <Picker.Item label="Oceania" value="oceania" />
-                        <Picker.Item label="Europe" value="europe" />
-                        <Picker.Item label="America" value="america" />
+                        <Picker.Item label="Singapore" value="Singapore" />
+                        <Picker.Item label="Asia" value="Asia" />
+                        <Picker.Item label="Oceania" value="Oceania" />
+                        <Picker.Item label="Europe" value="Europe" />
+                        <Picker.Item label="America" value="America" />
                     </Picker>
                 </View>
 

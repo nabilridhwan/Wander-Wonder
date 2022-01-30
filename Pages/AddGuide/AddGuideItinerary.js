@@ -6,6 +6,7 @@ import moment from "moment";
 
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { launchImageLibrary } from "react-native-image-picker";
+import { addNewGuide } from "../../utils/storage";
 
 function AddGuideItinerary({ navigation, route: { params: { props } } }) {
 
@@ -16,10 +17,6 @@ function AddGuideItinerary({ navigation, route: { params: { props } } }) {
   const [image, setImage] = useState(null);
   let [showTimePicker, setShowTimePicker] = useState(false);
   const [nameOfPlace, setNameOfPlace] = useState("");
-
-  useEffect(() => {
-    console.log(props)
-  }, []);
 
   const onDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -54,6 +51,11 @@ function AddGuideItinerary({ navigation, route: { params: { props } } }) {
 
     setItinerary([...itinerary, newItinerary]);
     setModalVisible(false)
+  }
+
+  const handleSave = () => {
+    const newGuide = {...props, itinerary}
+    addNewGuide(newGuide)
   }
 
   return (
@@ -152,7 +154,7 @@ function AddGuideItinerary({ navigation, route: { params: { props } } }) {
 
       </View>
 
-      <TouchableOpacity style={{ backgroundColor: "#8987FF", height: 50, justifyContent: "center", borderRadius: 10, width: "100%" }}>
+      <TouchableOpacity onPress={handleSave} style={{ backgroundColor: "#8987FF", height: 50, justifyContent: "center", borderRadius: 10, width: "100%" }}>
         <Text style={{ color: "white", textAlign: "center" }}>Save</Text>
       </TouchableOpacity>
 
