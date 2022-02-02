@@ -17,8 +17,8 @@ export default ({ navigation }) => {
       refreshGuides();
 
       // The two commands below flushes all guides and replacing them from the one in Guides.json 
-      // flushGuides();
-      // initGuide();
+      flushGuides();
+      initGuide();
     })
   }, [])
 

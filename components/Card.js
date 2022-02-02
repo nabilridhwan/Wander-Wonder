@@ -21,6 +21,7 @@ export default (props) => {
 
   const handleClickOnLikeButton = () => {
     toggleLikeOnGuide({id: place.id}).then(() => {
+      console.log(place.id)
       props.refreshGuides();
     })
   }

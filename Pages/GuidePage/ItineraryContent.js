@@ -10,6 +10,8 @@ import React, { useEffect, useState } from 'react';
 import { ImageBackground, Platform, Image, StyleSheet, Text, View, TouchableHighlight, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Theme from '../../config/Theme';
+import moment from 'moment';
+
 export default ({ place }) => {
 
     const [itinerary, setItinerary] = useState(place.itinerary);
@@ -22,9 +24,9 @@ export default ({ place }) => {
                 ? itinerary.map((item, index) => {
 
                     return (
-                        <View style={{ flexDirection: "row", height: 250 }}>
+                        <View style={{ flexDirection: "row", height: 250, marginBottom: 10 }}>
                             <View style={{ flex: 1 }}>
-                                <Text style={{ ...styles.time }}>{item.time}</Text>
+                                <Text style={{ ...styles.time }}>{moment(item.time).format("HH:MM a")}</Text>
                             </View>
 
                             {/* The icon and line */}
@@ -35,6 +37,7 @@ export default ({ place }) => {
                                 <View style={styles.lines} />
                             </View>
 
+                            {/* The place */}
                             <View style={{ backgroundColor: "#F8B0AB", ...styles.pictureBackground }}>
                                 <Text style={styles.pictureTextStyle} >{item.place}</Text>
                                 <Image style={styles.imageStyle} source={{ uri: item.img_url }} />
@@ -71,8 +74,7 @@ const styles = StyleSheet.create({
     },
 
     pictureBackground: {
-        marginHorizontal: 5,
-        height: "80%",
+        marginHorizontal: 10,
         padding: 10,
         borderRadius: 10,
         flex: 2.5
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         backgroundColor: '#70FFF6',
         width: 10,
-        height: "100%",
+        height: "110%",
         top: 1,
     },
     time: {

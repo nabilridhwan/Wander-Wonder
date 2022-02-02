@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, TextInput, FlatList, Text, ScrollView} from "react-native";
+import { StyleSheet, View, TouchableOpacity, TextInput, FlatList, Text, ScrollView } from "react-native";
 import Theme from '../../config/Theme';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Card from '../../components/Card';
 import { getAllGuides } from '../../utils/storage';
 
-export default ({navigation, handeLike}) => {
+export default ({ navigation, handeLike }) => {
 
   const [guides, setGuides] = useState([])
   const [searchQuery, setSearchQuery] = useState("");
@@ -19,11 +19,12 @@ export default ({navigation, handeLike}) => {
   useEffect(() => {
     navigation.addListener('focus', () => {
       refreshGuides();
+      setSearchQuery("");
     })
   }, [])
 
   useEffect(() => {
-    if(searchQuery.length == 0) {
+    if (searchQuery.length == 0) {
       setDone(false);
     }
   }, [searchQuery]);
@@ -33,13 +34,15 @@ export default ({navigation, handeLike}) => {
     console.log("Refreshing")
     getAllGuides().then(guides => {
       setGuides(guides);
-      if(searchQuery !== ""){
-        handleSearch(searchQuery)
+      if(searchQuery.length > 0){
+        console.log("Handling the search")
+        handleSearch(searchQuery);
       }
     })
   }
 
   const handleSearch = (searchQuery) => {
+    console.log(searchQuery);
     setDone(false);
     if (searchQuery !== "") {
       setDisplayData(guides.filter(guide => guide.title.toLowerCase().includes(searchQuery.toLowerCase())))
@@ -63,7 +66,7 @@ export default ({navigation, handeLike}) => {
   const renderNoGuide = () => {
     return (
       <View>
-        <Text style={{color: Theme.textColor}}>No results found</Text>
+        <Text style={{ color: Theme.textColor }}>No results found</Text>
       </View>
     )
   }
