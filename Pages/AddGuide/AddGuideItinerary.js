@@ -55,7 +55,14 @@ function AddGuideItinerary({ navigation, route: { params: { props } } }) {
 
   const handleSave = () => {
     const newGuide = {...props, itinerary}
+
     addNewGuide(newGuide)
+    .then(_ => {
+      navigation.navigate("Home");
+    })
+    .catch(e => {
+      alert(e);
+    })
   }
 
   return (

@@ -117,7 +117,11 @@ export function getAllCommentsByPostId(id) {
         getGuide({
             id
         }).then(guide => {
-            resolve(guide.comment);
+            if (guide.comment.length = 0) {
+                reject("No comments");
+            } else {
+                resolve(guide.comment);
+            }
         }).catch(e => {
             reject(e);
         })
@@ -188,8 +192,6 @@ export function addNewGuide({
         getAllGuides().then(guides => {
             getCurrentUser().then(({
                 username,
-                name,
-                profile_pic_uri
             }) => {
 
                 const newGuide = {

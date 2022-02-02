@@ -24,7 +24,7 @@ export default ({ place }) => {
                 ? itinerary.map((item, index) => {
 
                     return (
-                        <View style={{ flexDirection: "row", height: 250, marginBottom: 10 }}>
+                        <View key={index} style={{ flexDirection: "row", height: 250, marginBottom: 10 }}>
                             <View style={{ flex: 1 }}>
                                 <Text style={{ ...styles.time }}>{moment(item.time).format("HH:MM a")}</Text>
                             </View>
