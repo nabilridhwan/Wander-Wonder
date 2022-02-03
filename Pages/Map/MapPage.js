@@ -78,6 +78,8 @@ export default ({ navigation, route: { params: { place } } }) => {
       <TouchableOpacity onPress={() => navigation.goBack()} style={{ backgroundColor: Theme.backgroundColor, position: "absolute", zIndex: 1, borderRadius: 999, top: 10, left: 10, padding: 5 }}>
         <Icon name="arrow-back" color={"white"} size={25} />
       </TouchableOpacity>
+
+      {/* Mapview */}
       <MapView style={{ flex: 1 }}
         customMapStyle={Theme.MapStyle}
         region={region}

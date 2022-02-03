@@ -91,6 +91,7 @@ export function getGuide({
         AsyncStorage.getItem("guides").then(guide => {
             const parsedGuide = JSON.parse(guide);
             const guideToReturn = parsedGuide.find(guide => guide.id === id);
+            console.log(guideToReturn);
             resolve(guideToReturn);
         })
     })
@@ -113,15 +114,12 @@ export function toggleLikeOnGuide({
 }
 
 export function getAllCommentsByPostId(id) {
+    console.log(id)
     return new Promise((resolve, reject) => {
         getGuide({
             id
         }).then(guide => {
-            if (guide.comment.length = 0) {
-                reject("No comments");
-            } else {
-                resolve(guide.comment);
-            }
+            resolve(guide.comment);
         }).catch(e => {
             reject(e);
         })
@@ -183,6 +181,8 @@ export function addNewGuide({
     travelPictures: image_url,
     website,
     itinerary,
+    latitude,
+    longitude
 }) {
     return new Promise((resolve, reject) => {
 
@@ -206,14 +206,14 @@ export function addNewGuide({
                     duration: duration + " Hours",
                     weather: temperature,
                     website,
-                    latitude: 1,
-                    longitude: 1,
                     comment: [],
                     items,
                     itinerary,
                     condition,
                     distance,
-                    price
+                    price,
+                    latitude,
+                    longitude
                 }
 
                 console.log(newGuide)

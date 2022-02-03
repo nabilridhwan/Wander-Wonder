@@ -5,6 +5,9 @@ import Theme from "../../config/Theme";
 import { launchImageLibrary } from "react-native-image-picker";
 import { Picker } from "@react-native-picker/picker"
 
+
+import MapView, { Marker } from 'react-native-maps';
+
 function AddGuide({ navigation, route }) {
     let [title, setTitle] = useState("");
     let [description, setDescription] = useState("");
@@ -18,6 +21,13 @@ function AddGuide({ navigation, route }) {
 
     let [itemInput, setItemInput] = useState("");
     const [region, setRegion] = useState("Singapore");
+
+    const [mapRegion, setMapRegion] = useState({
+        longitude: 103.8198,
+        latitude: 1.3521,
+        latitudeDelta: 0.03922,
+        longitudeDelta: 0.03421,
+    })
 
     let [modalVisible, setModalVisible] = useState(false);
     const [travelPictures, setTravelPictures] = useState([]);
@@ -64,10 +74,12 @@ function AddGuide({ navigation, route }) {
             price,
             website,
             items,
-            category: region
+            category: region,
+            latitude: mapRegion.latitude,
+            longitude: mapRegion.longitude
         }
 
-        navigation.navigate("Add Guide Itinerary", {props})
+        navigation.navigate("Add Guide Itinerary", { props })
     }
 
     return (
@@ -206,7 +218,7 @@ function AddGuide({ navigation, route }) {
 
             <View style={{ backgroundColor: "#C5D4ED", height: "auto", width: "100%", borderRadius: 10, marginTop: 0, marginBottom: 30 }}>
 
-                <Text style={{ fontSize: 24, textAlign: "center", fontWeight: "bold", color: "black", paddingTop: 20}}>What did you bring?</Text>
+                <Text style={{ fontSize: 24, textAlign: "center", fontWeight: "bold", color: "black", paddingTop: 20 }}>What did you bring?</Text>
 
                 <Text style={{ fontSize: 18, textAlign: "center", paddingVertical: 1 }}>Get your readers ready!</Text>
 
@@ -223,7 +235,7 @@ function AddGuide({ navigation, route }) {
                             <Icon name="add" color="white" size={25} />
                         </TouchableOpacity>
 
-                            <Text style={{ fontWeight: "bold", color: "black", fontSize: 17 }}>{item.charAt(0).toUpperCase() + item.slice(1)}</Text>
+                        <Text style={{ fontWeight: "bold", color: "black", fontSize: 17 }}>{item.charAt(0).toUpperCase() + item.slice(1)}</Text>
 
                     </View>)
 
@@ -239,6 +251,35 @@ function AddGuide({ navigation, route }) {
 
             </View>
 
+
+
+            {/* Pink */}
+
+            <View style={{ backgroundColor: "#F2D3D6", height: "auto", width: "100%", borderRadius: 10, marginTop: 0, marginBottom: 30 }}>
+
+                <Text style={{ fontSize: 24, textAlign: "center", fontWeight: "bold", color: "black", paddingTop: 20 }}>
+                    Where did you go?
+                </Text>
+
+                <Text style={{ fontSize: 18, textAlign: "center", paddingBottom: 20}}>
+                    Tap in the map below to where you have gone to!
+                </Text>
+
+                <MapView style={{ height: 300, elevation: 2, borderRadius: 10}}
+                onPress={({nativeEvent: {coordinate}}) => {console.log(coordinate); setMapRegion({...mapRegion, latitude: coordinate.latitude, longitude: coordinate.longitude})}}
+                    customMapStyle={Theme.MapStyle}
+                    region={mapRegion}
+                    initialRegion={mapRegion}>
+
+                        <Marker 
+                        coordinate={mapRegion}
+                        
+                        />
+                </MapView>
+
+            </View>
+
+            {/* Next Button */}
             <TouchableOpacity onPress={() => navigateToNextPage()} style={{
                 backgroundColor: "#8987FF", height: 50, justifyContent: "center", borderRadius: 10, width: "100%", marginBottom: 30
             }}>
@@ -247,6 +288,7 @@ function AddGuide({ navigation, route }) {
 
 
 
+            {/* Modal   k */}
             <Modal
                 animationType="slide"
                 transparent={true}

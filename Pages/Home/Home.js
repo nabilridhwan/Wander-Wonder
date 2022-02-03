@@ -15,10 +15,6 @@ export default ({ navigation }) => {
     navigation.addListener('focus', () => {
       setCurrentPage("All")
       refreshGuides();
-
-      // The two commands below flushes all guides and replacing them from the one in Guides.json 
-      flushGuides();
-      initGuide();
     })
   }, [])
 
@@ -29,6 +25,7 @@ export default ({ navigation }) => {
   const refreshGuides = () => {
     getAllGuides().then(guides => {
       setGuides(guides)
+      console.log(guides)
       setDisplayGuides(guides)
     })
   }

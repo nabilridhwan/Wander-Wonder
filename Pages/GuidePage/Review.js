@@ -37,8 +37,6 @@ export default ({ place, forceUpdate }) => {
     const [filterRating, setFilterRating] = useState(null);
     const [monthRating, setMonthRating] = useState(null);
 
-    const [refreshing, setRefreshing] = useState(false);
-
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
@@ -88,7 +86,7 @@ export default ({ place, forceUpdate }) => {
 
     const getLatestComments = () => {
         getAllCommentsByPostId(place.id).then(comments => {
-            setDisplayData(comments.reverse())
+            setDisplayData(comments)
         }).catch(e => {
             alert(e);
         })

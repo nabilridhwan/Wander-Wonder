@@ -72,6 +72,8 @@ export default ({
   // componentDidMount
   useEffect(() => {
 
+    console.log(place.id)
+
     getCurrentUser().then(user => {
       if (user.profile_pic_uri) {
         setProfileImgSrc({ uri: user.profile_pic_uri })
