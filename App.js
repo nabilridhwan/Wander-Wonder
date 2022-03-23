@@ -9,6 +9,8 @@ import Icon from "react-native-vector-icons/Ionicons"
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+// Test comment
+
 // Components
 import startPage from './Pages/Login/StartPage';
 import signUp from './Pages/Login/SignUpPage'
